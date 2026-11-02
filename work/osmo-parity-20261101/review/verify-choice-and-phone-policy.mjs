@@ -6,7 +6,7 @@ try{
   const {name,...options}=profile,context=await browser.newContext(options),page=await context.newPage(),requests=[],errors=[];await page.route('**/favicon.ico',r=>r.fulfill({status:204}));page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(String(e)));
   const prechoice=[];
   for(const linked of ['', 'phone','native','osmo']){
-   requests.length=0;await page.goto('http://127.0.0.1:53270/'+(linked?'?quality='+linked:''));await page.waitForTimeout(250);
+   requests.length=0;await page.goto((process.env.BASE_URL||'http://127.0.0.1:53270/')+''+(linked?'?quality='+linked:''));await page.waitForTimeout(250);
    for(const value of ['phone','native','osmo']){await page.locator('input[name="model-choice"][value="'+value+'"]').check({force:true});await page.waitForTimeout(100);}
    const state=await page.evaluate(()=>({viewerStarted:!!window.__room,viewerScripts:[...document.scripts].some(s=>s.src.includes('room-viewer')),phase:document.body.dataset.phase||null}));
    const modelRequests=requests.filter(u=>/\.(?:glb|sog|spz|ply)(?:\?|$)/.test(u));if(modelRequests.length||state.viewerStarted||state.viewerScripts)throw Error('Prechoice fetched/started 3D: '+name);
@@ -19,4 +19,4 @@ try{
   }
   if(errors.length)throw Error(errors.join('\n'));rows.push(row);console.log('PASS',name,'zero prechoice bytes',row.draw||'');await context.close();
  }
-}finally{await fs.writeFile(path.join(W,'choice-and-phone-policy-verification.json'),JSON.stringify({rows,scope:'Desktop Chrome GPU with touch/DPR emulation. No physical Fold 7, iPhone 17 or Safari claim.'},null,2));await browser.close();}
+}finally{await fs.writeFile(path.join(W,process.env.VERIFICATION_OUTPUT||'choice-and-phone-policy-verification.json'),JSON.stringify({rows,scope:'Desktop Chrome GPU with touch/DPR emulation. No physical Fold 7, iPhone 17 or Safari claim.'},null,2));await browser.close();}

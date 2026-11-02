@@ -1,11 +1,11 @@
 {
-  "build": "20261101-osmo-parity-review",
+  "build": "20261103-osmo-viewer-v1",
   "provisional": false,
   "deploymentAuthorized": false,
   "sourceCandidate": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\final-sharp.sog",
   "candidateSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
-  "manifestName": "room-c4db7847e4.json",
-  "bundleName": "room-viewer-USS37N3G.js",
+  "manifestName": "room-78091c2e7c.json",
+  "bundleName": "room-viewer-CLEVL3LB.js",
   "osmo": {
     "label": "Osmo",
     "representation": "gaussian",
@@ -17,7 +17,12 @@
     "splats": 2960980,
     "shDegree": 2,
     "note": "Osmo · native Gaussian view · approximate scale",
-    "provisional": false
+    "provisional": false,
+    "simple": {
+      "url": "models/osmo-shapes-76f1f581d5.json",
+      "fileBytes": 12179,
+      "shapes": 85
+    }
   },
   "iphoneMetadataUnchanged": true,
   "choiceRequired": true,
@@ -88,7 +93,17 @@
         "format": "esm"
       },
       "gaussian-cutaway.js": {
-        "bytes": 2750,
+        "bytes": 8732,
+        "imports": [],
+        "format": "esm"
+      },
+      "sharpen.js": {
+        "bytes": 2765,
+        "imports": [],
+        "format": "esm"
+      },
+      "simple-shapes.js": {
+        "bytes": 4185,
         "imports": [],
         "format": "esm"
       },
@@ -198,7 +213,7 @@
         "format": "esm"
       },
       "build-entry.js": {
-        "bytes": 35247,
+        "bytes": 46310,
         "imports": [
           {
             "path": "../../../mobile-20261029/node_modules/three/build/three.module.js",
@@ -226,6 +241,16 @@
             "original": "./gaussian-cutaway.js"
           },
           {
+            "path": "sharpen.js",
+            "kind": "import-statement",
+            "original": "./sharpen.js"
+          },
+          {
+            "path": "simple-shapes.js",
+            "kind": "import-statement",
+            "original": "./simple-shapes.js"
+          },
+          {
             "path": "../../../mobile-20261029/node_modules/@sparkjsdev/spark/dist/spark.module.js",
             "kind": "dynamic-import",
             "original": "@sparkjsdev/spark"
@@ -245,10 +270,10 @@
       }
     },
     "outputs": {
-      "public/room-viewer-USS37N3G.js": {
+      "public/room-viewer-CLEVL3LB.js": {
         "imports": [
           {
-            "path": "public/chunks/chunk-6P3WN24E.js",
+            "path": "public/chunks/chunk-PCQTWMT7.js",
             "kind": "import-statement"
           },
           {
@@ -256,11 +281,11 @@
             "kind": "import-statement"
           },
           {
-            "path": "public/chunks/spark.module-OVQLJKSX.js",
+            "path": "public/chunks/spark.module-XXGQBJ7P.js",
             "kind": "dynamic-import"
           },
           {
-            "path": "public/chunks/GLTFLoader-KDVHIXUB.js",
+            "path": "public/chunks/GLTFLoader-LB5NR3GW.js",
             "kind": "dynamic-import"
           },
           {
@@ -284,18 +309,24 @@
             "bytesInOutput": 299
           },
           "gaussian-cutaway.js": {
-            "bytesInOutput": 2230
+            "bytesInOutput": 6666
+          },
+          "sharpen.js": {
+            "bytesInOutput": 1560
+          },
+          "simple-shapes.js": {
+            "bytesInOutput": 2304
           },
           "build-entry.js": {
-            "bytesInOutput": 24004
+            "bytesInOutput": 29497
           }
         },
-        "bytes": 31147
+        "bytes": 44957
       },
-      "public/chunks/spark.module-OVQLJKSX.js": {
+      "public/chunks/spark.module-XXGQBJ7P.js": {
         "imports": [
           {
-            "path": "public/chunks/chunk-6P3WN24E.js",
+            "path": "public/chunks/chunk-PCQTWMT7.js",
             "kind": "import-statement"
           },
           {
@@ -399,12 +430,12 @@
             "bytesInOutput": 2797403
           }
         },
-        "bytes": 2800031
+        "bytes": 2800032
       },
-      "public/chunks/GLTFLoader-KDVHIXUB.js": {
+      "public/chunks/GLTFLoader-LB5NR3GW.js": {
         "imports": [
           {
-            "path": "public/chunks/chunk-6P3WN24E.js",
+            "path": "public/chunks/chunk-PCQTWMT7.js",
             "kind": "import-statement"
           },
           {
@@ -424,9 +455,9 @@
             "bytesInOutput": 42933
           }
         },
-        "bytes": 44549
+        "bytes": 44550
       },
-      "public/chunks/chunk-6P3WN24E.js": {
+      "public/chunks/chunk-PCQTWMT7.js": {
         "imports": [
           {
             "path": "public/chunks/chunk-VC46IEJQ.js",
@@ -474,6 +505,7 @@
           "S",
           "Sa",
           "T",
+          "Ta",
           "U",
           "V",
           "W",
@@ -542,7 +574,7 @@
             "bytesInOutput": 331114
           }
         },
-        "bytes": 701789
+        "bytes": 701804
       },
       "public/chunks/index.module-7RF7OSAR.js": {
         "imports": [

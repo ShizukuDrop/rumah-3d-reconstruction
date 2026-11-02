@@ -12,6 +12,17 @@ def qa_maps(fish,view_to_source,WW,HH,f):
     valid&=(uv[:,0]>=0)&(uv[:,0]<fish.width)&(uv[:,1]>=0)&(uv[:,1]<fish.height)
     return (uv[:,0]-.5).reshape(HH,WW).astype('f4'),(uv[:,1]-.5).reshape(HH,WW).astype('f4'),valid.reshape(HH,WW)
 
+def write_reference_mask(out,label,camera_valid,mx,my,source_mask):
+    """Overwrite the mask on every run, retaining camera validity without an operator mask."""
+    keep=np.asarray(camera_valid,dtype=bool).copy();kind='camera-validity'
+    if source_mask.exists():
+        native=cv2.imread(str(source_mask),cv2.IMREAD_GRAYSCALE)
+        if native is None:raise ValueError(f'Cannot read source mask {source_mask}')
+        keep&=cv2.remap(native,mx,my,cv2.INTER_NEAREST,borderMode=cv2.BORDER_CONSTANT)>127;kind='source-keep'
+    name=label+'-keep.png'
+    if not cv2.imwrite(str(out/name),keep.astype('u1')*255):raise OSError(f'Cannot write QA mask {out/name}')
+    return keep,{'mask':name,'maskKind':kind}
+
 if __name__=='__main__':
     a=argparse.ArgumentParser(description='Four full-viewport QA references remapped from native fisheye frames.');a.add_argument('--frames',type=Path,help='folder with native frames as cam0/frame_000027_train.(jpg|png) and optional masks/cam0/frame_000027_train.png; default: the Windows clean-v3 dataset');a.add_argument('--out',type=Path,default=W/'qa');args=a.parse_args()
     frames=args.frames or source/'images';masks=(args.frames or source)/'masks';out=args.out.resolve();out.mkdir(parents=True,exist_ok=True)
@@ -48,8 +59,9 @@ if __name__=='__main__':
         file=next(x for x in [frames/name,(frames/name).with_suffix('.png')] if x.exists());raw=cv2.imread(str(file));mask_file=(masks/name).with_suffix('.png')
         if raw.shape[:2]!=(fish.height,fish.width):raise ValueError(f'{file} is {raw.shape[:2]}, calibration is {fish.height}x{fish.width}')
         rgb=cv2.remap(raw,mx,my,cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_CONSTANT)
-        if mask_file.exists():keep&=cv2.remap(cv2.imread(str(mask_file),0),mx,my,cv2.INTER_NEAREST,borderMode=cv2.BORDER_CONSTANT)>127;cv2.imwrite(str(out/(label+'-keep.png')),keep.astype('u1')*255);masked.append(label)
+        keep,mask_metadata=write_reference_mask(out,label,keep,mx,my,mask_file)
+        if mask_metadata['maskKind']=='source-keep':masked.append(label)
         rgb[~keep]=0;cv2.imwrite(str(out/(label+'-source.png')),rgb)
-        poses.append({'label':label,'source':name,'sourceFrame':p['sourceFrame'],'split':p['split'],'position':p['position'],'quaternion':[*qnew[1:],qnew[0]],'fov':75,'width':WW,'height':HH,'intrinsics':[f,f,WW/2,HH/2],'mask':label+'-keep.png' if label in masked else None,'sourceFile':os.path.relpath(file,W)})
+        poses.append({'label':label,'source':name,'sourceFrame':p['sourceFrame'],'split':p['split'],'position':p['position'],'quaternion':[*qnew[1:],qnew[0]],'fov':75,'width':WW,'height':HH,'intrinsics':[f,f,WW/2,HH/2],**mask_metadata,'sourceFile':os.path.relpath(file,W)})
     (out/'metadata.json').write_text(json.dumps({'models':assets,'poses':poses,'sourcePhotographs':'Direct 3840 native RGB remap using audited calibration and exact camera pose; COLMAP pixel centres (ray through i+0.5, cv2.remap at u-0.5); binary masks unchanged where available; no learned image generation','keepMasks':masked},indent=2))
     print('Prepared QA models and four full-viewport source references',out,'masks:',masked or 'none')

@@ -35,8 +35,8 @@ def preview(prod):
         try:process.communicate(timeout=5)
         except subprocess.TimeoutExpired:process.kill();process.communicate()
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--geometry-python',type=Path,default=Path(sys.executable));p.add_argument('--skip-build',action='store_true');a=p.parse_args();checks=[]
-    suites=[ROOT/'work'/phase/'review/production'/name for phase in PHASES for name in ['loader-core.test.mjs','choice-gate.test.mjs','model-selection.test.mjs','native-delivery.test.mjs']]+[ROOT/'work/osmo-parity-20261101/review/production/cutaway.test.mjs']
+    p=argparse.ArgumentParser();p.add_argument('--geometry-python',type=Path,default=Path(sys.executable));p.add_argument('--skip-build',action='store_true');p.add_argument('--output',type=Path);a=p.parse_args();checks=[]
+    suites=[ROOT/'work'/phase/'review/production'/name for phase in PHASES for name in ['loader-core.test.mjs','choice-gate.test.mjs','model-selection.test.mjs','native-delivery.test.mjs']]+[ROOT/'work/osmo-parity-20261101/review/production'/name for name in ['cutaway.test.mjs','simple-shapes.test.mjs']]
     checks.append(run(['node','--test',*suites]))
     for rel in ['work/osmo-reconstruct-20261031/test_seed_fisheye.py','work/osmo-clean-20261031/geometry/test_operator_pinhole.py','work/osmo-clean-20261031/geometry/test_preparation_synthetic.py','work/osmo-clean-20261031/geometry/test_negative_rays.py']:
         f=ROOT/rel;checks.append(run([a.geometry_python.absolute(),'-B',f],f.parent))
@@ -55,5 +55,5 @@ def main():
             else:raise AssertionError('Rejected review model was approved')
         phases.append({'phase':phase,'preview':preview(prod),'fileClosurePassed':True,'reviewDeploymentRefusal':refusal})
     result={'passed':True,'date':time.strftime('%Y-%m-%d'),'platform':platform.platform(),'checks':checks,'phases':phases,'trainingJobsLaunched':0,'productionRequests':0,'physicalPhoneValidation':False}
-    out=ROOT/'docs/repo-audit-2026-11-01'/('handoff-validation.json' if os.name=='nt' else f'handoff-validation-{sys.platform}.json');out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps({'passed':True,'commandGroups':len(checks),'phases':phases,'report':out.relative_to(ROOT).as_posix()},indent=2))
+    out=a.output or ROOT/'docs/repo-audit-2026-11-01'/('handoff-validation.json' if os.name=='nt' else f'handoff-validation-{sys.platform}.json');out=out.resolve();out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps({'passed':True,'commandGroups':len(checks),'phases':phases,'report':out.relative_to(ROOT).as_posix()},indent=2))
 if __name__=='__main__':main()

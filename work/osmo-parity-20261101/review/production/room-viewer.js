@@ -48,6 +48,11 @@ function release(){keys.clear();touchMoves.clear();pointers.clear();gesture=null
 function focus(){canvas.focus({preventScroll:true});}
 function angles(){camera.getWorldDirection(forward);yaw=Math.atan2(-forward.x,-forward.z);pitch=Math.asin(THREE.MathUtils.clamp(forward.y,-1,1));}
 function orient(){euler.set(pitch,yaw,0,'YXZ');camera.quaternion.setFromEuler(euler);camera.up.set(0,1,0);}
+function updateViewDescription(){
+  const inferred=nativeGaussian&&(simpleOn||(mode==='orbit'&&seeInside&&!!overviewShell));
+  $('quality-note').textContent=simpleOn?'Simple shapes · inferred room and furniture · approximate scale':inferred?'Layout approximation · fitted walls and furniture':nativeGaussian?'Photographic reconstruction · approximate scale · defects remain':asset?.note||'Approximate scale · reconstruction defects remain';
+  $('photographic-view').hidden=!inferred;
+}
 function clearRecorded(){
   if(!recorded)return;
   // Expand the calibrated frame into the free viewport at the same pixel focal length.
@@ -61,6 +66,7 @@ function clearRecorded(){
   freeCalibration={...calibration,width:w,height:h};camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(h/(2*calibration.fy)));resize();
 }
 function updateSurface(){
+  updateViewDescription();
   if(!model)return;
   if(nativeGaussian){cutaway?.update(seeInside,camera);model.maxSh=mode==='orbit'?0:asset.shDegree;model.updateGenerator();$('see-inside').setAttribute('aria-pressed',String(seeInside));invalidate();return;}
   model.traverse(o=>{if(o.isMesh){for(const m of (Array.isArray(o.material)?o.material:[o.material])){
@@ -381,7 +387,7 @@ async function addOverviewShell(){
     const shapes=(await fetchShapes()).shapes;if(model!==owner||overviewShell)return;
     const shell=shapes.filter(s=>s.kind==='wall'||s.kind==='object').concat(shapes.filter(s=>s.kind==='floor').map(s=>({...s,center:[s.center[0],s.center[1]-.04,s.center[2]]})));
     overviewShell=buildShapes(THREE,{version:1,shapes:shell});
-    for(const m of overviewShell.children)if(m.userData.shape.kind==='floor'){m.material.dispose();m.material=new THREE.MeshBasicMaterial({color:m.userData.shape.color});}lightShapes();scene.add(overviewShell);cutaway?.trimWalls(camera);invalidate();
+    for(const m of overviewShell.children)if(m.userData.shape.kind==='floor'){m.material.dispose();m.material=new THREE.MeshBasicMaterial({color:m.userData.shape.color});}lightShapes();scene.add(overviewShell);cutaway?.trimWalls(camera);updateViewDescription();invalidate();
   }catch(error){console.error('Overview walls failed',error);}
 }
 async function setSimple(value){
@@ -396,7 +402,7 @@ async function setSimple(value){
     finally{$('simple').disabled=!ready;}
   }
   simpleOn=value&&!!simple;if(simple)simple.visible=simpleOn;if(model)model.visible=!simpleOn;
-  $('simple').setAttribute('aria-pressed',String(simpleOn));$('quality-note').textContent=simpleOn?'Simple shapes · boxes, cylinders and spheres fitted to the scan · approximate scale':asset.note||'Approximate scale · reconstruction defects remain';
+  $('simple').setAttribute('aria-pressed',String(simpleOn));
   updateSurface();invalidate();
 }
 function disposeSimple(){
@@ -404,6 +410,7 @@ function disposeSimple(){
   if(!simple)return;scene.remove(simple);simple.userData.dispose();simple=null;fill.groundColor.set(0x6c7890);fill.intensity=2;simpleOn=false;$('simple').setAttribute('aria-pressed','false');
 }
 $('simple').onclick=()=>{setSimple(!simpleOn);focus();};
+$('photographic-view').onclick=async()=>{await setSimple(false);walkHome();focus();};
 function controlsEnabled(value){for(const button of document.querySelectorAll('[data-3d],[data-move]'))button.disabled=!value;$('simple').hidden=!asset?.simple;$('shade').hidden=nativeGaussian;if(nativeGaussian)$('shade').disabled=true;for(const id of ['see-inside','top']){$(id).hidden=false;$(id).disabled=!value;}}
 function updateDiagnostics(){
   document.body.dataset.phase=phase;document.body.dataset.quality=currentQuality||'choosing';
@@ -547,7 +554,7 @@ async function loadAsset(quality){
     if(renderer.getContext().isContextLost())throw Error('3D graphics were interrupted. Please reload the phone view.');
     preparedMs=performance.now()-loadStarted;phase='ready';controlsEnabled(true);$('loading').hidden=true;$('load-progress').value=100;
     $('stats').textContent=`${asset.label} · ${nativeGaussian?(modelDiagnostics.splats/1e6).toFixed(2)+'M splats':(modelDiagnostics.triangles/1e6).toFixed(2)+'M triangles'} · ${(asset.fileBytes/1e6).toFixed(1)} MB`;
-    $('quality-note').textContent=asset.note||'Approximate scale · reconstruction defects remain';
+    updateViewDescription();
     updateMode();invalidate();updateDiagnostics();
   }catch(error){if(!loads.current(generation))return;disposeModel(model);model=null;showFailure(error);}
 }

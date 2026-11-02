@@ -5,13 +5,14 @@
   "bytes": 44904208,
   "splats": 2960980,
   "shDegree": 2,
-  "description": "Fresh 1600px Lanczos4, 50k-step architect recipe. LOCAL REVIEW ONLY: visual sharpness gate failed.",
+  "description": "Viewer update of the existing 1600px/50k model. No retraining; photographic sharpness remains unaccepted.",
   "cameras": "../calibrated-occupied-cameras.json",
   "packingReport": "../final-sharp.sog.json",
   "simpleShapes": "../simple-shapes.json",
   "newTraining": true,
   "provisional": false,
-  "releaseId": "20261101-osmo-parity-review",
+  "releaseId": "20261103-osmo-viewer-v1",
   "acceptancePassed": false,
-  "deploymentAuthorized": false
+  "deploymentAuthorized": false,
+  "releaseKind": "viewer-update"
 }

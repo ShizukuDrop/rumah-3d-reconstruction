@@ -8,6 +8,9 @@ IPHONES={
  'phone':('models/iphone-phone-2b811d1241.glb',21144604,'2b811d124120e70dcecc25d06e5dc397e2a28f310403a21fdfa1e290c41c9d2b'),
  'native':('models/iphone-full-room-16f8963b.glb',435614584,'16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207')}
 ALLOWED=re.compile(r'(?:index\.html|robots\.txt|room-[0-9a-f]{10}\.json|room-viewer-[A-Z0-9]{8}\.js|chunks/[A-Za-z0-9_.-]+-[A-Z0-9]{8}\.js|models/osmo-native-[0-9a-f]{10}\.(?:spz|sog)|sources/osmo-[0-9a-f]{10}\.jpg|models/osmo-shapes-[0-9a-f]{10}\.json)')
+# This exception names a previously reviewed artifact, not an arbitrary new model.
+# It authorizes presentation changes without relabelling failed reconstruction QA.
+VIEWER_BASELINE={'release':'20261101-osmo-parity-review','sha256':'db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1','bytes':44904208,'splats':2960980,'shDegree':2,'format':'sog','sourceSha256':'a8b127e7d8b4a9b1b9679958ff9fe1a36117258a69ecf8325dc831ebf4761eeb'}
 
 def sha(path):
     with Path(path).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
@@ -97,8 +100,75 @@ def collect(here=HERE):
     if application_bytes>6000000:raise ValueError('Lazy application JS/manifest exceeds 6 MB')
     return {'build':build,'candidate':candidate,'manifest':manifest,'files':rows,'inherited_files':inherited_rows,'application_bytes':application_bytes,'public':str(public)}
 
+def viewer_update_gate(audit,approved,here=HERE):
+    """Approve only presentation of the exact A018 baseline; never approve its reconstruction quality."""
+    build=audit['build'];candidate=audit['candidate'];asset=build['osmo'];baseline=VIEWER_BASELINE
+    if build.get('provisional') is not False or candidate.get('provisional') is not False:raise ValueError('Viewer update cannot use a provisional model')
+    if not re.fullmatch(r'20\d{6}-osmo-viewer-v[1-9]\d*',build.get('build','')) or build['build']==baseline['release']:raise ValueError('Viewer update needs a distinct dated viewer release name')
+    if approved.get('approvedForDeployment') is not True or approved.get('releaseId')!=build['build']:raise ValueError('Viewer update is not approved for this release')
+    if approved.get('baselineRelease')!=baseline['release'] or approved.get('baselineModelSha256')!=baseline['sha256'] or approved.get('modelSha256')!=baseline['sha256']:raise ValueError('Viewer update must identify the exact reviewed A018 baseline')
+    for key in ['sha256','bytes','splats','shDegree','format']:
+        if candidate.get(key)!=baseline[key]:raise ValueError('Viewer update cannot substitute a different model: '+key)
+    for key,value in [('representation','gaussian'),('format',baseline['format']),('fileBytes',baseline['bytes']),('downloadBytes',baseline['bytes']),('splats',baseline['splats']),('shDegree',baseline['shDegree'])]:
+        if asset.get(key)!=value:raise ValueError('Viewer update model metadata differs: '+key)
+    if audit['manifest']['models']['osmo']!=asset:raise ValueError('Viewer update manifest model differs')
+    model_row=next((r for r in audit['files'] if r['path']==asset['url']),{})
+    if model_row.get('sha256')!=baseline['sha256'] or model_row.get('bytes')!=baseline['bytes']:raise ValueError('Viewer update model bytes differ from A018')
+    if approved.get('reconstructionAccepted') is not False:raise ValueError('Viewer approval must explicitly leave reconstruction unaccepted')
+    authorization=approved.get('userAuthorization',{})
+    if not isinstance(authorization,dict) or authorization.get('action')!='deploy-viewer-update' or authorization.get('source')!='user-message' or not isinstance(authorization.get('instruction'),str) or not authorization['instruction'].strip() or not re.fullmatch(r'20\d\d-\d\d-\d\dT[^\s]+',authorization.get('recordedAt','')):raise ValueError('Record the explicit user authorization for this viewer update')
+    required=['viewerQuotaAndErrorsPassed','viewerControlsPassed','zeroModelBytesBeforeOpen','iphoneHashesPreserved','totalModelDownloadWithin50MB','reversibleShellPassed']
+    if not all(approved.get('qualityChecks',{}).get(key) is True for key in required):raise ValueError('Viewer update checks incomplete')
+    if approved.get('qualityChecks',{}).get('fourDetailSharpnessLeapAccepted') is True:raise ValueError('A viewer update cannot claim the failed photographic sharpness gate passed')
+    limitations=approved.get('knownLimitations',[])
+    required_limits={'training-not-rerun','photographic-sharpness-unaccepted','inferred-shape-overlay','display-only-sharpening','transient-lod-memory'}
+    if approved.get('physicalPhones')=='unverified':required_limits.add('physical-phones-unverified')
+    if not isinstance(limitations,list) or not all(isinstance(value,str) for value in limitations) or not required_limits.issubset(limitations):raise ValueError('Viewer update must retain the known reconstruction/display limitations')
+    if approved.get('physicalPhones') not in ['unverified','verified'] or approved.get('transientLodMemoryLimitationAcknowledged') is not True:raise ValueError('Phone verification and transient LoD memory limits must be stated accurately')
+    if build.get('choiceRequired') is not True or build.get('automaticModelRetry') is not False or build.get('prechoiceExternalRequests')!=0:raise ValueError('Viewer update quota guarantees absent')
+    if approved.get('publicFiles')!=audit['files'] or approved.get('inheritedFiles')!=audit['inherited_files']:raise ValueError('Viewer approval does not bind every built and inherited file')
+    manifest_row=next((r for r in audit['files'] if r['path']==build['manifestName']),{})
+    if approved.get('manifestSha256')!=manifest_row.get('sha256') or not manifest_row.get('sha256'):raise ValueError('Viewer approval identifies another manifest')
+    inherited={r['path']:r for r in audit['inherited_files']}
+    for url,length,digest in IPHONES.values():
+        if inherited.get(url,{}).get('bytes')!=length or inherited.get(url,{}).get('sha256')!=digest:raise ValueError('Viewer update iPhone hashes changed')
+    # Bind camera/packing inputs and the unchanged failed acceptance records as well
+    # as the public build. Evidence rows may point outside this directory, but must
+    # identify existing regular files by their full SHA-256 and byte count.
+    paths={'freshCameraExportSha256':(here/candidate['cameras']).resolve(),'packingReportSha256':(here/candidate['packingReport']).resolve(),'baselineAcceptanceSha256':(here/'../../acceptance-gates.json').resolve(),'baselineApprovalSha256':(here/'release-approval.json').resolve()}
+    evidence=approved.get('evidence',[]);seen={}
+    if not isinstance(evidence,list) or not evidence:raise ValueError('Viewer review must link concrete evidence')
+    for row in evidence:
+        path=(here/row['path']).resolve()
+        if not path.is_file() or path.stat().st_size!=row.get('bytes') or sha(path)!=row.get('sha256'):raise ValueError('Viewer review evidence missing or changed')
+        seen[path]=row['sha256']
+    for key,path in paths.items():
+        if not path.is_file() or approved.get(key)!=sha(path) or seen.get(path)!=approved.get(key):raise ValueError('Viewer review input missing, changed or absent from evidence: '+key)
+    verification=approved.get('viewerVerification',{})
+    verification_path=(here/verification.get('path','')).resolve()
+    if seen.get(verification_path)!=verification.get('sha256') or not verification_path.is_file() or verification_path.stat().st_size!=verification.get('bytes'):raise ValueError('Viewer update needs current verification evidence')
+    checked=json.loads(verification_path.read_text(encoding='utf-8'))
+    if checked.get('passed') is not True or checked.get('releaseId')!=build['build'] or checked.get('manifestSha256')!=approved['manifestSha256'] or checked.get('modelSha256')!=baseline['sha256'] or not all(checked.get('checks',{}).get(key) is True for key in required):raise ValueError('Viewer verification does not pass for this exact release/manifest/model')
+    packing=json.loads(paths['packingReportSha256'].read_text(encoding='utf-8'))
+    for key in ['sha256','bytes','splats','shDegree','format','sourceSha256']:
+        if packing.get(key)!=baseline[key]:raise ValueError('Viewer baseline packing provenance differs: '+key)
+    if packing.get('sourceCountPreserved') is not True or packing.get('sourceShDegreePreserved') is not True:raise ValueError('Viewer baseline packing does not preserve native count/SH')
+    cameras=json.loads(paths['freshCameraExportSha256'].read_text(encoding='utf-8'))
+    if cameras.get('coordinateFrame')!='+Y up' or len(cameras.get('presets',[]))<7 or not any(49<=p.get('sourceTimeSeconds',-1)<=56 for p in cameras['presets']):raise ValueError('Viewer camera set lacks the normalized return-bathroom views')
+    for key in ['baselineAcceptanceSha256','baselineApprovalSha256']:
+        record=json.loads(paths[key].read_text(encoding='utf-8'))
+        if record.get('approvedForDeployment') is not False or record.get('modelSha256')!=baseline['sha256'] or record.get('releaseId')!=baseline['release']:raise ValueError('Failed baseline acceptance records must remain unchanged and unapproved')
+        failed=record.get('gates',{}).get('sharpness',{}).get('visualAccepted') if key=='baselineAcceptanceSha256' else record.get('qualityChecks',{}).get('fourDetailSharpnessLeapAccepted')
+        if failed is not False:raise ValueError('Viewer approval cannot rewrite the failed baseline sharpness gate')
+    return approved
+
 def quality_gate(audit,approval,here=HERE):
     build=audit['build'];candidate=audit['candidate'];asset=build['osmo']
+    # Existing failed approval files remain refused. The separate, explicit viewer
+    # approval is the only route that can authorize presentation of the A018 model.
+    if approval.is_file():
+        approved=json.loads(approval.read_text(encoding='utf-8'))
+        if approved.get('releaseKind')=='viewer-update':return viewer_update_gate(audit,approved,here)
     if build.get('provisional') is not False or build.get('newTrainingNotUsed') is not False or candidate.get('newTraining') is not True:raise ValueError('Old/provisional baseline cannot be deployed as new reconstruction')
     if not re.fullmatch(r'20\d{6}-[a-z0-9-]+',build['build']):raise ValueError('Unsafe release name')
     approved=json.loads(approval.read_text(encoding='utf-8'))

@@ -12,6 +12,23 @@ def ssim(a,b,m):
     a,b=gray(a).astype('f8'),gray(b).astype('f8');g=lambda x:cv2.GaussianBlur(x,(11,11),1.5);ma,mb=g(a),g(b);va,vb,cov=g(a*a)-ma*ma,g(b*b)-mb*mb,g(a*b)-ma*mb;c1,c2=(.01*255)**2,(.03*255)**2
     return float((((2*ma*mb+c1)*(2*cov+c2))/((ma*ma+mb*mb+c1)*(va+vb+c2)))[m].mean())
 def gradient(a,m):g=gray(a);return float(np.hypot(cv2.Sobel(g,cv2.CV_32F,1,0),cv2.Sobel(g,cv2.CV_32F,0,1))[m].mean())
+
+def reference_mask(folder,metadata,label,shape):
+    """Use the declared mask only; explicit null preserves old unmasked QA semantics."""
+    poses=[p for p in metadata.get('poses',[]) if p.get('label')==label]
+    if len(poses)!=1 or 'mask' not in poses[0]:raise ValueError(f'Expected one pose with explicit mask metadata for {label}; regenerate QA references')
+    pose=poses[0];name=pose['mask']
+    if name is None:return np.ones(shape,bool),'none'
+    if not isinstance(name,str) or not name:raise ValueError(f'Invalid mask metadata for {label}')
+    path=(folder/name).resolve()
+    if not path.is_relative_to(folder.resolve()):raise ValueError(f'QA mask for {label} is outside its reference folder')
+    if not path.is_file():raise FileNotFoundError(f'Declared QA mask missing for {label}: {path}')
+    with Image.open(path) as image:mask=np.array(image.convert('L'))>127
+    if mask.shape!=shape:raise ValueError(f'QA mask shape {mask.shape} != reference shape {shape} for {label}')
+    if not mask.any():raise ValueError(f'QA mask has no valid pixels for {label}')
+    kind=pose.get('maskKind','source-keep')  # Earlier masked references used the source keep mask.
+    if kind not in ('camera-validity','source-keep'):raise ValueError(f'Unknown QA mask kind {kind!r} for {label}')
+    return mask,kind
 def align(gt,pr,box,mask):
     """ECC-register the render to the reference inside box (crop to crop): phase-correlation start, ECC translation, then ECC affine if it
     stays small (|A-I|<=.02) and does not lower the correlation. Returns the aligned crop, its valid pixels and the evidence."""
@@ -32,7 +49,8 @@ if __name__=='__main__':
     Q=Path(sys.argv[1]).resolve() if len(sys.argv)>1 else W/'qa';font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',24) if os.name=='nt' else ImageFont.load_default(24)
     metadata=json.loads((Q/'metadata.json').read_text());models=list(metadata['models']);rows=[];sha={}
     for label,box in boxes.items():
-        gt=np.array(Image.open(Q/(label+'-source.png')).convert('RGB'),dtype=float);keep=Q/(label+'-keep.png');masked=keep.exists();mask=np.array(Image.open(keep))>127 if masked else np.ones(gt.shape[:2],bool);x0,y0,x1,y1=box
+        gt=np.array(Image.open(Q/(label+'-source.png')).convert('RGB'),dtype=float);mask,mask_kind=reference_mask(Q,metadata,label,gt.shape[:2]);masked=mask_kind!='none';x0,y0,x1,y1=box
+        mask_description={'source-keep':'source keep-mask and valid camera region','camera-validity':'valid camera region only; operator/mirror pixels included','none':'NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included'}[mask_kind]
         for model in models:
             path=Q/f'{model}-{label}.png'
             if not path.exists():continue
@@ -43,8 +61,8 @@ if __name__=='__main__':
             image=Image.open(path).convert('RGB');pr=np.array(image,dtype=float);error=gt-pr;mse=float(np.mean(error[mask]**2));cm=mask[y0:y1,x0:x1];ce=error[y0:y1,x0:x1];cropMse=float(np.mean(ce[cm]**2))
             aligned,valid,ecc=align(gt,pr,box,cm);gc=gt[y0:y1,x0:x1];am=cm&valid
             row={'model':model,'modelSha256':sha[model],'view':label,'validFraction':float(mask.mean()),'psnrDb':10*math.log10(255**2/mse),'rmse255':math.sqrt(mse),'cropPSNR':10*math.log10(255**2/cropMse),'cropRMSE255':math.sqrt(cropMse),'cropSSIM':ssim(gc,pr[y0:y1,x0:x1],cm),
-                 'alignedCropPSNR':psnr(gc,aligned,am),'alignedCropSSIM':ssim(gc,aligned,am),'gradientRatio':gradient(pr[y0:y1,x0:x1],cm)/gradient(gc,cm),'ecc':ecc,'cropBox':box,'mask':'keep' if masked else 'none',
-                 'GT':'Native photograph remapped by camera only; '+('source keep-mask' if masked else 'NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included')+'; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)'};rows.append(row)
+                 'alignedCropPSNR':psnr(gc,aligned,am),'alignedCropSSIM':ssim(gc,aligned,am),'gradientRatio':gradient(pr[y0:y1,x0:x1],cm)/gradient(gc,cm),'ecc':ecc,'cropBox':box,'mask':'keep' if masked else 'none','maskKind':mask_kind,
+                 'GT':'Native photograph remapped by camera only; '+mask_description+'; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)'};rows.append(row)
             image.crop(box).save(Q/f'{model}-{label}-crop600.png')
         newest=sorted((k for k in models if k.startswith('new-full-')),key=lambda k:int(k.rsplit('-',1)[1]))
         groups=[('pilots',['source','pilot-base','pilot-sharp']),('delivery',['source','old-full','mesh-photo'])]
@@ -64,5 +82,5 @@ if __name__=='__main__':
             sheet.save(Q/f'{group}-{label}.png')
     keys=['psnrDb','cropPSNR','cropSSIM','alignedCropPSNR','alignedCropSSIM','gradientRatio']
     means={m:{'views':len(r),**{k:float(np.mean([x[k] for x in r])) for k in keys}} for m in models if (r:=[x for x in rows if x['model']==m])}
-    report={'rows':rows,'modelMeans':means,'keepMasks':any(r['mask']=='keep' for r in rows),'scope':'Four fixed full-viewport 1920x1080 camera views. cropPSNR/cropSSIM are unregistered; alignedCropPSNR/SSIM register the render to the reference inside the 600x600 crop (phase correlation, ECC translation, small affine). gradientRatio = mean |Sobel grad| render / reference inside the crop mask (unregistered): <1 is softer than the photograph, >1 can also mean noise or artifacts. Three are source training timestamps and bathroom is appearance-held-out. Same-capture SfM is not independent geometry truth. Pilot steps and budgets match each other; original full uses a larger budget and more steps.','physicalPhoneTests':False}
+    report={'rows':rows,'modelMeans':means,'keepMasks':any(r['maskKind']=='source-keep' for r in rows),'maskKinds':sorted({r['maskKind'] for r in rows}),'scope':'Four fixed full-viewport 1920x1080 camera views. cropPSNR/cropSSIM are unregistered; alignedCropPSNR/SSIM register the render to the reference inside the 600x600 crop (phase correlation, ECC translation, small affine). gradientRatio = mean |Sobel grad| render / reference inside the crop mask (unregistered): <1 is softer than the photograph, >1 can also mean noise or artifacts. Three are source training timestamps and bathroom is appearance-held-out. Same-capture SfM is not independent geometry truth. Pilot steps and budgets match each other; original full uses a larger budget and more steps.','physicalPhoneTests':False}
     (Q/'scores.json').write_text(json.dumps(report,indent=2));print(json.dumps(means,indent=2))
