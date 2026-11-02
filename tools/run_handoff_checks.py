@@ -3,7 +3,8 @@ from pathlib import Path
 import argparse,hashlib,importlib.util,json,os,platform,socket,subprocess,sys,time,urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
-PHASES=['osmo-clean-20261031','osmo-parity-20261101']
+# The earlier clean viewer is historical and still describes the retired Full model.
+PHASES=['osmo-parity-20261101']
 def run(command,cwd=ROOT):
     p=subprocess.run([str(x) for x in command],cwd=cwd,capture_output=True,text=True,encoding='utf-8',errors='replace')
     if p.returncode:raise RuntimeError('Command failed: '+' '.join(map(str,command))+'\n'+p.stdout[-5000:]+p.stderr[-5000:])
@@ -29,7 +30,7 @@ def preview(prod):
         item=m['models']['osmo'];request=urllib.request.Request(base+item['url'],headers={'Range':'bytes=0-11'})
         with urllib.request.urlopen(request,timeout=5) as response:
             assert response.status==206 and response.read(13)==b'PK\x03\x04'+(prod/'public'/item['url']).read_bytes()[4:12]
-        return {'passed':True,'landingBytes':len(html),'modelHeads':3,'modelRangeBytes':12,'productionRequests':0}
+        return {'passed':True,'landingBytes':len(html),'modelHeads':len(m['models']),'modelChoices':sorted(m['models']),'modelRangeBytes':12,'productionRequests':0}
     finally:
         process.terminate()
         try:process.communicate(timeout=5)

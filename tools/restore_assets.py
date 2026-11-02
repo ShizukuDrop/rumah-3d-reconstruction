@@ -2,14 +2,16 @@
 
 Download the named private Drive files in a browser first. This utility never
 handles Google credentials. Existing differing files are never overwritten.
-Default restoration is the six protected canonical models, not all experiments.
+Default restoration is the five retained canonical models, not all experiments.
+iPhone Full and the obsolete mobile trial were retired by the user on 2026-11-03.
 """
 from pathlib import Path,PurePosixPath
 import argparse,gzip,hashlib,json,os,shutil,zipfile
 from deep_cleanup_repo import RETIRED
 
 ROOT=Path(__file__).resolve().parents[1]
-CANONICAL={'A001':'outputs/iPhone_Wide_Full_Native.glb','A003':'work/mobile-20261029/public-phone.glb','A006':'work/osmo-clean-20261031/review/checkpoints/explicit-full-final.ply','A013':'work/osmo-clean-20261031/review/clean-final.sog','A018':'work/osmo-parity-20261101/review/final-sharp.sog','A034':'work/osmo-parity-20261101/review/qa/new-full-50000.ply'}
+CANONICAL={'A003':'work/mobile-20261029/public-phone.glb','A006':'work/osmo-clean-20261031/review/checkpoints/explicit-full-final.ply','A013':'work/osmo-clean-20261031/review/clean-final.sog','A018':'work/osmo-parity-20261101/review/final-sharp.sog','A034':'work/osmo-parity-20261101/review/qa/new-full-50000.ply'}
+RETIRED_ASSET_IDS={'A001','A002'}
 # Non-default exports whose only retained consumer reads a fixed path (work/osmo-clean-20261031/review/server.mjs).
 CONSUMED={'A046':'outputs/restored-legacy/osmo-lite-30ed8cb766.glb'}
 def read(p):return json.loads(p.read_text(encoding='utf-8-sig'))
@@ -56,7 +58,7 @@ def archive(path,metadata,runtime=False):
                 raise
 def iphone_baseline(source_workspace=None,check=False):
     base=ROOT/'work/mobile-20261029/iphone-baseline';manifest=read(base/'manifest.json');catalog=read(base/'asset-files.json');by_path={r['path']:r for r in catalog['files']}
-    for key,asset_id in [('phone','A003'),('native','A001')]:
+    for key,asset_id in [('phone','A003')]:
         model=manifest['models'][key];raw=base/model['url'];encoded=raw.with_suffix(raw.suffix+'.gz')
         if not check:
             place(target(CANONICAL[asset_id]),raw,by_path[model['url']])
@@ -64,13 +66,12 @@ def iphone_baseline(source_workspace=None,check=False):
                 original=source_workspace/'work/mobile-20261029/iphone-baseline'/(model['url']+'.gz')
                 if original.is_file():place(original,encoded,by_path[model['url']+'.gz'])
             if not encoded.exists():
-                # Preserve the original transfer recipes: Full was Python level 1
-                # with FNAME; Fast was Node level 6 with Windows OS header byte 10.
+                # Preserve Lite's original Node level 6 transfer encoding,
+                # including the Windows OS header byte 10.
                 with encoded.open('xb') as out:
-                    with gzip.GzipFile(filename=raw.name if key=='native' else '',fileobj=out,mode='wb',compresslevel=1 if key=='native' else 6,mtime=0) as packed:
+                    with gzip.GzipFile(filename='',fileobj=out,mode='wb',compresslevel=6,mtime=0) as packed:
                         with raw.open('rb') as src:shutil.copyfileobj(src,packed)
-                if key=='phone':
-                    with encoded.open('r+b') as out:out.seek(9);out.write(bytes([10]))
+                with encoded.open('r+b') as out:out.seek(9);out.write(bytes([10]))
         with gzip.open(encoded,'rb') as f:decoded=hashlib.file_digest(f,'sha256').hexdigest()
         if decoded!=by_path[model['url']]['sha256']:raise ValueError('Gzip does not decode to protected iPhone bytes')
         if encoded.stat().st_size!=model['downloadBytes']:print('Transfer encoding size differs across zlib versions; native model hash remains exact:',encoded.name)
@@ -78,6 +79,8 @@ def iphone_baseline(source_workspace=None,check=False):
         if not row['path'].endswith('.gz'):verify(base/row['path'],row)
 def main():
     p=argparse.ArgumentParser();p.add_argument('--downloads',type=Path);p.add_argument('--from-workspace',type=Path);p.add_argument('--reference-archive',type=Path);p.add_argument('--runtime-archive',type=Path);p.add_argument('--ids',nargs='+',default=list(CANONICAL));p.add_argument('--check',action='store_true');a=p.parse_args()
+    retired=sorted(set(a.ids)&RETIRED_ASSET_IDS)
+    if retired:raise ValueError('Assets retired by the user on 2026-11-03 cannot be restored: '+', '.join(retired)+'; retain iPhone Lite A003 and Osmo only')
     manifest=read(ROOT/'assets-manifest.json');by_id={m['asset_id']:m for m in manifest['assets']}
     for asset_id in a.ids:
         row=by_id[asset_id];inside=[x['path'] for x in row.get('historical_local_paths',row['local_paths']) if x['in_workspace']]
@@ -96,7 +99,7 @@ def main():
             for row in read(ROOT/'docs/viewer-resources.json')['files']:place(a.from_workspace/row['path'],target(row['path']),row)
     else:
         for row in read(ROOT/'docs/viewer-resources.json')['files']:verify(target(row['path']),row)
-    # The iPhone transfer copies derive from A001/A003; a subset restore or check without them skips this step.
-    if all(target(CANONICAL[i]).exists() for i in ('A001','A003')):iphone_baseline(a.from_workspace,a.check)
+    # Only Lite is retained. A subset restore/check without A003 skips its transfer copies.
+    if target(CANONICAL['A003']).exists():iphone_baseline(a.from_workspace,a.check)
     print(json.dumps({'verifiedAssetIds':a.ids,'referenceFiles':len(read(ROOT/'docs/viewer-resources.json')['files']),'externalWrites':0,'networkRequests':0}))
 if __name__=='__main__':main()

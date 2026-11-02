@@ -1,6 +1,6 @@
 export function canonicalChoice(value){
-  const aliases={'iphone-fast':'phone','iphone-full':'native','osmo-lite':'osmo'};
-  value=aliases[value]||value;return ['phone','native','osmo'].includes(value)?value:null;
+  const aliases={'iphone-lite':'phone','iphone-fast':'phone','iphone-full':'phone',native:'phone','osmo-lite':'osmo'};
+  value=aliases[value]||value;return ['phone','osmo'].includes(value)?value:null;
 }
 
 // Selecting a radio or arriving through a deep link is not download consent.

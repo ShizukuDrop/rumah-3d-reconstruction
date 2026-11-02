@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "date": "2026-11-01",
+  "date": "2026-11-03",
   "drive_folder_url": "https://drive.google.com/drive/folders/1VnJGQIDFISPC_v4uFLROvZF_JcDiPj7I",
   "destination": {
     "parent": "1zX-JPXYY1Zeoiw-WecHVYTf2xUAh4PFj",
@@ -17,8 +17,8 @@
     "unique_bytes": 9834491960,
     "verified_bytes": 9834491960,
     "all_verified": true,
-    "assetsWithRemainingLocalPaths": 10,
-    "archiveOnlyAssets": 46
+    "assetsWithRemainingLocalPaths": 8,
+    "archiveOnlyAssets": 48
   },
   "verification_note": "Local SHA-256 and MD5 are full-content hashes. Drive readback confirms exact name, size and parent. Connector output does not expose a remote checksum; none is fabricated.",
   "scope": "Unique non-vendor local 3D export files >=4KiB, all raw/uncompressed and packed variants; native OSV and LRF source; original trusted dense seed. Byte-identical files uploaded once and all local aliases recorded. Full optimizer checkpoints, extracted RGB and all external datasets are not claimed backed up.",
@@ -32,37 +32,11 @@
       "asset_id": "A001",
       "phase": "outputs",
       "drive_name": "iPhone-Full__16f8963b04.glb",
-      "status": "protected live iPhone Full",
+      "status": "retired locally by user 2026-11-03; Drive archive retained",
       "upload_status": "verified",
       "local_sha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
       "local_md5": "a53e814fde3dd080b675c8692b2a2f1c",
-      "local_paths": [
-        {
-          "path": "outputs/iPhone_Wide_Full_Native.glb",
-          "in_workspace": true,
-          "exists": true
-        },
-        {
-          "path": "work/mobile-20261029/public/models/iphone-full-room-16f8963b.glb",
-          "in_workspace": true,
-          "exists": true
-        },
-        {
-          "path": "work/osmo-clean-20261031/review/production/public/models/iphone-full-room-16f8963b.glb",
-          "in_workspace": true,
-          "exists": true
-        },
-        {
-          "path": "work/osmo-parity-20261101/review/production/public/models/iphone-full-room-16f8963b.glb",
-          "in_workspace": true,
-          "exists": true
-        },
-        {
-          "path": "work/mobile-20261029/iphone-baseline/models/iphone-full-room-16f8963b.glb",
-          "in_workspace": true,
-          "exists": true
-        }
-      ],
+      "local_paths": [],
       "drive_id": "1Ah3wtGl-O-2xeiIfCm6YFuE4LhiKcAp0",
       "drive_url": "https://drive.google.com/file/d/1Ah3wtGl-O-2xeiIfCm6YFuE4LhiKcAp0/view?usp=drivesdk",
       "parent_id": "1117iv-ym4ZcceOiqSd8aR7qJYjdCr8FS",
@@ -111,7 +85,12 @@
         }
       ],
       "local_status": "present",
-      "canonical_local_path": "outputs/iPhone_Wide_Full_Native.glb"
+      "canonical_local_path": null,
+      "local_retirement": {
+        "date": "2026-11-03",
+        "reason": "Keep only the iPhone Lite export locally and on the website",
+        "drive_backup_preserved": true
+      }
     },
     {
       "sha256": "e512f01e6a26562406ccfe6b0b425b281a8de17b563065005d0d86345a925275",
@@ -122,17 +101,11 @@
       "asset_id": "A002",
       "phase": "mobile-20261029",
       "drive_name": "mobile-20261029__phone-simplified__e512f01e6a.glb",
-      "status": "retained historical/experimental export; not automatically approved",
+      "status": "retired locally by user 2026-11-03; Drive archive retained",
       "upload_status": "verified",
       "local_sha256": "e512f01e6a26562406ccfe6b0b425b281a8de17b563065005d0d86345a925275",
       "local_md5": "0f24ee317e489abbf37e26a70f5b4346",
-      "local_paths": [
-        {
-          "path": "work/mobile-20261029/phone-simplified.glb",
-          "in_workspace": true,
-          "exists": true
-        }
-      ],
+      "local_paths": [],
       "drive_id": "1QdYf2t_6V28xZDJzd5t9yTkYejzFEcSz",
       "drive_url": "https://drive.google.com/file/d/1QdYf2t_6V28xZDJzd5t9yTkYejzFEcSz/view?usp=drivesdk",
       "parent_id": "1117iv-ym4ZcceOiqSd8aR7qJYjdCr8FS",
@@ -146,7 +119,12 @@
         }
       ],
       "local_status": "present",
-      "canonical_local_path": "work/mobile-20261029/phone-simplified.glb"
+      "canonical_local_path": null,
+      "local_retirement": {
+        "date": "2026-11-03",
+        "reason": "Keep only the iPhone Lite export locally and on the website",
+        "drive_backup_preserved": true
+      }
     },
     {
       "sha256": "2b811d124120e70dcecc25d06e5dc397e2a28f310403a21fdfa1e290c41c9d2b",
@@ -1903,5 +1881,13 @@
       "canonical_local_path": "C:\\Users\\bombe\\OneDrive\\Documents\\ChatGPT\\Ruang Kamare\\roomscan-reconstruction\\data\\20261031_OSMO360\\originals\\CAM_20261031005909_0004_D.OSV"
     }
   ],
-  "local_paths_refreshed": "2026-11-01 after mandated deep cleanup"
+  "local_paths_refreshed": "2026-11-01 after mandated deep cleanup",
+  "last_local_cleanup": {
+    "date": "2026-11-03",
+    "assetIds": [
+      "A001",
+      "A002"
+    ],
+    "receipt": "docs/release-2026-11-03/iphone-full-removal.json"
+  }
 }

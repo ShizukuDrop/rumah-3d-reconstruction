@@ -1,25 +1,28 @@
 import {OSMO_LIMITS} from './delivery-policy.js';
 import {nativePolicy,validateModelHeader} from './native-delivery.js';
-export function chooseQuality({requested,coarse,touchPoints=0,width=1920,userAgent=''}) {
-  const aliases={'iphone-fast':'phone','iphone-full':'native','osmo-lite':'osmo'};
-  requested=aliases[requested]||requested;
-  if(requested==='phone'||requested==='native'||requested==='osmo')return requested;
-  return coarse||touchPoints>1||width<1000||/Android|iPhone|iPad|iPod/i.test(userAgent)?'phone':'native';
+import {canonicalChoice} from './choice-core.js';
+// Asset choice and device capacity are independent: desktops also default to iPhone Lite.
+export function chooseQuality({requested}={}) {
+  return canonicalChoice(requested)||'phone';
+}
+export function isPhoneDevice({coarse=false,touchPoints=0,width=1920,userAgent=''}={}) {
+  return Boolean(coarse||touchPoints>1||width<1000||/Android|iPhone|iPad|iPod/i.test(userAgent));
 }
 
 export function selectModel(manifest,key){
+  key=canonicalChoice(key);
   const asset=manifest.models?.[key],cameraData=manifest.cameraSets?.[asset?.cameraSet];
   if(!asset||!cameraData)throw new Error('That room view is unavailable.');
-  const lite=key!=='native';
-  const fileLimit=key==='osmo'?OSMO_LIMITS.fileBytes:key==='phone'?24*1024*1024:500*1024*1024;
-  const textureLimit=key==='osmo'?OSMO_LIMITS.textureSize:key==='phone'?2048:8192;
+  const lite=true;
+  const fileLimit=key==='osmo'?OSMO_LIMITS.fileBytes:24*1024*1024;
+  const textureLimit=key==='osmo'?OSMO_LIMITS.textureSize:2048;
   const geometryLimit=key==='osmo'?OSMO_LIMITS.maximumGeometryBytes/1024/1024:64;
   if(!Number.isSafeInteger(asset.fileBytes)||asset.fileBytes<12||asset.fileBytes>fileLimit)
     throw new Error('The selected 3D view is larger than expected. Please refresh and retry.');
   if(asset.representation==='gaussian')nativePolicy(asset);
   if(asset.representation!=='gaussian'&&(!Number.isSafeInteger(asset.maxTextureSize)||asset.maxTextureSize<1||asset.maxTextureSize>textureLimit))
     throw new Error('The selected view exceeds its texture budget.');
-  return {asset,cameraData,lite,textureLimit,geometryLimit,downloadTimeout:lite?180000:600000,prepareTimeout:key==='phone'?30000:key==='osmo'?60000:90000};
+  return {asset,cameraData,lite,textureLimit,geometryLimit,downloadTimeout:180000,prepareTimeout:key==='phone'?30000:60000};
 }
 
 export async function readModel(response,expectedBytes,{signal,onProgress=()=>{},format='glb'}={}) {
@@ -28,7 +31,7 @@ export async function readModel(response,expectedBytes,{signal,onProgress=()=>{}
   if(!response.ok)throw new Error(`The 3D download failed (${response.status}). Please try again.`);
   const type=response.headers.get('content-type')||'';
   if(type.includes('text/html'))throw new Error('The server returned a web page instead of the 3D room. Please retry.');
-  if(!Number.isSafeInteger(expectedBytes)||expectedBytes<12||expectedBytes>500*1024*1024)throw new Error('The 3D file size is invalid.');
+  if(!Number.isSafeInteger(expectedBytes)||expectedBytes<12||expectedBytes>OSMO_LIMITS.fileBytes)throw new Error('The 3D file size is invalid.');
   const result=new Uint8Array(expectedBytes);
   let received=0;
   const copy=chunk=>{

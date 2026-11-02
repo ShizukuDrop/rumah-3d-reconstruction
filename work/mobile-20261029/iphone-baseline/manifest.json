@@ -2,7 +2,7 @@
   "build": "iphone-preserved-20261031",
   "models": {
     "phone": {
-      "label": "iPhone Fast",
+      "label": "iPhone Lite",
       "cameraSet": "iphone",
       "url": "models/iphone-phone-2b811d1241.glb",
       "fileBytes": 21144604,
@@ -10,18 +10,7 @@
       "triangles": 1603164,
       "maxTextureSize": 2048,
       "preview": "overview-8516540657.jpg",
-      "note": "iPhone Fast \u00b7 full-height view"
-    },
-    "native": {
-      "label": "iPhone Full",
-      "cameraSet": "iphone",
-      "url": "models/iphone-full-room-16f8963b.glb",
-      "fileBytes": 435614584,
-      "downloadBytes": 302564257,
-      "triangles": 11891853,
-      "maxTextureSize": 8192,
-      "preview": "overview-8516540657.jpg",
-      "note": "iPhone Full \u00b7 approximate scale"
+      "note": "iPhone Lite \u00b7 full-height view"
     }
   },
   "cameraSets": {

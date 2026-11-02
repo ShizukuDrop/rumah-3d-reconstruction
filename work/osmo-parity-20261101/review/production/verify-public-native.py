@@ -1,12 +1,19 @@
 """Verify anonymous release delivery without downloading any full model."""
 from pathlib import Path
-import argparse,hashlib,json,re,time,urllib.request
+import argparse,hashlib,json,re,time,urllib.request,urllib.error
 HERE=Path(__file__).resolve().parent
+USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36'
 
-def request(base,name,method='GET',extra=None,limit=0):
-    headers={'Accept-Encoding':'identity','User-Agent':'Rumah bounded release verification',**(extra or {})}
+def request(base,name,method='GET',extra=None,limit=0,allow_not_found=False):
+    headers={'Accept-Encoding':'identity','User-Agent':USER_AGENT,**(extra or {})}
     req=urllib.request.Request(base+name,method=method,headers=headers)
-    with urllib.request.urlopen(req,timeout=25) as response:
+    try:response=urllib.request.urlopen(req,timeout=25)
+    except urllib.error.HTTPError as error:
+        # Only the explicit retired-model HEAD check accepts 404. A Cloudflare
+        # 403, an auth error or another failure still aborts verification.
+        if not (allow_not_found and method=='HEAD' and error.code==404):raise
+        response=error
+    with response:
         if not response.geturl().startswith(base):raise ValueError('Unexpected off-site redirect')
         if response.headers.get('WWW-Authenticate'):raise ValueError('Unexpected authentication requirement')
         if method=='GET' and 'Range' in headers and response.status!=206:raise ValueError('Server ignored bounded range; body not read')
@@ -72,6 +79,10 @@ def verify(info,base,here=HERE):
         if name.endswith('.js') and not re.search(r'(application|text)/javascript',headers.get('content-type','')):raise ValueError('Incorrect JavaScript MIME type')
         checks.append({'path':name,'method':'GET','status':status,'bytes':len(body),'sha256':digest,'authored_html_matches_after_known_edge_tags':authored,'authored_robots_preserved_after_exact_known_managed_prefix':managed_robots,'cache_control':headers.get('cache-control')})
     for row in models:checks.append(model_head(base,row,info['model']['format'] if row['path']==info['model']['url'] else 'glb'))
+    for name in info.get('removed_public_files',[]):
+        status,headers,_=request(base,name,'HEAD',allow_not_found=True)
+        if status!=404:raise ValueError('Retired Full model is still publicly accessible: '+name)
+        checks.append({'path':name,'method':'HEAD','status':404,'retired_model_unavailable':True})
     return {'verified_unix':time.time(),'site':base,'build':info['build'],'anonymous_https':base.startswith('https://'),'model_full_downloads':0,'nonmodel_body_bytes':body_bytes,'asset_checks':checks,'physical_fold7_iphone17':'Not verified by these HTTP checks','browser_followup':'Confirm fresh chooser and explicit Open with network capture; HTTP checks do not prove browser behavior.'}
 
 if __name__=='__main__':

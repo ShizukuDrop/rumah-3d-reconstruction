@@ -1,11 +1,11 @@
 {
-  "build": "20261103-osmo-viewer-v1",
+  "build": "20261103-osmo-viewer-v2",
   "provisional": false,
   "deploymentAuthorized": false,
   "sourceCandidate": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\final-sharp.sog",
   "candidateSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
-  "manifestName": "room-78091c2e7c.json",
-  "bundleName": "room-viewer-CLEVL3LB.js",
+  "manifestName": "room-e9f093c738.json",
+  "bundleName": "room-viewer-VV6IDETS.js",
   "osmo": {
     "label": "Osmo",
     "representation": "gaussian",
@@ -71,8 +71,13 @@
         "imports": [],
         "format": "esm"
       },
+      "choice-core.js": {
+        "bytes": 1206,
+        "imports": [],
+        "format": "esm"
+      },
       "loader-core.js": {
-        "bytes": 3921,
+        "bytes": 3889,
         "imports": [
           {
             "path": "delivery-policy.js",
@@ -83,13 +88,13 @@
             "path": "native-delivery.js",
             "kind": "import-statement",
             "original": "./native-delivery.js"
+          },
+          {
+            "path": "choice-core.js",
+            "kind": "import-statement",
+            "original": "./choice-core.js"
           }
         ],
-        "format": "esm"
-      },
-      "choice-core.js": {
-        "bytes": 1179,
-        "imports": [],
         "format": "esm"
       },
       "gaussian-cutaway.js": {
@@ -213,7 +218,7 @@
         "format": "esm"
       },
       "build-entry.js": {
-        "bytes": 46310,
+        "bytes": 46204,
         "imports": [
           {
             "path": "../../../mobile-20261029/node_modules/three/build/three.module.js",
@@ -270,7 +275,7 @@
       }
     },
     "outputs": {
-      "public/room-viewer-CLEVL3LB.js": {
+      "public/room-viewer-VV6IDETS.js": {
         "imports": [
           {
             "path": "public/chunks/chunk-PCQTWMT7.js",
@@ -302,11 +307,11 @@
           "delivery-policy.js": {
             "bytesInOutput": 149
           },
-          "loader-core.js": {
-            "bytesInOutput": 2544
-          },
           "choice-core.js": {
-            "bytesInOutput": 299
+            "bytesInOutput": 326
+          },
+          "loader-core.js": {
+            "bytesInOutput": 2395
           },
           "gaussian-cutaway.js": {
             "bytesInOutput": 6666
@@ -318,10 +323,10 @@
             "bytesInOutput": 2304
           },
           "build-entry.js": {
-            "bytesInOutput": 29497
+            "bytesInOutput": 29387
           }
         },
-        "bytes": 44957
+        "bytes": 44725
       },
       "public/chunks/spark.module-XXGQBJ7P.js": {
         "imports": [

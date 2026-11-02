@@ -9,7 +9,7 @@ const html=await readFile(new URL('room-shell.html',import.meta.url),'utf8');
 function landing(search=''){
   const nodes=new Map(),scripts=[],requests=[],navigations=[],timers=new Map();
   function node(id){if(!nodes.has(id))nodes.set(id,{hidden:false,disabled:false,textContent:'',events:{},addEventListener(name,fn){this.events[name]=fn;}});return nodes.get(id);}
-  const radios=['phone','native','osmo'].map(value=>Object.assign(node(value),{value,checked:false}));
+  const radios=['phone','osmo'].map(value=>Object.assign(node(value),{value,checked:false}));
   const body={dataset:{},appendChild(script){scripts.push(script);}};
   let timerId=0;
   const sandbox={canonicalChoice,createChoiceGate,URLSearchParams,URL,
@@ -25,12 +25,12 @@ function landing(search=''){
 test('bare landing and choosing any card never inject the viewer or fetch a model',()=>{
   const page=landing();assert.equal(page.node('open-model').disabled,true);
   assert.ok(page.radios.every(r=>!r.checked));page.open();
-  for(const key of ['phone','native','osmo'])page.select(key);
+  for(const key of ['phone','osmo'])page.select(key);
   assert.deepEqual(page.requests,[]);assert.deepEqual(page.scripts,[]);
   assert.equal(page.body.dataset.selectedModel,undefined);
 });
 test('deep links only preselect, while Open launches exactly the chosen model once',()=>{
-  for(const [query,model] of [['phone','phone'],['native','native'],['osmo-lite','osmo']]){
+  for(const [query,model] of [['phone','phone'],['native','phone'],['iphone-full','phone'],['iphone-lite','phone'],['osmo-lite','osmo']]){
     const page=landing('?quality='+query);assert.equal(page.node('open-model').disabled,false);
     assert.equal(page.radios.find(r=>r.checked).value,model);assert.equal(page.scripts.length,0);assert.equal(page.requests.length,0);
     page.open();page.open();page.select('phone');page.open();
@@ -49,7 +49,9 @@ test('HTML has no external scripts, preview/photo src, preload or CSS resource r
   assert.doesNotMatch(html,/<(?:img|script)\b[^>]*\bsrc\s*=/i);
   assert.doesNotMatch(html,/<link\b|\b(?:srcset|poster)\s*=|\burl\s*\(|\b(?:prefetch|preload|autoplay)\b/i);
   assert.match(html,/<div id="viewer-app" hidden>/);assert.match(html,/<script>__CHOOSER_INLINE__<\/script>/);
-  assert.equal((html.match(/name="model-choice"/g)||[]).length,3);
+  assert.equal((html.match(/name="model-choice"/g)||[]).length,2);
+  assert.doesNotMatch(html,/iPhone Full|value="native"|iphone-full|__NATIVE_COST__|__NATIVE_FILE__/);
+  assert.match(html,/iPhone Lite/);
 });
 const glb=()=>{const a=new Uint8Array(20),v=new DataView(a.buffer);v.setUint32(0,0x46546c67,true);v.setUint32(4,2,true);v.setUint32(8,20,true);return a;};
 test('switching generations cancels a pending stream and prevents stale readiness',async()=>{

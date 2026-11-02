@@ -6,11 +6,10 @@ const iphone={bounds:[[-1,0,-2],[1,3,2]],presets:[{name:'iphone-camera'}]};
 const osmo={bounds:[[-5,0,-6],[5,3,6]],presets:[]};
 const manifest={cameraSets:{iphone,osmo},models:{
   phone:{cameraSet:'iphone',fileBytes:21144604,maxTextureSize:2048},
-  native:{cameraSet:'iphone',fileBytes:435614584,maxTextureSize:8192},
   osmo:{cameraSet:'osmo',fileBytes:20000000,maxTextureSize:2048}
 }};
 test('all public model choices and query aliases override device defaults',()=>{
-  for(const [requested,key] of [['phone','phone'],['native','native'],['osmo','osmo'],['iphone-fast','phone'],['iphone-full','native'],['osmo-lite','osmo']]){
+  for(const [requested,key] of [['phone','phone'],['native','phone'],['osmo','osmo'],['iphone-lite','phone'],['iphone-fast','phone'],['iphone-full','phone'],['osmo-lite','osmo']]){
     assert.equal(chooseQuality({requested,width:402,coarse:true,touchPoints:5}),key);
     assert.equal(chooseQuality({requested,width:1800,coarse:false,touchPoints:0}),key);
   }
@@ -20,10 +19,10 @@ test('Osmo selection receives its own bounds and cameras, never retained iPhone 
   const selected=selectModel(manifest,'osmo');
   assert.equal(selected.cameraData,osmo);assert.notEqual(selected.cameraData,iphone);
   assert.equal(selectModel(manifest,'phone').cameraData,iphone);
-  assert.equal(selectModel(manifest,'native').cameraData,iphone);
+  assert.equal(selectModel(manifest,'native').asset,manifest.models.phone);
   assert.equal(selected.downloadTimeout,180000);assert.equal(selected.prepareTimeout,60000);
   assert.equal(selectModel(manifest,'phone').prepareTimeout,30000);
-  assert.equal(selectModel(manifest,'native').downloadTimeout,600000);
+  assert.equal(selectModel(manifest,'iphone-full').downloadTimeout,180000);
 });
 test('each model keeps its own budget; Osmo permits 50 decimal MB and a 4K atlas',()=>{
   for(const [key,bytes,texture] of [['phone',24*1024*1024,2048],['osmo',50000000,4096]]){
@@ -34,7 +33,7 @@ test('each model keeps its own budget; Osmo permits 50 decimal MB and a 4K atlas
   }
   assert.equal(selectModel(manifest,'osmo').geometryLimit,192);
   assert.equal(selectModel(manifest,'phone').geometryLimit,64);
-  assert.equal(selectModel(manifest,'native').asset.fileBytes,435614584);
+  assert.equal(selectModel(manifest,'native').asset.fileBytes,21144604);
   assert.throws(()=>selectModel(manifest,'missing'),/unavailable/);
   assert.throws(()=>selectModel({...manifest,cameraSets:{iphone}},'osmo'),/unavailable/);
 });

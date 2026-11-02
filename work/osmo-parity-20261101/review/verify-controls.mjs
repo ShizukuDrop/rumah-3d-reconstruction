@@ -10,6 +10,7 @@ const state=()=>page.evaluate(()=>__room.state());
 try{
  await page.goto((process.env.BASE_URL||'http://127.0.0.1:53270/')+'?quality=osmo&ablation=1'+(reviewModel?'&mesh='+reviewModel:''));await page.waitForTimeout(1500);
  check('Zero model bytes before explicit open',!requests.some(u=>/\.(sog|glb|spz|ply)(\?|$)/.test(u)),requests);
+ await page.screenshot({path:path.join(here,evidence+'/00-model-chooser.png')});
  console.log('BUTTONS',await page.locator('button').allTextContents());
  await page.locator('#open-model').click();await page.waitForFunction(()=>window.__room?.ready&&document.body.dataset.phase==='ready',undefined,{timeout:90000});
  await page.waitForTimeout(2000);const gpu=await page.evaluate(()=>__room.rendererInfo());check('GPU hardware',gpu.renderer!=='unavailable'&&!/swiftshader|llvmpipe|softpipe|software/i.test(gpu.renderer),gpu);

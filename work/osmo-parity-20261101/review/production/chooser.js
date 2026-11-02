@@ -14,7 +14,7 @@ const fail=()=>{
 const gate=createChoiceGate({preselected:initial,onLaunch:key=>{
   selected=key;document.body.dataset.selectedModel=key;
   $('open-model').disabled=true;$('model-chooser').hidden=true;$('viewer-app').hidden=false;
-  $('load-title').textContent='Opening '+({phone:'iPhone Fast',native:'iPhone Full',osmo:'Osmo'}[key]);
+  $('load-title').textContent='Opening '+({phone:'iPhone Lite',osmo:'Osmo'}[key]);
   $('load-status').textContent='Starting the viewer…';$('load-detail').textContent='';
   $('retry').onclick=returnToChoices;$('cancel-load').onclick=returnToChoices;$('change-model').onclick=returnToChoices;
   $('loading-photos').disabled=true;$('photos').disabled=true;

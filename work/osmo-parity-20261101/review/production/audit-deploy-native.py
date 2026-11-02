@@ -10,8 +10,9 @@ def reject(label,fn):
     try:fn()
     except (ValueError,FileExistsError):checks.append(label)
     else:raise AssertionError('Accepted invalid input: '+label)
-landing=''.join(f'<input type="radio" name="model-choice" value="{key}">' for key in ['phone','native','osmo'])+'<button id="open-model"></button><div id="viewer-app" hidden></div><script>const lazy="room-viewer-ABCDEFGH.js";</script>'
-deploy.audit_landing(landing,'room-viewer-ABCDEFGH.js');checks.append('valid three-choice gate')
+landing=''.join(f'<input type="radio" name="model-choice" value="{key}">' for key in ['phone','osmo'])+'<button id="open-model"></button><div id="viewer-app" hidden></div><script>const lazy="room-viewer-ABCDEFGH.js";</script>'
+deploy.audit_landing(landing,'room-viewer-ABCDEFGH.js');checks.append('valid Lite/Osmo choice gate')
+reject('retired Full choice refused',lambda:deploy.audit_landing(landing+'<input type="radio" name="model-choice" value="native">','room-viewer-ABCDEFGH.js'))
 for tag in ['<img src="preview.jpg">','<script src="viewer.js"></script>','<link rel="modulepreload" href="spark.js">','<style>body{background:url(photo.jpg)}</style>','<meta http-equiv="refresh" content="0;url=/viewer">']:
     reject('reject initial resource '+tag.split()[0],lambda tag=tag:deploy.audit_landing(landing+tag,'room-viewer-ABCDEFGH.js'))
 reject('reject duplicate choice',lambda:deploy.audit_landing(landing+'<input type="radio" name="model-choice" value="osmo">','room-viewer-ABCDEFGH.js'))
@@ -47,15 +48,20 @@ with tempfile.TemporaryDirectory(prefix='native-deploy-audit-',dir=HERE) as temp
     with tarfile.open(fixture/'deployment/native-site.tar') as tar:
         assert sorted(tar.getnames())==sorted(files) and all(member.isfile() for member in tar.getmembers())
         assert not any('iphone-' in name for name in tar.getnames())
+    assert all('iphone-full-' not in r['path'] for r in info['files']+info['inherited_files'])
+    assert info['removed_public_files']==deploy.REMOVED_PUBLIC_FILES
     script=(fixture/'deployment/deploy-native.sh').read_text(encoding='utf-8')
     assert '__GZIP_HEADS__' not in script and 'trap on_exit EXIT' in script and 'mv -Tf' in script
     for name in files:assert 'rm -f -- "$RELEASE/'+name+'"' in script
     assert '__DETACH__' not in script
     assert script.index('rm -f --')<script.index('tar --no-same-owner')
+    assert script.index('cp -al')<script.index("<<'REMOVE_FULL'")<script.index('pct exec 710 -- ln -s "$RELEASE" "$NEXT"')
+    assert 'test ! -e "$release/models/iphone-full-room-16f8963b.glb"' in script
+    assert "'%{http_code}'" in script and '" = 404' in script
     assert 'curl -fsS --compressed' not in script and 'model GET' not in script
     for name in ['deploy-native.sh','rollback-native.sh']:
         result=subprocess.run([r'C:\Program Files\Git\bin\bash.exe' if os.name=='nt' else 'bash','-n',str(fixture/'deployment'/name)],capture_output=True)
         assert result.returncode==0,result.stderr.decode()
-    checks += ['archive has only explicit regular public files','iPhone models excluded from upload','all replacement hardlinks detached before extraction','atomic promotion and guarded rollback generated','rendered deployment and rollback scripts pass bash -n','origin verification contains no full model GET']
+    checks += ['archive has only explicit regular public files','iPhone Lite excluded from upload and Full excluded from inheritance','new snapshot removes Full and origin requires its URLs to return 404','all replacement hardlinks detached before extraction','atomic promotion and guarded rollback generated','rendered deployment and rollback scripts pass bash -n','origin verification contains no full model GET']
     with patch.object(deploy,'quality_gate',return_value={}):reject('package cannot silently overwrite a prior release package',lambda:deploy.package(audit,approval,'/var/www/rumah/releases/20261031-osmo-v3',fixture))
 print(json.dumps({'passed':len(checks),'checks':checks,'remoteCalls':0,'gpuWork':False},indent=2))

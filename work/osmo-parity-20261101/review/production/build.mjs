@@ -14,6 +14,9 @@ const require=createRequire(path.join(work,'mobile-20261029/package.json')), {bu
 const read=async file=>JSON.parse(await fs.readFile(file,'utf8'));
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const manifest=await read(path.join(old,'manifest.json'));
+// Full was retired by the owner. Preserve only Lite and its calibrated cameras.
+manifest.models={phone:manifest.models.phone};
+manifest.cameraSets={iphone:manifest.cameraSets.iphone};
 const candidate=await read(path.join(here,'candidate.json'));
 const provisional=candidate.provisional!==false;
 const releaseId=provisional?'20261031-native-provisional':candidate.releaseId;
@@ -29,8 +32,13 @@ const sourceName=`models/osmo-native-${sha.slice(0,10)}.${format}`;
 const asset={label:'Osmo',representation:'gaussian',format,cameraSet:'osmo',url:sourceName,fileBytes:bytes.length,downloadBytes:bytes.length,splats:candidate.splats,shDegree:candidate.shDegree,note:'Osmo · native Gaussian view · approximate scale',provisional};
 nativePolicy(asset,true);
 manifest.build=releaseId;manifest.models.osmo=asset;
-const originals={phone:JSON.parse(JSON.stringify(manifest.models.phone)),native:JSON.parse(JSON.stringify(manifest.models.native)),iphone:JSON.parse(JSON.stringify(manifest.cameraSets.iphone))};
+const originals={phone:JSON.parse(JSON.stringify(manifest.models.phone)),iphone:JSON.parse(JSON.stringify(manifest.cameraSets.iphone))};
 await fs.mkdir(path.join(pub,'models'),{recursive:true});await fs.mkdir(path.join(pub,'sources'),{recursive:true});
+// A reused staging folder may still contain the retired Full hardlinks. Unlink
+// only named leaves in this build's own models directory; never touch the source.
+const modelDir=path.join(pub,'models');
+if((await fs.lstat(modelDir)).isSymbolicLink())throw Error('Staging models directory must not be a symlink');
+for(const name of await fs.readdir(modelDir))if(/^iphone-full-.*\.glb(?:\.gz)?$/i.test(name))await fs.unlink(path.join(modelDir,name));
 async function hardlink(from,to){await fs.mkdir(path.dirname(to),{recursive:true});try{await fs.link(from,to);}catch(e){if(e.code!=='EEXIST')throw e;const a=await fs.stat(from),b=await fs.stat(to);if(a.size!==b.size)throw Error('Existing staging file differs: '+to);}}
 await hardlink(assetPath,path.join(pub,sourceName));
 const carried=new Set();
@@ -68,7 +76,7 @@ if(candidate.simpleShapes){
  asset.simple={url:name,fileBytes:shapes.length,shapes:data.shapes.length};
  if(manifest.cameraSets.osmo)manifest.cameraSets.osmo.manhattanYaw=data.manhattanYaw;  // orbit views square up to the walls
 }
-if(JSON.stringify(originals.phone)!==JSON.stringify(manifest.models.phone)||JSON.stringify(originals.native)!==JSON.stringify(manifest.models.native)||JSON.stringify(originals.iphone)!==JSON.stringify(manifest.cameraSets.iphone))throw Error('iPhone metadata changed.');
+if(JSON.stringify(originals.phone)!==JSON.stringify(manifest.models.phone)||JSON.stringify(originals.iphone)!==JSON.stringify(manifest.cameraSets.iphone))throw Error('iPhone Lite metadata changed.');
 const manifestBytes=Buffer.from(JSON.stringify(manifest)),manifestName=`room-${hash(manifestBytes).slice(0,10)}.json`;await fs.writeFile(path.join(pub,manifestName),manifestBytes);
 const source=(await fs.readFile(path.join(here,'room-viewer.js'),'utf8')).replace('__MANIFEST__',manifestName).replaceAll('20261031-native-provisional',releaseId);
 await fs.writeFile(path.join(here,'build-entry.js'),source);
@@ -78,7 +86,7 @@ const bundle=result.outputFiles.find(o=>path.basename(o.path).startsWith('room-v
 const chooser=(await fs.readFile(path.join(here,'chooser.js'),'utf8')).replace('__BUNDLE__',bundleName);
 const gate=await build({stdin:{contents:chooser,sourcefile:'chooser.js',resolveDir:here},bundle:true,write:false,minify:true,format:'iife',target:'es2020',logLevel:'warning'});
 let shell=(await fs.readFile(path.join(here,'room-shell.html'),'utf8')).replace('__CHOOSER_INLINE__',()=>gate.outputFiles[0].text.replaceAll('20261031-native-provisional',releaseId).replaceAll('</script','<\\/script'));
-for(const [key,marker] of [['phone','PHONE'],['native','NATIVE'],['osmo','OSMO']]){const m=manifest.models[key];shell=shell.replace(`__${marker}_COST__`,'≈ '+(m.downloadBytes/1e6).toFixed(1)+' MB').replace(`__${marker}_FILE__`,(m.fileBytes/1e6).toFixed(1)+' MB');}
+for(const [key,marker] of [['phone','PHONE'],['osmo','OSMO']]){const m=manifest.models[key];shell=shell.replace(`__${marker}_COST__`,'≈ '+(m.downloadBytes/1e6).toFixed(1)+' MB').replace(`__${marker}_FILE__`,(m.fileBytes/1e6).toFixed(1)+' MB');}
 if(/__[A-Z_]+__/.test(shell)||/<(?:img|script)\b[^>]*\bsrc\s*=/i.test(shell)||/\brel=["'](?:preload|prefetch|modulepreload)/i.test(shell))throw Error('Quota gate contains an automatic resource request.');
 await fs.writeFile(path.join(pub,'index.html'),shell);
 await fs.writeFile(path.join(pub,'robots.txt'),'User-agent: *\nDisallow: /\n');

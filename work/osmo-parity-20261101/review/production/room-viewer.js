@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {nativePolicy,nativeSparkFileType,waitForNativeDraw} from './native-delivery.js';
-import {chooseQuality,selectModel,readModel,pinchRatio,withDeadline} from './loader-core.js';
+import {chooseQuality,isPhoneDevice,selectModel,readModel,pinchRatio,withDeadline} from './loader-core.js';
 import {canonicalChoice,createLoadLifecycle} from './choice-core.js';
 import {installCutaway,footprintBytes} from './gaussian-cutaway.js';
 import {createSharpener} from './sharpen.js';
@@ -15,9 +15,9 @@ const selectedOnOpen=canonicalChoice(document.body.dataset.selectedModel);
 if(!selectedOnOpen)throw Error('Choose a model and press Open model before starting the viewer.');
 const loads=createLoadLifecycle();
 const deviceSignals={requested:params.get('quality'),coarse:matchMedia('(pointer:coarse)').matches,touchPoints:navigator.maxTouchPoints,width:innerWidth,userAgent:navigator.userAgent};
-let phoneInput=chooseQuality({...deviceSignals,requested:null})==='phone';
+const phoneInput=isPhoneDevice(deviceSignals);
 // The touch D-pad and hints follow the input device, never the window width.
-const touchUI=chooseQuality({...deviceSignals,requested:null,width:Infinity})==='phone';
+const touchUI=isPhoneDevice({...deviceSignals,width:Infinity});
 document.body.classList.toggle('phone',touchUI);document.body.classList.toggle('debug',params.get('debug')==='1');
 let renderer,rendererError,spark,cutaway,freeCalibration=null;
 let nativeGaussian=false;
@@ -472,8 +472,8 @@ function applyCameraData(quality){
   for(const id of ['photos','loading-photos','recovery-photos'])$(id).disabled=!data.photos.length;
   $('static-photo').hidden=!data.photos.length;if(data.photos.length)$('static-photo').href=data.photos[0].source;
   $('load-preview').hidden=!asset.preview;if(asset.preview)$('load-preview').src=asset.preview;
-  $('download-native').href=quality==='osmo'?asset.url:manifest.models.native.url;
-  $('download-native').textContent=quality==='osmo'?'Download Osmo':'Download iPhone Full';
+  $('download-model').href=asset.url;
+  $('download-model').textContent=quality==='osmo'?'Download Osmo':'Download iPhone Lite';
 }
 async function loadAsset(quality){
   const request=loads.begin(),generation=request.id;downloadAbort?.abort();stopTimers();release();ready=false;controlsEnabled(false);
@@ -484,7 +484,7 @@ async function loadAsset(quality){
   $('source-frame').removeAttribute('src');$('compare').setAttribute('aria-pressed','false');
   $('load-preview').hidden=true;
   $('quality').value=quality;$('loading').hidden=false;$('recovery').hidden=true;$('load-progress').hidden=false;$('load-progress').value=0;
-  $('retry').hidden=true;$('cancel-load').hidden=false;$('cancel-load').textContent='Choose another model';$('load-title').textContent='Opening '+({phone:'iPhone Fast',native:'iPhone Full',osmo:'Osmo'}[quality]||'the model');
+  $('retry').hidden=true;$('cancel-load').hidden=false;$('cancel-load').textContent='Choose another model';$('load-title').textContent='Opening '+({phone:'iPhone Lite',osmo:'Osmo'}[quality]||'the model');
   setPhase('details','Opening room details…');
   try{
     await loadMetadata();if(!loads.current(generation))return;applyCameraData(quality);

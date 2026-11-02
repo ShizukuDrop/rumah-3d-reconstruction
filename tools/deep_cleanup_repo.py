@@ -12,7 +12,6 @@ import repo_audit as audit
 ROOT=audit.ROOT.resolve();D=audit.AUDIT
 RETIRED=['work/osmo-web-20261031','work/osmo-web-20261031-v2','work/osmo-web-20261031-v3','work/fullheight-20261029','work/osmo-ux-report-20261031/code','tmp']
 CANONICAL={
- 'A001':'outputs/iPhone_Wide_Full_Native.glb',
  'A003':'work/mobile-20261029/public-phone.glb',
  'A006':'work/osmo-clean-20261031/review/checkpoints/explicit-full-final.ply',
  'A013':'work/osmo-clean-20261031/review/clean-final.sog',

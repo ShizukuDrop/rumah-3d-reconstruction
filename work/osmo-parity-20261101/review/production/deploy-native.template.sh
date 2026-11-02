@@ -33,6 +33,15 @@ pct exec 710 -- test ! -e "$RELEASE"
 pct exec 710 -- nginx -t
 pct exec 710 -- systemctl is-active nginx cloudflared
 pct exec 710 -- cp -al "$PREVIOUS" "$RELEASE"
+# Retire Full only from the newly cloned release. Unlinking these hardlinks
+# leaves the previous release and its rollback data untouched.
+pct exec 710 -- bash -s -- "$RELEASE" <<'REMOVE_FULL'
+set -euo pipefail
+release=$1
+find "$release/models" -maxdepth 1 \( -type f -o -type l \) \( -iname 'iphone-full-*.glb' -o -iname 'iphone-full-*.glb.gz' \) -exec rm -f -- {} +
+test ! -e "$release/models/iphone-full-room-16f8963b.glb"
+test ! -e "$release/models/iphone-full-room-16f8963b.glb.gz"
+REMOVE_FULL
 # Detach every replacement before tar opens it, including identical hashed photos.
 # No inode in the retained release is ever truncated or rewritten.
 __DETACH__
@@ -58,6 +67,9 @@ head_asset() {
 headers=$(head_asset __MODEL__ identity)
 test "$(printf '%s' "$headers" | awk 'tolower($1)=="content-length:"{gsub("\r", "", $2); print $2}')" = __MODEL_BYTES__
 if printf '%s' "$headers" | grep -Eiq '^content-type:.*text/html|^www-authenticate:'; then exit 1; fi
+for retired in models/iphone-full-room-16f8963b.glb models/iphone-full-room-16f8963b.glb.gz; do
+    test "$(curl -sS -o /dev/null -w '%{http_code}' --max-time 8 -I "http://127.0.0.1/$retired")" = 404
+done
 landing=$(head_asset '' identity)
 printf '%s' "$landing" | grep -Eiq '^cache-control:.*(no-cache|no-store|max-age=0)'
 if printf '%s' "$landing" | grep -Eiq '^www-authenticate:|^cache-control:.*immutable'; then exit 1; fi
@@ -77,4 +89,4 @@ GZIP_MODELS
 VERIFY
 pct exec 710 -- systemctl is-active nginx cloudflared
 date -Is > "$TASK/deployed.done"
-printf 'Native Osmo release promoted. Previous release and both iPhone assets retained.\n'
+printf 'Osmo and iPhone Lite release promoted. Full removed from current release; rollback retained.\n'

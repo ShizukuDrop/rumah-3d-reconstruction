@@ -5,8 +5,8 @@ import argparse,hashlib,json,re,tarfile
 
 HERE=Path(__file__).resolve().parent
 IPHONES={
- 'phone':('models/iphone-phone-2b811d1241.glb',21144604,'2b811d124120e70dcecc25d06e5dc397e2a28f310403a21fdfa1e290c41c9d2b'),
- 'native':('models/iphone-full-room-16f8963b.glb',435614584,'16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207')}
+ 'phone':('models/iphone-phone-2b811d1241.glb',21144604,'2b811d124120e70dcecc25d06e5dc397e2a28f310403a21fdfa1e290c41c9d2b')}
+REMOVED_PUBLIC_FILES=['models/iphone-full-room-16f8963b.glb','models/iphone-full-room-16f8963b.glb.gz']
 ALLOWED=re.compile(r'(?:index\.html|robots\.txt|room-[0-9a-f]{10}\.json|room-viewer-[A-Z0-9]{8}\.js|chunks/[A-Za-z0-9_.-]+-[A-Z0-9]{8}\.js|models/osmo-native-[0-9a-f]{10}\.(?:spz|sog)|sources/osmo-[0-9a-f]{10}\.jpg|models/osmo-shapes-[0-9a-f]{10}\.json)')
 # This exception names a previously reviewed artifact, not an arbitrary new model.
 # It authorizes presentation changes without relabelling failed reconstruction QA.
@@ -45,7 +45,7 @@ class LandingAudit(HTMLParser):
 def audit_landing(entry,bundle):
     audit=LandingAudit();audit.feed(entry)
     if audit.resources:raise ValueError('Automatic landing resources: '+','.join(audit.resources))
-    if sorted(audit.choices)!=['native','osmo','phone'] or not audit.hidden or not audit.open:raise ValueError('Missing explicit three-model choice gate')
+    if sorted(audit.choices)!=['osmo','phone'] or not audit.hidden or not audit.open:raise ValueError('Missing explicit Lite/Osmo choice gate')
     if bundle not in entry:raise ValueError('Landing does not point at the reviewed viewer bundle')
     if len(entry.encode())>80000:raise ValueError('Chooser HTML exceeds its 80 kB budget')
 
@@ -53,7 +53,7 @@ def collect(here=HERE):
     public=(here/'public').resolve();build=json.loads((here/'build-report.json').read_text(encoding='utf-8'));candidate=json.loads((here/'candidate.json').read_text(encoding='utf-8'))
     if build.get('choiceRequired') is not True or build.get('automaticModelRetry') is not False or build.get('prechoiceExternalRequests')!=0:raise ValueError('Choice/quota guarantees absent')
     manifest=json.loads((public/build['manifestName']).read_text(encoding='utf-8'));asset=manifest['models']['osmo']
-    if set(manifest['models'])!={'phone','native','osmo'}:raise ValueError('Expected exactly three model choices')
+    if set(manifest['models'])!={'phone','osmo'}:raise ValueError('Expected exactly Lite and Osmo model choices')
     if asset!=build['osmo'] or asset['representation']!='gaussian' or asset['format'] not in {'sog','spz'}:raise ValueError('Native asset identity differs')
     if not 12<=asset['fileBytes']<=50000000 or asset['downloadBytes']!=asset['fileBytes'] or not 1<=asset['splats']<=3100000 or asset['shDegree'] not in range(4):raise ValueError('Native download/count/SH budget failed')
     if build['lodPolicy']!={'lodSplatCount':1500000,'baseSplats':asset['splats'],'lod':True,'nonLod':False,'extSplats':True}:raise ValueError('Unexpected phone rendering policy')
@@ -92,6 +92,7 @@ def collect(here=HERE):
     for preset in [*manifest['cameraSets']['iphone']['presets'],*manifest['cameraSets']['iphone']['photos']]:
         if preset.get('source'):inherited.add(preset['source'])
     inherited_rows=[local_row(public,name) for name in sorted(inherited)]
+    if any((public/'models').glob('iphone-full-*.glb*')):raise ValueError('Retired iPhone Full must not remain in this build public directory')
     for row in inherited_rows:
         reference=old_dir/row['path']
         if sha(reference)!=row['sha256']:raise ValueError('Inherited iPhone source or gzip differs')
@@ -103,6 +104,8 @@ def collect(here=HERE):
 def viewer_update_gate(audit,approved,here=HERE):
     """Approve only presentation of the exact A018 baseline; never approve its reconstruction quality."""
     build=audit['build'];candidate=audit['candidate'];asset=build['osmo'];baseline=VIEWER_BASELINE
+    if set(audit['manifest']['models'])!={'phone','osmo'}:raise ValueError('Viewer update must contain exactly Lite and Osmo')
+    if any('iphone-full-' in row['path'].casefold() for row in [*audit['files'],*audit['inherited_files']]):raise ValueError('Retired iPhone Full cannot be packaged or inherited')
     if build.get('provisional') is not False or candidate.get('provisional') is not False:raise ValueError('Viewer update cannot use a provisional model')
     if not re.fullmatch(r'20\d{6}-osmo-viewer-v[1-9]\d*',build.get('build','')) or build['build']==baseline['release']:raise ValueError('Viewer update needs a distinct dated viewer release name')
     if approved.get('approvedForDeployment') is not True or approved.get('releaseId')!=build['build']:raise ValueError('Viewer update is not approved for this release')
@@ -210,7 +213,7 @@ def package(audit,approval,previous,here=HERE):
             info.uid=info.gid=0;info.uname=info.gname='';info.mode=0o644
             with path.open('rb') as f:tar.addfile(info,f)
     digest=sha(archive);rows=audit['files']+audit['inherited_files']
-    info={'release':release,'previous':previous,'staging':staging,'container':710,'archive_sha256':digest,'archive_bytes':archive.stat().st_size,'remote_archive':staging+'/native-site-'+digest+'.tar.partial','files':audit['files'],'inherited_files':audit['inherited_files'],'build':audit['build']['build'],'manifest':audit['build']['manifestName'],'bundle':audit['build']['bundleName'],'model':audit['build']['osmo'],'model_sha256':audit['candidate']['sha256'],'index_sha256':next(r['sha256'] for r in rows if r['path']=='index.html'),'approval_sha256':sha(approval),'application_bytes':audit['application_bytes'],'model_transfer_in_verification':'HEAD only; bounded 12-byte range if length absent','automatic_rollback':True}
+    info={'release':release,'previous':previous,'staging':staging,'container':710,'archive_sha256':digest,'archive_bytes':archive.stat().st_size,'remote_archive':staging+'/native-site-'+digest+'.tar.partial','files':audit['files'],'inherited_files':audit['inherited_files'],'removed_public_files':REMOVED_PUBLIC_FILES,'build':audit['build']['build'],'manifest':audit['build']['manifestName'],'bundle':audit['build']['bundleName'],'model':audit['build']['osmo'],'model_sha256':audit['candidate']['sha256'],'index_sha256':next(r['sha256'] for r in rows if r['path']=='index.html'),'approval_sha256':sha(approval),'application_bytes':audit['application_bytes'],'model_transfer_in_verification':'HEAD only; bounded 12-byte range if length absent','automatic_rollback':True}
     template=(here/'deploy-native.template.sh').read_text(encoding='utf-8')
     values={'RELEASE':release,'PREVIOUS':previous,'TASK':staging,'REMOTE_ARCHIVE':info['remote_archive'],'ARCHIVE_SHA':digest,'INDEX_SHA':info['index_sha256'],'MANIFEST':info['manifest'],'MANIFEST_SHA':next(r['sha256'] for r in rows if r['path']==info['manifest']),'MODEL':info['model']['url'],'MODEL_BYTES':str(info['model']['fileBytes']),'HASHES':'\n'.join(r['sha256']+'  '+r['path'] for r in rows),'DETACH':'\n'.join('pct exec 710 -- rm -f -- "$RELEASE/'+r['path']+'"' for r in audit['files']),'PHONE_INODES':' '.join(r['path'] for r in audit['inherited_files'] if r['path'].endswith(('.glb','.glb.gz'))),'JS_HEADS':' '.join(r['path'] for r in rows if r['path'].endswith('.js'))}
     inherited_by_name={r['path']:r for r in audit['inherited_files']}

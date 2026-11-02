@@ -1,17 +1,17 @@
 {
   "releaseKind": "viewer-update",
   "approvedForDeployment": true,
-  "releaseId": "20261103-osmo-viewer-v1",
+  "releaseId": "20261103-osmo-viewer-v2",
   "baselineRelease": "20261101-osmo-parity-review",
   "baselineModelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
   "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
-  "manifestSha256": "78091c2e7c9ab28ffd1df9e48668406fc8c86a28b28fa702176d9cc2d55f9b80",
+  "manifestSha256": "e9f093c7382488aa37a70b6f9ecd5f0c1ccf78699a38ecc5c0cc8d216d3e47a7",
   "reconstructionAccepted": false,
   "userAuthorization": {
     "action": "deploy-viewer-update",
     "source": "user-message",
-    "instruction": "then approve the pulls, implement it",
-    "recordedAt": "2026-11-02T23:07:47.000497+00:00"
+    "instruction": "but not live in the web? Also iPhone Full = delete it, we do not need it, also remove the model and related in our local file (only keep the iphone lite)",
+    "recordedAt": "2026-11-02T23:18:25.579208+00:00"
   },
   "qualityChecks": {
     "viewerQuotaAndErrorsPassed": true,
@@ -60,8 +60,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 16680,
-      "sha256": "70c35de141f050d0fcce5e039fbeec212266469ad2e57d84e9c8fa6274ebf1b4"
+      "bytes": 16258,
+      "sha256": "066b07ac910496393bb7fbb00032674ca0eb404a6840ba2375e3637b60d27bfd"
     },
     {
       "path": "models/osmo-native-db0e94c2fa.sog",
@@ -79,14 +79,14 @@
       "sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
     },
     {
-      "path": "room-78091c2e7c.json",
-      "bytes": 665247,
-      "sha256": "78091c2e7c9ab28ffd1df9e48668406fc8c86a28b28fa702176d9cc2d55f9b80"
+      "path": "room-e9f093c738.json",
+      "bytes": 664979,
+      "sha256": "e9f093c7382488aa37a70b6f9ecd5f0c1ccf78699a38ecc5c0cc8d216d3e47a7"
     },
     {
-      "path": "room-viewer-CLEVL3LB.js",
-      "bytes": 44957,
-      "sha256": "ff7879eedfbcac9918599fc6e193e6feca3de326445a926b48f0c0053759e3b3"
+      "path": "room-viewer-VV6IDETS.js",
+      "bytes": 44725,
+      "sha256": "6faf4e9436497dbaf3297fdf8302dc6578788e48ea5ca52446e6e8da1840fa33"
     },
     {
       "path": "sources/osmo-1b610b42ef.jpg",
@@ -125,16 +125,6 @@
     }
   ],
   "inheritedFiles": [
-    {
-      "path": "models/iphone-full-room-16f8963b.glb",
-      "bytes": 435614584,
-      "sha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207"
-    },
-    {
-      "path": "models/iphone-full-room-16f8963b.glb.gz",
-      "bytes": 302564257,
-      "sha256": "14b797adcb38b4bd082b6fb9e24499b19917e95f6f7ca6ba64f091221b132709"
-    },
     {
       "path": "models/iphone-phone-2b811d1241.glb",
       "bytes": 21144604,
@@ -196,9 +186,9 @@
   "baselineAcceptanceSha256": "36838ae4daea78a237121beba3ff24475948d1b750476fb7ce25452831185e79",
   "baselineApprovalSha256": "5a4675809baefa0631d9a8969797721e18d389a50f8766a97932b4239c276ed7",
   "viewerVerification": {
-    "path": "../../../../docs/release-2026-11-03/viewer-verification.json",
-    "sha256": "8a7b68ffc060e33c87482ad5516cc33b7355b120abf3e3a3932d964a5d59fe69",
-    "bytes": 2245
+    "path": "../../../../docs/release-2026-11-03/lite-only/viewer-verification.json",
+    "sha256": "590d8cba71905f12b10bcdcba93c2b5103f9db6d11cda42c1f4631d3205c7cf6",
+    "bytes": 2359
   },
   "evidence": [
     {
@@ -222,48 +212,53 @@
       "bytes": 4968
     },
     {
-      "path": "../../../../docs/release-2026-11-03/viewer-verification.json",
-      "sha256": "8a7b68ffc060e33c87482ad5516cc33b7355b120abf3e3a3932d964a5d59fe69",
-      "bytes": 2245
+      "path": "../../../../docs/release-2026-11-03/lite-only/viewer-verification.json",
+      "sha256": "590d8cba71905f12b10bcdcba93c2b5103f9db6d11cda42c1f4631d3205c7cf6",
+      "bytes": 2359
     },
     {
-      "path": "../controls-verification-20261103.json",
-      "sha256": "4eecc2615ca75c37dcfaa3e79469534cde29cfe66c54e8a20f202a2b29fb5008",
-      "bytes": 18098
+      "path": "../controls-verification-20261103-v2.json",
+      "sha256": "43157a406767d063a49e90cae9033aca1fa6832988a9c9b3691388edfb59cc44",
+      "bytes": 18096
     },
     {
-      "path": "../choice-and-phone-policy-verification-20261103.json",
-      "sha256": "01def26d5f40a3da2183e5cc17fd3a3baf33b4957b233b9c57046cb9e16b1a3b",
-      "bytes": 4434
+      "path": "../choice-and-phone-policy-verification-20261103-v2.json",
+      "sha256": "829ed087f8739d417ce06e6d1cfdfee6d92519903c33cd6f91ae666be57cb23b",
+      "bytes": 8516
     },
     {
-      "path": "../../../../docs/release-2026-11-03/handoff-validation.json",
-      "sha256": "4c1cac15bb05384cc3c838a903ff27aed0a27748e4062ee916caaeaaf32829d7",
-      "bytes": 16969
+      "path": "../../../../docs/release-2026-11-03/lite-only/handoff-validation.json",
+      "sha256": "67fef33c73cc71040d3f0c222ca7ce677227c96986f5cfeedd06ccd1fcc3ba1f",
+      "bytes": 12430
     },
     {
-      "path": "../evidence-20261103/01-osmo-dollhouse.png",
-      "sha256": "4409eb42bc395c4f802a961928e7cf07084f50c8e8300f8980429ad6e99e4cac",
+      "path": "../../../../docs/release-2026-11-03/iphone-full-removal.json",
+      "sha256": "2f70933215fe8be34a63640bcf0d51fac30f866e909968dc82b6b5f5fbc1de6a",
+      "bytes": 6519
+    },
+    {
+      "path": "../evidence-20261103-v2/01-osmo-dollhouse.png",
+      "sha256": "9ccd118a9c225985ed8c889ddb4a06700b3de6f678e6bee52acfad68d547b332",
       "bytes": 406318
     },
     {
-      "path": "../evidence-20261103/02-osmo-top.png",
-      "sha256": "b330d2b61c6069db64ed057ccc59e394c713dfcfb27a6b89bbd9afb2f6bb9bc1",
+      "path": "../evidence-20261103-v2/02-osmo-top.png",
+      "sha256": "0370ef2dfa3f6757663a1be43248c62676ff3d82d704e3e2f0efa88a2e61446c",
       "bytes": 496331
     },
     {
-      "path": "../evidence-20261103/03-osmo-roof-restored.png",
-      "sha256": "b5a91ea68508eaaa8ba354f1ebf1b71326e027f521355ecca594f7b8352ea20e",
+      "path": "../evidence-20261103-v2/03-osmo-roof-restored.png",
+      "sha256": "03c6824b3c345e2d1d6df73567014ef02fe154763e49c38655a38b579d3ed846",
       "bytes": 2166719
     },
     {
-      "path": "../evidence-20261103/04-osmo-orbit-return.png",
-      "sha256": "4409eb42bc395c4f802a961928e7cf07084f50c8e8300f8980429ad6e99e4cac",
+      "path": "../evidence-20261103-v2/04-osmo-orbit-return.png",
+      "sha256": "9ccd118a9c225985ed8c889ddb4a06700b3de6f678e6bee52acfad68d547b332",
       "bytes": 406318
     },
     {
-      "path": "../evidence-20261103/05-osmo-phone-layout-label.png",
-      "sha256": "cfeaed1503aaa59fce93405583d9875e6d49964d731f222f113a5a8be9854e8d",
+      "path": "../evidence-20261103-v2/05-osmo-phone-layout-label.png",
+      "sha256": "e4c25cbee11a4a1c762514f4dc7dab7ebdc6855aef5c818b0c968486d50f4315",
       "bytes": 103875
     }
   ]

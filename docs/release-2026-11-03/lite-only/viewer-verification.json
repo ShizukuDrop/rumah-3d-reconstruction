@@ -1,0 +1,68 @@
+{
+  "passed": true,
+  "releaseId": "20261103-osmo-viewer-v2",
+  "manifestSha256": "e9f093c7382488aa37a70b6f9ecd5f0c1ccf78699a38ecc5c0cc8d216d3e47a7",
+  "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+  "checks": {
+    "viewerQuotaAndErrorsPassed": true,
+    "viewerControlsPassed": true,
+    "zeroModelBytesBeforeOpen": true,
+    "iphoneHashesPreserved": true,
+    "totalModelDownloadWithin50MB": true,
+    "reversibleShellPassed": true
+  },
+  "modelChoices": [
+    "phone",
+    "osmo"
+  ],
+  "iphoneFullRetired": true,
+  "browser": "Chrome on Windows, hardware D3D11; narrow and wide touch emulation",
+  "physicalPhonesTested": false,
+  "trainingJobsLaunched": 0,
+  "controlChecks": 16,
+  "handoffCommandGroups": 10,
+  "receipts": [
+    {
+      "path": "../controls-verification-20261103-v2.json",
+      "sha256": "43157a406767d063a49e90cae9033aca1fa6832988a9c9b3691388edfb59cc44",
+      "bytes": 18096
+    },
+    {
+      "path": "../choice-and-phone-policy-verification-20261103-v2.json",
+      "sha256": "829ed087f8739d417ce06e6d1cfdfee6d92519903c33cd6f91ae666be57cb23b",
+      "bytes": 8516
+    },
+    {
+      "path": "../../../../docs/release-2026-11-03/lite-only/handoff-validation.json",
+      "sha256": "67fef33c73cc71040d3f0c222ca7ce677227c96986f5cfeedd06ccd1fcc3ba1f",
+      "bytes": 12430
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "../evidence-20261103-v2/01-osmo-dollhouse.png",
+      "sha256": "9ccd118a9c225985ed8c889ddb4a06700b3de6f678e6bee52acfad68d547b332",
+      "bytes": 406318
+    },
+    {
+      "path": "../evidence-20261103-v2/02-osmo-top.png",
+      "sha256": "0370ef2dfa3f6757663a1be43248c62676ff3d82d704e3e2f0efa88a2e61446c",
+      "bytes": 496331
+    },
+    {
+      "path": "../evidence-20261103-v2/03-osmo-roof-restored.png",
+      "sha256": "03c6824b3c345e2d1d6df73567014ef02fe154763e49c38655a38b579d3ed846",
+      "bytes": 2166719
+    },
+    {
+      "path": "../evidence-20261103-v2/04-osmo-orbit-return.png",
+      "sha256": "9ccd118a9c225985ed8c889ddb4a06700b3de6f678e6bee52acfad68d547b332",
+      "bytes": 406318
+    },
+    {
+      "path": "../evidence-20261103-v2/05-osmo-phone-layout-label.png",
+      "sha256": "e4c25cbee11a4a1c762514f4dc7dab7ebdc6855aef5c818b0c968486d50f4315",
+      "bytes": 103875
+    }
+  ]
+}

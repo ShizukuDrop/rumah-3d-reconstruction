@@ -1,0 +1,143 @@
+{
+  "date": "2026-11-03",
+  "userInstruction": "iPhone Full = delete it; remove the model and related local files; only keep iPhone Lite",
+  "filesDeleted": 9,
+  "logicalPathBytes": 3182089995,
+  "estimatedPhysicalBytes": 834503145,
+  "observedVolumeFreeDelta": 834084864,
+  "protectedAssetIds": [
+    "A003",
+    "A006",
+    "A013",
+    "A018",
+    "A034"
+  ],
+  "protectedHashesVerifiedBeforeAndAfter": true,
+  "externalWrites": 0,
+  "driveBackupsDeleted": 0,
+  "files": [
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\outputs\\iPhone_Wide_Full_Native.glb",
+      "relativePath": "outputs/iPhone_Wide_Full_Native.glb",
+      "bytes": 435614584,
+      "sha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 6473924467049460,
+        "hardlinkCount": 5
+      },
+      "identity": "A001 iPhone Full native GLB",
+      "deleted": true
+    },
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\mobile-20261029\\iphone-baseline\\models\\iphone-full-room-16f8963b.glb",
+      "relativePath": "work/mobile-20261029/iphone-baseline/models/iphone-full-room-16f8963b.glb",
+      "bytes": 435614584,
+      "sha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 6473924467049460,
+        "hardlinkCount": 5
+      },
+      "identity": "A001 iPhone Full native GLB",
+      "deleted": true
+    },
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\mobile-20261029\\iphone-baseline\\models\\iphone-full-room-16f8963b.glb.gz",
+      "relativePath": "work/mobile-20261029/iphone-baseline/models/iphone-full-room-16f8963b.glb.gz",
+      "bytes": 302564257,
+      "sha256": "14b797adcb38b4bd082b6fb9e24499b19917e95f6f7ca6ba64f091221b132709",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 18295873486475654,
+        "hardlinkCount": 3
+      },
+      "decodedBytes": 435614584,
+      "decodedSha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
+      "identity": "A001 iPhone Full native gzip transport",
+      "deleted": true
+    },
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\mobile-20261029\\public\\models\\iphone-full-room-16f8963b.glb",
+      "relativePath": "work/mobile-20261029/public/models/iphone-full-room-16f8963b.glb",
+      "bytes": 435614584,
+      "sha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 6473924467049460,
+        "hardlinkCount": 5
+      },
+      "identity": "A001 iPhone Full native GLB",
+      "deleted": true
+    },
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-clean-20261031\\review\\production\\public\\models\\iphone-full-room-16f8963b.glb",
+      "relativePath": "work/osmo-clean-20261031/review/production/public/models/iphone-full-room-16f8963b.glb",
+      "bytes": 435614584,
+      "sha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 6473924467049460,
+        "hardlinkCount": 5
+      },
+      "identity": "A001 iPhone Full native GLB",
+      "deleted": true
+    },
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-clean-20261031\\review\\production\\public\\models\\iphone-full-room-16f8963b.glb.gz",
+      "relativePath": "work/osmo-clean-20261031/review/production/public/models/iphone-full-room-16f8963b.glb.gz",
+      "bytes": 302564257,
+      "sha256": "14b797adcb38b4bd082b6fb9e24499b19917e95f6f7ca6ba64f091221b132709",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 18295873486475654,
+        "hardlinkCount": 3
+      },
+      "decodedBytes": 435614584,
+      "decodedSha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
+      "identity": "A001 iPhone Full native gzip transport",
+      "deleted": true
+    },
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\production\\public\\models\\iphone-full-room-16f8963b.glb",
+      "relativePath": "work/osmo-parity-20261101/review/production/public/models/iphone-full-room-16f8963b.glb",
+      "bytes": 435614584,
+      "sha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 6473924467049460,
+        "hardlinkCount": 5
+      },
+      "identity": "A001 iPhone Full native GLB",
+      "deleted": true
+    },
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\production\\public\\models\\iphone-full-room-16f8963b.glb.gz",
+      "relativePath": "work/osmo-parity-20261101/review/production/public/models/iphone-full-room-16f8963b.glb.gz",
+      "bytes": 302564257,
+      "sha256": "14b797adcb38b4bd082b6fb9e24499b19917e95f6f7ca6ba64f091221b132709",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 18295873486475654,
+        "hardlinkCount": 3
+      },
+      "decodedBytes": 435614584,
+      "decodedSha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207",
+      "identity": "A001 iPhone Full native gzip transport",
+      "deleted": true
+    },
+    {
+      "path": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\mobile-20261029\\phone-simplified.glb",
+      "relativePath": "work/mobile-20261029/phone-simplified.glb",
+      "bytes": 96324304,
+      "sha256": "e512f01e6a26562406ccfe6b0b425b281a8de17b563065005d0d86345a925275",
+      "fileIdentity": {
+        "device": 13608200742518796262,
+        "fileIndex": 12384898976915803,
+        "hardlinkCount": 1
+      },
+      "identity": "A002 obsolete iPhone mobile-simplification trial; not retained A003 Lite",
+      "deleted": true
+    }
+  ]
+}

@@ -1,16 +1,6 @@
 {
   "files": [
     {
-      "path": "models/iphone-full-room-16f8963b.glb",
-      "bytes": 435614584,
-      "sha256": "16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207"
-    },
-    {
-      "path": "models/iphone-full-room-16f8963b.glb.gz",
-      "bytes": 302564257,
-      "sha256": "14b797adcb38b4bd082b6fb9e24499b19917e95f6f7ca6ba64f091221b132709"
-    },
-    {
       "path": "models/iphone-phone-2b811d1241.glb",
       "bytes": 21144604,
       "sha256": "2b811d124120e70dcecc25d06e5dc397e2a28f310403a21fdfa1e290c41c9d2b"
