@@ -1,0 +1,802 @@
+{
+  "checks": [
+    {
+      "name": "Zero model bytes before explicit open",
+      "pass": true,
+      "evidence": [
+        "https://rumah.shizuku.rest/?quality=osmo&ablation=1",
+        "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+        "https://rumah.shizuku.rest/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a546ce570e515f3b",
+        "https://rumah.shizuku.rest/cdn-cgi/rum?",
+        "https://rumah.shizuku.rest/cdn-cgi/challenge-platform/h/g/scripts/jsd/5c2e6b612edd/main.js?ray=a546ce570e515f3b",
+        "https://rumah.shizuku.rest/cdn-cgi/challenge-platform/h/g/jsd/oneshot/5c2e6b612edd/0.4979619166444075:1793657138:fuNUR3BrypYuCV3TIoVWSqyBOn6weKQ_2YEpc9RG6vU/a546ce570e515f3b"
+      ]
+    },
+    {
+      "name": "GPU hardware",
+      "pass": true,
+      "evidence": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "drawCalls": 289,
+        "triangles": 5923266
+      }
+    },
+    {
+      "name": "Default fitted dollhouse",
+      "pass": true,
+      "evidence": {
+        "position": [
+          6.1686006806943166,
+          6.549038145280166,
+          1.8609871112772751
+        ],
+        "quaternion": [
+          -0.2866384652216506,
+          0.5450919183339288,
+          0.20542197468924853,
+          0.7606017375323197
+        ],
+        "forward": [
+          -0.7114320413037694,
+          -0.6599831458849823,
+          -0.24142638164482827
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          0.32135322576361447,
+          -5.551115123125783e-17,
+          -0.9469593994946771
+        ],
+        "mode": "orbit",
+        "yaw": 1.2436381633974483,
+        "pitch": -0.7207963267948968,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": true,
+        "cutawayRegenerations": 2,
+        "triangles": 5923266,
+        "renderCount": 3,
+        "fov": 42,
+        "seeInside": true,
+        "projection": [
+          1.2631968329322547,
+          0,
+          0,
+          0,
+          0,
+          2.6050890646938014,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Inferred overview is labeled with a photographic alternative",
+      "pass": true,
+      "evidence": "Layout approximation · fitted walls and furnitureView photographic scan"
+    },
+    {
+      "name": "Overview controls enabled",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "name": "Top view",
+      "pass": true,
+      "evidence": {
+        "position": [
+          -0.11557561820452003,
+          36.08257207185326,
+          -0.17830022387581085
+        ],
+        "quaternion": [
+          -0.3731862814544943,
+          0.6007937953085081,
+          0.6001933017099578,
+          0.37355965445356265
+        ],
+        "forward": [
+          -0.0008968323085124519,
+          -0.9999995000000417,
+          0.0004423702940690166
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.4423703677974038,
+          -5.551115123125783e-17,
+          -0.8968324579846505
+        ],
+        "mode": "orbit",
+        "yaw": 2.0290363267949574,
+        "pitch": -1.5697963267949044,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": true,
+        "cutawayRegenerations": 3,
+        "triangles": 5923290,
+        "renderCount": 5,
+        "fov": 12,
+        "seeInside": true,
+        "projection": [
+          4.613475680667304,
+          0,
+          0,
+          0,
+          0,
+          9.514364454222584,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            -0.14687317781806114,
+            1.1846946563190668,
+            -0.16286243186222127
+          ],
+          "radius": 34.897894864480165,
+          "theta": 2.0290363267948965,
+          "phi": 0.001
+        }
+      }
+    },
+    {
+      "name": "Shell restores",
+      "pass": true,
+      "evidence": {
+        "position": [
+          -0.11557561820452003,
+          36.08257207185326,
+          -0.17830022387581085
+        ],
+        "quaternion": [
+          -0.3731862814544943,
+          0.6007937953085081,
+          0.6001933017099578,
+          0.37355965445356265
+        ],
+        "forward": [
+          -0.0008968323085124519,
+          -0.9999995000000417,
+          0.0004423702940690166
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.4423703677974038,
+          -5.551115123125783e-17,
+          -0.8968324579846505
+        ],
+        "mode": "orbit",
+        "yaw": 2.0290363267949574,
+        "pitch": -1.5697963267949044,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": true,
+        "cutawayRegenerations": 4,
+        "triangles": 5921962,
+        "renderCount": 8,
+        "fov": 12,
+        "seeInside": false,
+        "projection": [
+          4.687806652965919,
+          0,
+          0,
+          0,
+          0,
+          9.514364454222584,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            -0.14687317781806114,
+            1.1846946563190668,
+            -0.16286243186222127
+          ],
+          "radius": 34.897894864480165,
+          "theta": 2.0290363267948965,
+          "phi": 0.001
+        }
+      }
+    },
+    {
+      "name": "Orbit reset stays overview",
+      "pass": true,
+      "evidence": {
+        "position": [
+          6.1686006806943166,
+          6.549038145280166,
+          1.8609871112772751
+        ],
+        "quaternion": [
+          -0.2866384652216506,
+          0.5450919183339288,
+          0.20542197468924853,
+          0.7606017375323197
+        ],
+        "forward": [
+          -0.7114320413037694,
+          -0.6599831458849823,
+          -0.24142638164482827
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          0.32135322576361447,
+          -5.551115123125783e-17,
+          -0.9469593994946771
+        ],
+        "mode": "orbit",
+        "yaw": 1.2436381633974483,
+        "pitch": -0.7207963267948968,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": true,
+        "cutawayRegenerations": 5,
+        "triangles": 5923266,
+        "renderCount": 11,
+        "fov": 42,
+        "seeInside": true,
+        "projection": [
+          1.2631968329322547,
+          0,
+          0,
+          0,
+          0,
+          2.6050890646938014,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Walk starts inside with shell restored",
+      "pass": true,
+      "evidence": {
+        "position": [
+          0.954722,
+          1.5427764395823702,
+          -2.119319
+        ],
+        "quaternion": [
+          -0.013825633977697933,
+          0.983088618262364,
+          0.08376436229288901,
+          0.16226260227722283
+        ],
+        "forward": [
+          -0.3167208441098675,
+          -0.16918234906699597,
+          0.933308759023779
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.9469593994946771,
+          -3.469446951953614e-18,
+          -0.3213532257636145
+        ],
+        "mode": "walk",
+        "yaw": 2.814434490192345,
+        "pitch": -0.16999999999999998,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": true,
+        "cutawayRegenerations": 6,
+        "triangles": 5921962,
+        "renderCount": 15,
+        "fov": 41.42004239974225,
+        "seeInside": false,
+        "projection": [
+          1.3032253728412058,
+          0,
+          0,
+          0,
+          0,
+          2.645024012531834,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Walk reset stays walk",
+      "pass": true,
+      "evidence": {
+        "position": [
+          0.954722,
+          1.5427764395823702,
+          -2.119319
+        ],
+        "quaternion": [
+          -0.013825633977697935,
+          0.983088618262364,
+          0.08376436229288903,
+          0.16226260227722283
+        ],
+        "forward": [
+          -0.3167208441098675,
+          -0.169182349066996,
+          0.933308759023779
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.9469593994946771,
+          -3.469446951953614e-18,
+          -0.3213532257636145
+        ],
+        "mode": "walk",
+        "yaw": 2.814434490192345,
+        "pitch": -0.17,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": true,
+        "cutawayRegenerations": 6,
+        "triangles": 5921963,
+        "renderCount": 16,
+        "fov": 41.42004239974225,
+        "seeInside": false,
+        "projection": [
+          1.3032253728412058,
+          0,
+          0,
+          0,
+          0,
+          2.645024012531834,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Preset exit preserves pixel focal length",
+      "pass": true,
+      "evidence": {
+        "before": 1,
+        "after": 1.0000000000000002,
+        "beforePose": [
+          -0.04734322054037422,
+          1.5427764395823702,
+          0.16500877423918853
+        ],
+        "afterPose": [
+          -0.04734322054037422,
+          1.5427764395823702,
+          0.16500877423918853
+        ]
+      }
+    },
+    {
+      "name": "Walking input releases without cleanup",
+      "pass": true,
+      "evidence": {
+        "released": {
+          "position": [
+            0.13743947776917362,
+            1.5427764395823702,
+            0.4199372225749586
+          ],
+          "quaternion": [
+            0,
+            -0.9512285361086977,
+            0,
+            0.3084870695710014
+          ],
+          "forward": [
+            0.5868834071929714,
+            0,
+            0.8096714558149922
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.8096714558149922,
+            0,
+            0.5868834071929714
+          ],
+          "mode": "walk",
+          "yaw": -2.51438841389687,
+          "pitch": 0,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": true,
+          "cutawayRegenerations": 6,
+          "triangles": 5921962,
+          "renderCount": 146,
+          "fov": 90,
+          "seeInside": false,
+          "projection": [
+            0.49270833333333336,
+            0,
+            0,
+            0,
+            0,
+            1.0000000000000002,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "stopped": {
+          "position": [
+            0.13743947776917362,
+            1.5427764395823702,
+            0.4199372225749586
+          ],
+          "quaternion": [
+            0,
+            -0.9512285361086977,
+            0,
+            0.3084870695710014
+          ],
+          "forward": [
+            0.5868834071929714,
+            0,
+            0.8096714558149922
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.8096714558149922,
+            0,
+            0.5868834071929714
+          ],
+          "mode": "walk",
+          "yaw": -2.51438841389687,
+          "pitch": 0,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": true,
+          "cutawayRegenerations": 6,
+          "triangles": 5921962,
+          "renderCount": 146,
+          "fov": 90,
+          "seeInside": false,
+          "projection": [
+            0.49270833333333336,
+            0,
+            0,
+            0,
+            0,
+            1.0000000000000002,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        }
+      }
+    },
+    {
+      "name": "Simple shapes are explicitly labeled as inferred",
+      "pass": true,
+      "evidence": {
+        "position": [
+          6.1686006806943166,
+          6.549038145280166,
+          1.8609871112772751
+        ],
+        "quaternion": [
+          -0.2866384652216506,
+          0.5450919183339288,
+          0.20542197468924853,
+          0.7606017375323197
+        ],
+        "forward": [
+          -0.7114320413037694,
+          -0.6599831458849823,
+          -0.24142638164482827
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          0.32135322576361447,
+          -5.551115123125783e-17,
+          -0.9469593994946771
+        ],
+        "mode": "orbit",
+        "yaw": 1.2436381633974483,
+        "pitch": -0.7207963267948968,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": true,
+        "overviewWalls": true,
+        "cutawayRegenerations": 7,
+        "triangles": 1304,
+        "renderCount": 152,
+        "fov": 42,
+        "seeInside": true,
+        "projection": [
+          1.2631968329322547,
+          0,
+          0,
+          0,
+          0,
+          2.6050890646938014,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Photographic alternative exits shapes and opens Walk",
+      "pass": true,
+      "evidence": {
+        "position": [
+          0.954722,
+          1.5427764395823702,
+          -2.119319
+        ],
+        "quaternion": [
+          -0.013825633977697935,
+          0.983088618262364,
+          0.08376436229288903,
+          0.16226260227722283
+        ],
+        "forward": [
+          -0.3167208441098675,
+          -0.169182349066996,
+          0.933308759023779
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.9469593994946771,
+          -3.469446951953614e-18,
+          -0.3213532257636145
+        ],
+        "mode": "walk",
+        "yaw": 2.814434490192345,
+        "pitch": -0.17,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": true,
+        "cutawayRegenerations": 8,
+        "triangles": 2,
+        "renderCount": 154,
+        "fov": 41.42004239974225,
+        "seeInside": false,
+        "projection": [
+          1.3032253728412058,
+          0,
+          0,
+          0,
+          0,
+          2.645024012531834,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Phone layout keeps the approximation label and action visible",
+      "pass": true,
+      "evidence": {
+        "notice": {
+          "x": 12,
+          "y": 783.609375,
+          "width": 366,
+          "height": 53.390625
+        },
+        "stage": {
+          "x": 0,
+          "y": 181,
+          "width": 390,
+          "height": 574.21875
+        }
+      }
+    },
+    {
+      "name": "No browser/render errors",
+      "pass": true,
+      "evidence": []
+    }
+  ],
+  "errors": [],
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "platform": "win32",
+  "physicalPhonesTested": false,
+  "viewport": [
+    1920,
+    1080
+  ]
+}
