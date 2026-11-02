@@ -12,7 +12,7 @@ from concurrent.futures import ThreadPoolExecutor
 import argparse,hashlib,json,sys,time
 import cv2,numpy as np
 W=Path(__file__).resolve().parent;sys.path.insert(0,str(W.parent/'osmo-reconstruct-20261031'))
-from seed_fisheye import read_model,qvec_to_rotmat,voxel_reduce,write_seed_ply
+from seed_fisheye import read_model,qvec_to_rotmat,voxel_reduce,write_seed_ply,load_depth
 P=argparse.ArgumentParser();P.add_argument('--dataset',type=Path,required=True);P.add_argument('--max-seed',type=int,default=450000);a=P.parse_args();started=time.monotonic();cv2.setNumThreads(1)
 out=a.dataset/'depths-trusted'
 if out.exists() and any(out.iterdir()):raise FileExistsError(out)
@@ -21,9 +21,9 @@ for row in scale_audit['frames']:
     if not row['acceptedScale']:continue
     if '_eval' in row['name']:raise ValueError('Eval depth leaked into training validation')
     im=by_name[row['name']];cam=cameras[im['camera_id']];R=qvec_to_rotmat(im['qvec']).astype(np.float32);t=im['tvec'].astype(np.float32);centre=-t@R;fx,fy,cx,cy=cam['params']
-    raw=cv2.imread(str((a.dataset/'depths'/row['name']).with_suffix('.png')),cv2.IMREAD_UNCHANGED);depth=raw.astype(np.float32)*row['scale'];H,DW=depth.shape
+    depth,known=load_depth((a.dataset/'depths'/row['name']).with_suffix('.png'),row['scale']);H,DW=depth.shape  # saturated 65535 is not a depth
     mask=cv2.imread(str((a.dataset/'masks'/row['name']).with_suffix('.png')),0);mask=cv2.resize(mask,(DW,H),interpolation=cv2.INTER_NEAREST);mask=cv2.erode(mask,np.ones((7,7),np.uint8))>127
-    mask&=np.isfinite(depth)&(depth>.02)&(depth<60)
+    mask&=known&np.isfinite(depth)&(depth>.02)&(depth<60)
     k=np.array([fx*DW/cam['width'],fy*H/cam['height'],cx*DW/cam['width'],cy*H/cam['height']],np.float32)
     forward=R[2];median=float(np.median(depth[mask]));target=centre+forward*median*.85
     views.append({**row,'R':R,'t':t,'centre':centre,'depth':depth,'mask':mask,'k':k,'forward':forward,'target':target})

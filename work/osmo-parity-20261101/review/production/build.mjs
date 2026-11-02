@@ -1,10 +1,13 @@
 // Isolated production staging. Never deploys and never writes old public/.
 import fs from 'node:fs/promises';
+import {createReadStream} from 'node:fs';
+import zlib from 'node:zlib';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
 import crypto from 'node:crypto';
 import {nativePolicy,validateModelHeader} from './native-delivery.js';
+import {validateShapes} from './simple-shapes.js';
 const here=path.dirname(fileURLToPath(import.meta.url)),work=path.resolve(here,'../../..'),pub=path.join(here,'public');
 const old=path.join(work,'mobile-20261029/iphone-baseline');
 const require=createRequire(path.join(work,'mobile-20261029/package.json')), {build}=require('esbuild');
@@ -33,7 +36,20 @@ await hardlink(assetPath,path.join(pub,sourceName));
 const carried=new Set();
 for(const value of Object.values(manifest.models)){if(value.url!==sourceName)carried.add(value.url);if(value.preview)carried.add(value.preview);}
 for(const cameras of Object.values(manifest.cameraSets))for(const photo of [...cameras.presets,...cameras.photos])if(photo.source)carried.add(photo.source);
-for(const file of carried){await hardlink(path.join(old,file),path.join(pub,file));try{await hardlink(path.join(old,file+'.gz'),path.join(pub,file+'.gz'));}catch(e){if(e.code!=='ENOENT')throw e;}}
+// Carried iPhone payloads must match asset-files.json. A regenerated .gz must decode to the protected
+// bytes; its own size may differ across zlib versions, which is reported rather than refused.
+const catalog=Object.fromEntries((await read(path.join(old,'asset-files.json'))).files.map(f=>[f.path,f]));
+const digest=stream=>new Promise((resolve,reject)=>{const h=crypto.createHash('sha256');let bytes=0;stream.on('data',c=>{h.update(c);bytes+=c.length;}).on('end',()=>resolve({sha256:h.digest('hex'),bytes})).on('error',reject);});
+for(const file of carried){
+ const row=catalog[file],gz=path.join(old,file+'.gz');
+ if(!row)throw Error('Carried iPhone file is not in asset-files.json: '+file);
+ const got=await digest(createReadStream(path.join(old,file)));if(got.sha256!==row.sha256||got.bytes!==row.bytes)throw Error('Carried iPhone file differs from asset-files.json: '+file);
+ await hardlink(path.join(old,file),path.join(pub,file));
+ try{await fs.access(gz);}catch{continue;}
+ const decoded=await digest(createReadStream(gz).pipe(zlib.createGunzip()));if(decoded.sha256!==row.sha256)throw Error('Transfer copy does not decode to the protected file: '+file+'.gz');
+ const recorded=catalog[file+'.gz'],size=(await fs.stat(gz)).size;if(recorded&&size!==recorded.bytes)console.warn(`${file}.gz is ${size} bytes, not the recorded ${recorded.bytes} (another zlib build); the chooser still shows the recorded size.`);
+ await hardlink(gz,path.join(pub,file+'.gz'));
+}
 if(candidate.cameras){
  const cameraFile=path.resolve(here,candidate.cameras);
  const cameras=await read(cameraFile);
@@ -43,6 +59,14 @@ if(candidate.cameras){
  for(const p of cameras.presets){if(!p.sourceFile||!p.intrinsics||!p.position||!p.quaternion)throw Error('Each fresh camera needs calibrated pose, K and source image.');const jpeg=await sharp(path.resolve(path.dirname(cameraFile),p.sourceFile)).resize({width:1920,withoutEnlargement:true}).jpeg({quality:86}).toBuffer();const source=`sources/osmo-${hash(jpeg).slice(0,10)}.jpg`;await fs.writeFile(path.join(pub,source),jpeg);const label=Number.isFinite(p.sourceTimeSeconds)?`Capture ${p.sourceTimeSeconds.toFixed(2)}s`:p.label;presets.push({name:`Osmo view ${presets.length+1}`,label,sourceTimeSeconds:p.sourceTimeSeconds,position:p.position,quaternion:p.quaternion,imageWidth:p.imageWidth,imageHeight:p.imageHeight,intrinsics:p.intrinsics,source});}
  manifest.cameraSets.osmo={bounds:cameras.bounds,framingPoints:cameras.framingPoints,occupiedShell:cameras.occupiedShell,startCamera:cameras.startCamera,homeTarget:cameras.homeTarget,presets,photos:presets.map(p=>({name:p.name,label:p.label,source:p.source}))};
  if(candidate.worldFromTraining)asset.worldFromTraining=candidate.worldFromTraining;
+}
+if(candidate.simpleShapes){
+ // Optional simple-shape stand-in, fetched only when the viewer asks for it.
+ const shapes=await fs.readFile(path.resolve(here,candidate.simpleShapes)),data=JSON.parse(shapes);validateShapes(data);
+ if(data.source?.sha256!==packing?.sourceSha256)throw Error('Simple shapes were not fitted to this candidate.');
+ const name=`models/osmo-shapes-${hash(shapes).slice(0,10)}.json`;await fs.writeFile(path.join(pub,name),shapes);
+ asset.simple={url:name,fileBytes:shapes.length,shapes:data.shapes.length};
+ if(manifest.cameraSets.osmo)manifest.cameraSets.osmo.manhattanYaw=data.manhattanYaw;  // orbit views square up to the walls
 }
 if(JSON.stringify(originals.phone)!==JSON.stringify(manifest.models.phone)||JSON.stringify(originals.native)!==JSON.stringify(manifest.models.native)||JSON.stringify(originals.iphone)!==JSON.stringify(manifest.cameraSets.iphone))throw Error('iPhone metadata changed.');
 const manifestBytes=Buffer.from(JSON.stringify(manifest)),manifestName=`room-${hash(manifestBytes).slice(0,10)}.json`;await fs.writeFile(path.join(pub,manifestName),manifestBytes);

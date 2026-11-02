@@ -1,7 +1,7 @@
 import {createRequire} from 'node:module';import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';
-const require=createRequire('C:/Users/bombe/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/package.json'),{chromium}=require('playwright');
+const require=createRequire(path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../mobile-20261029/package.json')),{chromium}=require('playwright-core'),angle={win32:'d3d11',darwin:'metal'}[process.platform],chrome=process.env.CHROME_PATH||process.platform==='win32'?{executablePath:process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe'}:{channel:'chrome'};
 const W=path.dirname(fileURLToPath(import.meta.url)),OUT=path.join(W,'display-ablation');await fs.mkdir(OUT,{recursive:true});
-const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--enable-gpu','--use-angle=d3d11']});
+const browser=await chromium.launch({...chrome,headless:true,args:['--enable-gpu',...(angle?['--use-angle='+angle]:[])]});
 const variants=[
  ['baseline',{lod:1,ext:0,blur:.3,dpr:1.25,budget:2000000}],
  ['blur-zero',{lod:1,ext:0,blur:0,dpr:1.25,budget:2000000}],

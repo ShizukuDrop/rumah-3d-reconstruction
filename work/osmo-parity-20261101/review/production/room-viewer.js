@@ -2,7 +2,9 @@ import * as THREE from 'three';
 import {nativePolicy,nativeSparkFileType,waitForNativeDraw} from './native-delivery.js';
 import {chooseQuality,selectModel,readModel,pinchRatio,withDeadline} from './loader-core.js';
 import {canonicalChoice,createLoadLifecycle} from './choice-core.js';
-import {installCutaway} from './gaussian-cutaway.js';
+import {installCutaway,footprintBytes} from './gaussian-cutaway.js';
+import {createSharpener} from './sharpen.js';
+import {buildShapes,shapeVisible,placeShape} from './simple-shapes.js';
 
 const $=id=>document.getElementById(id);
 const canvas=$('view'),stage=$('stage');
@@ -14,7 +16,9 @@ if(!selectedOnOpen)throw Error('Choose a model and press Open model before start
 const loads=createLoadLifecycle();
 const deviceSignals={requested:params.get('quality'),coarse:matchMedia('(pointer:coarse)').matches,touchPoints:navigator.maxTouchPoints,width:innerWidth,userAgent:navigator.userAgent};
 let phoneInput=chooseQuality({...deviceSignals,requested:null})==='phone';
-document.body.classList.toggle('phone',phoneInput);document.body.classList.toggle('debug',params.get('debug')==='1');
+// The touch D-pad and hints follow the input device, never the window width.
+const touchUI=chooseQuality({...deviceSignals,requested:null,width:Infinity})==='phone';
+document.body.classList.toggle('phone',touchUI);document.body.classList.toggle('debug',params.get('debug')==='1');
 let renderer,rendererError,spark,cutaway,freeCalibration=null;
 let nativeGaussian=false;
 try{renderer=new THREE.WebGLRenderer({canvas,antialias:selectedOnOpen==='osmo'?false:!phoneInput,alpha:true,powerPreference:'high-performance'});
@@ -22,13 +26,15 @@ renderer.setPixelRatio(Math.min(devicePixelRatio,trial('dpr',phoneInput?1.5:2)))
 renderer.setClearColor(0x141b23,1);renderer.outputColorSpace=THREE.SRGBColorSpace;}
 catch(error){rendererError=error;}
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,1,.025,100);
+// The Gaussian model is soft: sharpen its finished frames (0 = off). The block model is crisp already.
+const sharpener=renderer?createSharpener(THREE,renderer):null,SHARPEN=trial('sharpen',.9);
 camera.up.set(0,1,0);
-scene.add(new THREE.HemisphereLight(0xffffff,0x6c7890,2));
+const fill=new THREE.HemisphereLight(0xffffff,0x6c7890,2);scene.add(fill);
 const light=new THREE.DirectionalLight(0xffffff,2);light.position.set(3,8,5);scene.add(light);
 const keys=new Set(),velocity=new THREE.Vector3(),wheelVelocity=new THREE.Vector3();
 const forward=new THREE.Vector3(),right=new THREE.Vector3(),euler=new THREE.Euler(0,0,0,'YXZ');
 let data,model,mode='walk',yaw=0,pitch=0,speed=1.2,drag=null,ready=false,dirty=true;
-let recorded=null,comparison=false,seeInside=false,shaded=false;
+let recorded=null,comparison=false,seeInside=false,shaded=false,simple=null,simpleOn=false,shapeFile=null,overviewShell=null;
 let orbit={target:new THREE.Vector3(),theta:0,phi:1,radius:8};
 let framingPoints=new Float32Array();
 let forceRender=false,frames=[],last=performance.now(),renderCount=0;
@@ -68,14 +74,33 @@ function updateMode(){
   $('orbit').setAttribute('aria-pressed',String(mode==='orbit'));
   $('touch-controls').classList.toggle('walking',ready&&mode==='walk'&&!comparison);
   $('views').disabled=!ready||!data?.presets?.length;$('compare').disabled=!ready||!data?.presets?.length;
-  $('hint').textContent=phoneInput?(mode==='walk'?'Drag to look · Hold arrows to walk · Pinch to move':'Drag to orbit · Pinch to zoom · Two fingers to pan'):(mode==='walk'?'Drag to look · WASD move · Q/E down/up · Wheel step':'Drag to orbit · Right-drag to pan · Wheel zoom · WASD pan');
+  $('hint').textContent=touchUI?(mode==='walk'?'Drag to look · Hold arrows to walk · Pinch to move':'Drag to orbit · Pinch to zoom · Two fingers to pan'):(mode==='walk'?'Drag or arrows to look · WASD move · Q/E down/up · Wheel step':'Drag or arrows to orbit · Right-drag to pan · Wheel zoom · WASD pan');
 }
+// Walk starts where a photographer would stand: from a capture position, back toward the wall behind
+// (1.0 short of it) and looking along the longest open sightline on the room's axes or diagonals,
+// staying 0.3 inside the footprint, at the recorded eye height and 10° down. It shows the room, not
+// the wall beside the door; capture positions themselves are only hip high. Without a footprint,
+// the recorded start pose.
+function walkStart(){
+  const fp=data.occupiedShell?.footprint,cams=data.occupiedShell?.interiorCameras;if(!fp||!cams?.length)return null;
+  const bytes=footprintBytes(fp),[w,h]=fp.size,c=fp.cellSize,[ox,oz]=fp.origin,yaw=Number.isFinite(data.manhattanYaw)?data.manhattanYaw:0;
+  const open=(x,z)=>{const i=Math.floor((x-ox)/c),k=Math.floor((z-oz)/c);return i>=0&&i<w&&k>=0&&k<h&&bytes[2*(i*h+k)]<98;};
+  const reach=(x,z,dx,dz)=>{let t=0;while(t<12&&open(x+dx*t,z+dz*t))t+=.05;return t;};let best=null;
+  for(const [x,,z] of cams)for(let k=0;k<8;k++){
+    const a=yaw+k*Math.PI/4,dx=Math.cos(a),dz=Math.sin(a),back=Math.max(0,reach(x,z,-dx,-dz)-1),t=back+reach(x,z,dx,dz);
+    if(!best||t>best.t)best={t,p:[x-dx*back,data.startCamera.position[1],z-dz*back],dx,dz};
+  }
+  return best;
+}
+// 75° across a landscape screen (wider bends verticals and blows up the near field); at most 75° tall on a phone.
+function walkFov(){const aspect=(canvas.clientWidth||1)/(canvas.clientHeight||1);return Math.min(75,THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(37.5))/aspect)));}
 function walkHome(){
   if(!ready)return;release();recorded=null;comparison=false;$('source').hidden=true;stage.classList.remove('compare');
-  freeCalibration=null;camera.position.fromArray(data.startCamera.position);camera.quaternion.fromArray(data.startCamera.quaternion);
-  if(data.homeTarget)camera.lookAt(new THREE.Vector3().fromArray(data.homeTarget));
-  angles();pitch=0;orient();mode='walk';seeInside=false;updateSurface();updateMode();
-  $('views').selectedIndex=0;$('compare').setAttribute('aria-pressed','false');camera.fov=75;resize();invalidate();
+  freeCalibration=null;const start=walkStart();
+  if(start){const [x,y,z]=start.p;camera.position.set(x,y,z);camera.lookAt(x+start.dx,y,z+start.dz);}
+  else{camera.position.fromArray(data.startCamera.position);camera.quaternion.fromArray(data.startCamera.quaternion);if(data.homeTarget)camera.lookAt(new THREE.Vector3().fromArray(data.homeTarget));}
+  angles();pitch=start?-.17:0;orient();mode='walk';seeInside=false;updateSurface();updateMode();
+  $('views').selectedIndex=0;$('compare').setAttribute('aria-pressed','false');camera.fov=walkFov();resize();invalidate();
 }
 function home(){if(!ready)return;if(mode==='orbit')setMode('orbit');else walkHome();}
 function orbitCamera(){
@@ -83,36 +108,60 @@ function orbitCamera(){
   camera.position.set(r*Math.sin(p)*Math.sin(t),r*Math.cos(p),r*Math.sin(p)*Math.cos(t)).add(target);
   camera.up.set(0,1,0);camera.lookAt(target);angles();invalidate();
 }
-function fittedOrbitRadius(aspect=camera.aspect){
-  const b=data.bounds,center=new THREE.Vector3().fromArray(b[0]).add(new THREE.Vector3().fromArray(b[1])).multiplyScalar(.5);
+function orbitAxes(){
   const direction=new THREE.Vector3(Math.sin(orbit.phi)*Math.sin(orbit.theta),Math.cos(orbit.phi),Math.sin(orbit.phi)*Math.cos(orbit.theta));
   const horizontal=new THREE.Vector3(Math.cos(orbit.theta),0,-Math.sin(orbit.theta));
-  const vertical=new THREE.Vector3().crossVectors(direction,horizontal);
-  const tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));let radius=.3;
+  return {direction,horizontal,vertical:new THREE.Vector3().crossVectors(direction,horizontal)};
+}
+function fittedOrbitRadius(aspect=camera.aspect){
+  const {direction,horizontal,vertical}=orbitAxes(),tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));let radius=.3;
   const point=new THREE.Vector3();
   for(let i=0;i<framingPoints.length;i+=3){
-    point.fromArray(framingPoints,i).sub(center);const depth=point.dot(direction);
+    point.fromArray(framingPoints,i).sub(orbit.target);const depth=point.dot(direction);
     radius=Math.max(radius,depth+1.12*Math.abs(point.dot(horizontal))/(tangent*aspect),depth+1.12*Math.abs(point.dot(vertical))/tangent);
   }
   return radius;
+}
+// Zooming out stops at twice the fitted view (at least 80): a narrow lens fits from far away.
+const maxRadius=()=>Math.max(80,2*fittedOrbitRadius());
+// Centre the occupied scene on screen for the current angle, then fit it.
+function fitOrbit(){
+  const b=data.bounds;orbit.target.fromArray(b[0]).add(new THREE.Vector3().fromArray(b[1])).multiplyScalar(.5);
+  const {horizontal,vertical}=orbitAxes(),point=new THREE.Vector3();let h0=Infinity,h1=-Infinity,v0=Infinity,v1=-Infinity;
+  for(let i=0;i<framingPoints.length;i+=3){
+    point.fromArray(framingPoints,i).sub(orbit.target);const h=point.dot(horizontal),v=point.dot(vertical);
+    h0=Math.min(h0,h);h1=Math.max(h1,h);v0=Math.min(v0,v);v1=Math.max(v1,v);
+  }
+  if(h0<=h1)orbit.target.addScaledVector(horizontal,(h0+h1)/2).addScaledVector(vertical,(v0+v1)/2);
+  orbit.radius=fittedOrbitRadius();
+}
+// Square orbit views to the room's own axes when the scene knows them (simple_shapes.py):
+// offset 0 puts walls parallel to the screen, PI/4 looks down a room diagonal. Of the four
+// such angles, keep the one where the room fills the most screen.
+function squareOrbit(offset){
+  const yaw=data.manhattanYaw;let best=Infinity,theta=orbit.theta;
+  if(Number.isFinite(yaw))for(let k=0;k<4;k++){orbit.theta=offset-yaw+k*Math.PI/2;fitOrbit();if(orbit.radius<best){best=orbit.radius;theta=orbit.theta;}}
+  orbit.theta=theta;fitOrbit();
 }
 function setMode(next){
   if(!ready)return;const previous=mode;release();clearRecorded();freeCalibration=null;mode=next;
   if(next==='orbit'){
     camera.fov=42;camera.updateProjectionMatrix();
-    {
-      const b=data.bounds;orbit.target.fromArray(b[0]).add(new THREE.Vector3().fromArray(b[1])).multiplyScalar(.5);
-      orbit.theta=.7;orbit.phi=.85;orbit.radius=fittedOrbitRadius();
-    }
+    orbit.theta=.7;orbit.phi=.85;squareOrbit(Math.PI/4);
     seeInside=true;orbitCamera();
-  }else{camera.fov=75;camera.updateProjectionMatrix();const [lo,hi]=data.bounds;
+  }else{camera.fov=walkFov();camera.updateProjectionMatrix();const [lo,hi]=data.bounds;
     if(previous==='orbit'||camera.position.toArray().some((v,i)=>v<lo[i]||v>hi[i]))walkHome();angles();orient();seeInside=false;}
   updateSurface();updateMode();resize();invalidate();
 }
-function top(){setMode('orbit');orbit.phi=.001;orbit.radius=fittedOrbitRadius();orbitCamera();focus();}
+// A 12° lens keeps Top view close to a plan: walls show as caps, not leaning faces.
+function top(){setMode('orbit');camera.fov=12;camera.updateProjectionMatrix();orbit.phi=.001;squareOrbit(0);orbitCamera();focus();}
 function rotate(){
   clearRecorded();release();
-  if(mode==='orbit'){const zoom=orbit.radius/fittedOrbitRadius();orbit.theta+=Math.PI/2;orbit.radius=fittedOrbitRadius()*zoom;orbitCamera();}
+  // Keep the zoom relative to a fresh fit, and any pan as an offset from the fitted centre.
+  if(mode==='orbit'){
+    const radius=orbit.radius,pan=orbit.target.clone();fitOrbit();const zoom=radius/orbit.radius;pan.sub(orbit.target);
+    orbit.theta+=Math.PI/2;fitOrbit();orbit.target.add(pan);orbit.radius=THREE.MathUtils.clamp(orbit.radius*zoom,.3,maxRadius());orbitCamera();
+  }
   else{yaw+=Math.PI/2;orient();invalidate();}focus();
 }
 function preset(index){
@@ -143,13 +192,17 @@ function resize(){
   if(!renderer)return;
   const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;
   if(ready&&mode==='orbit'&&!recorded){orbit.radius*=fittedOrbitRadius(w/h)/fittedOrbitRadius(camera.aspect);orbitCamera();}
+  // A rotated phone gets a sane lens: a free calibration kept from a recorded view is for the old shape.
+  // Only a real turn counts (the shape flips and the aspect changes by more than half), not a panel opening.
+  if(freeCalibration&&(w>h)!==(freeCalibration.width>freeCalibration.height)&&Math.abs(Math.log(w/h*freeCalibration.height/freeCalibration.width))>.4)freeCalibration=null;
+  if(ready&&mode==='walk'&&!recorded&&!freeCalibration)camera.fov=walkFov();
   renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
   if(recorded)calibratedProjection(recorded);
   else if(freeCalibration){const c=freeCalibration,s=h/c.height;calibratedProjection({intrinsics:[c.fx*s,c.fy*s,w/2+c.dx*s,h/2+c.dy*s],imageWidth:w,imageHeight:h});}
   invalidate();
 }
 const observer=new ResizeObserver(resize);observer.observe(stage);observer.observe(canvas);
-window.addEventListener('resize',()=>{phoneInput=chooseQuality({...deviceSignals,requested:null,width:innerWidth})==='phone';document.body.classList.toggle('phone',phoneInput);resize();updateMode();});
+window.addEventListener('resize',()=>{resize();updateMode();});
 window.addEventListener('blur',release);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)release();});
 canvas.addEventListener('contextmenu',e=>e.preventDefault());
@@ -180,9 +233,9 @@ canvas.addEventListener('wheel',e=>{
   if(!ready)return;e.preventDefault();clearRecorded();
   const dy=THREE.MathUtils.clamp(e.deltaY*(e.deltaMode===1?16:1),-120,120);
   if(mode==='walk'){forward.set(-Math.sin(yaw),0,-Math.cos(yaw));wheelVelocity.addScaledVector(forward,-dy*.022*speed);}
-  else{orbit.radius=THREE.MathUtils.clamp(orbit.radius*Math.exp(dy*.001),.3,80);orbitCamera();}invalidate();
+  else{orbit.radius=THREE.MathUtils.clamp(orbit.radius*Math.exp(dy*.001),.3,maxRadius());orbitCamera();}invalidate();
 },{passive:false});
-const movement=new Set(['KeyW','KeyS','KeyA','KeyD','KeyQ','KeyE','Space','KeyC']);
+const movement=new Set(['KeyW','KeyS','KeyA','KeyD','KeyQ','KeyE','Space','KeyC','ArrowUp','ArrowDown','ArrowLeft','ArrowRight']);
 window.addEventListener('keydown',e=>{
   // macOS sends no keyup for keys released while Cmd is held; stop walking instead of drifting.
   if(e.metaKey)keys.clear();
@@ -194,6 +247,12 @@ window.addEventListener('keydown',e=>{
 });
 window.addEventListener('keyup',e=>{keys.delete(e.code);});
 function step(dt){
+  // Arrow keys turn the walk view or orbit the overview, so neither needs a pointer.
+  const turn=Number(keys.has('ArrowLeft'))-Number(keys.has('ArrowRight')),tilt=Number(keys.has('ArrowUp'))-Number(keys.has('ArrowDown'));
+  if(turn||tilt){
+    if(mode==='walk'){yaw+=turn*1.5*dt;pitch=THREE.MathUtils.clamp(pitch+tilt*1.5*dt,-1.45,1.45);orient();}
+    else{orbit.theta-=turn*1.5*dt;orbit.phi=THREE.MathUtils.clamp(orbit.phi-tilt*1.5*dt,.001,1.55);orbitCamera();}invalidate();
+  }
   forward.set(-Math.sin(yaw),0,-Math.cos(yaw));right.set(Math.cos(yaw),0,-Math.sin(yaw));
   const touch=new Set(touchMoves.values());
   const f=Number(keys.has('KeyW')||touch.has('forward'))-Number(keys.has('KeyS')||touch.has('back')),s=Number(keys.has('KeyD')||touch.has('right'))-Number(keys.has('KeyA')||touch.has('left'));
@@ -209,10 +268,23 @@ function step(dt){
     else{orbit.target.add(delta);orbitCamera();}invalidate();
   }
 }
+// The near-side cut is about the orbit target; outside Orbit the camera stands in for it, which turns it off.
+const cutTarget=()=>mode==='orbit'?orbit.target:camera.position;
+// The fitted walls are the overview's cut edge. In Walk (with See inside on) the room keeps its real splats.
+const orbitTarget=()=>mode==='orbit'?orbit.target:null;
 function render(){
-  cutaway?.update(seeInside,camera);
+  // Orbit can sit far out (Top view's narrow lens): keep the far plane past it and the near plane in
+  // proportion so depth precision holds. Walk keeps the close near plane.
+  const near=mode==='orbit'?Math.max(.025,orbit.radius/2000):.025,far=mode==='orbit'?Math.max(100,2*orbit.radius):100;
+  if(camera.near!==near||camera.far!==far){camera.near=near;camera.far=far;if(mode==='orbit')camera.updateProjectionMatrix();else resize();}
+  const shown=simpleOn?simple:seeInside&&mode==='orbit'?overviewShell:null;if(overviewShell)overviewShell.visible=shown===overviewShell;
+  if(shown)for(const m of shown.children)placeShape(m,shapeVisible(m.userData.shape,seeInside,camera.position,cutTarget()),shown.userData.floor);
+  // Sun shadows read as level changes from straight above and make no sense under a ceiling.
+  light.shadow.intensity=mode==='orbit'&&orbit.phi>.2?1:0;
+  if(!simpleOn)cutaway?.update(seeInside,camera);
   const v=viewport();renderer.setScissorTest(false);renderer.setViewport(0,0,canvas.clientWidth,canvas.clientHeight);renderer.clear();
   renderer.setViewport(v.x,v.y,v.w,v.h);renderer.render(scene,camera);
+  if(nativeGaussian&&!simpleOn&&SHARPEN>0)sharpener?.apply(SHARPEN,v);
   // Verification waits for GPU completion; normal navigation stays asynchronous.
   if(forceRender)renderer.getContext().finish();
   renderCount++;
@@ -221,6 +293,7 @@ function loop(now){
   const dt=Math.min((now-last)/1000,.05);last=now;
   if(ready&&phase==='ready')step(dt);
   if(ready&&phase==='ready'&&(dirty||forceRender)){try{render();dirty=false;frames.push(dt*1000);if(frames.length>2400)frames.shift();updateDiagnostics();}catch(error){showFailure(error);}}
+  else if(ready&&phase==='ready'&&!simpleOn&&cutaway?.settle(camera))invalidate();  // camera at rest: make the cutaway exact and draw it
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
@@ -238,20 +311,22 @@ $('shade').onclick=()=>{
   });updateSurface();$('shade').setAttribute('aria-pressed',String(shaded));invalidate();focus();
 };
 
-window.__room={get ready(){return ready;},get data(){return data;},preset,home,top,rotate,setMode,
+window.__room={get ready(){return ready;},get data(){return data;},preset,home,top,rotate,setMode,setSimple,
+  turn(radians){orbit.theta+=radians;orbitCamera();},  // deterministic orbit steps for turntable captures
+  look(position,target){walkHome();camera.position.fromArray(position);camera.lookAt(new THREE.Vector3().fromArray(target));angles();orient();invalidate();},  // deterministic walk poses for captures
   state(){const f=new THREE.Vector3();camera.getWorldDirection(f);return {position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),
     forward:f.toArray(),up:camera.up.toArray(),right:new THREE.Vector3(1,0,0).applyQuaternion(camera.quaternion).toArray(),mode,yaw,pitch,
-    keys:[...keys],comparison,recorded:recorded?.name,triangles:renderer.info.render.triangles,renderCount,fov:camera.fov,seeInside,projection:camera.projectionMatrix.toArray(),orbit:{target:orbit.target.toArray(),radius:orbit.radius,theta:orbit.theta,phi:orbit.phi}};},
+    keys:[...keys],comparison,simpleShapes:simpleOn,overviewWalls:!!overviewShell,cutawayRegenerations:cutaway?.regenerations||0,recorded:recorded?.name,triangles:renderer.info.render.triangles,renderCount,fov:camera.fov,seeInside,projection:camera.projectionMatrix.toArray(),orbit:{target:orbit.target.toArray(),radius:orbit.radius,theta:orbit.theta,phi:orbit.phi}};},
   benchmark(value){forceRender=value;frames=[];return true;},timings(){return [...frames];},
   componentVisibility(values){model.children.forEach((o,i)=>{o.visible=values[i]!==false;});invalidate();return model.children.map(o=>({name:o.name,visible:o.visible}));},
   rendererInfo(){const gl=renderer.getContext(),info=gl.getExtension('WEBGL_debug_renderer_info');return {renderer:info?gl.getParameter(info.UNMASKED_RENDERER_WEBGL):'unavailable',drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};},
-  async stable(){if(spark){for(let i=0;i<3;i++){scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);cutaway?.update(seeInside,camera);await spark.update({scene,camera});render();await new Promise(r=>setTimeout(r,80));}}else render();return {activeSplats:spark?.activeSplats||0,lod:spark?.enableLod,blur:spark?.blurAmount,extSplats:!!model?.extSplats,dpr:renderer.getPixelRatio(),size:renderer.getDrawingBufferSize(new THREE.Vector2()).toArray(),maxSh:model?.maxSh};},
+  async stable(){if(spark){for(let i=0;i<3;i++){scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);cutaway?.update(seeInside,camera);cutaway?.settle(camera);await spark.update({scene,camera});render();await new Promise(r=>setTimeout(r,80));}}else render();return {activeSplats:spark?.activeSplats||0,lod:spark?.enableLod,blur:spark?.blurAmount,extSplats:!!model?.extSplats,dpr:renderer.getPixelRatio(),size:renderer.getDrawingBufferSize(new THREE.Vector2()).toArray(),maxSh:model?.maxSh};},
   snapshot(){render();return canvas.toDataURL('image/png');}
 };
 function gestureState(){const [a,b]=[...pointers.values()];return {x:(a.x+b.x)/2,y:(a.y+b.y)/2,distance:Math.hypot(a.x-b.x,a.y-b.y)};}
 function zoom(ratio){
   if(!ready)return;
-  if(mode==='orbit'){orbit.radius=THREE.MathUtils.clamp(orbit.radius*ratio,.3,80);orbitCamera();}
+  if(mode==='orbit'){orbit.radius=THREE.MathUtils.clamp(orbit.radius*ratio,.3,maxRadius());orbitCamera();}
   else{camera.getWorldDirection(forward);camera.position.addScaledVector(forward,(1-ratio)*2);invalidate();}
 }
 function pan(dx,dy){
@@ -280,13 +355,64 @@ async function showGallery(){
 $('photos').onclick=$('loading-photos').onclick=$('recovery-photos').onclick=showGallery;
 $('gallery-view').onchange=showGallery;$('gallery-close').onclick=()=>{$('gallery').close();$('gallery-photo').removeAttribute('src');};
 
-function controlsEnabled(value){for(const button of document.querySelectorAll('[data-3d],[data-move]'))button.disabled=!value;$('shade').hidden=nativeGaussian;if(nativeGaussian)$('shade').disabled=true;for(const id of ['see-inside','top']){$(id).hidden=false;$(id).disabled=!value;}}
+// The shape file is fetched once per model: the simple view uses all of it, the Gaussian overview its walls.
+function fetchShapes(){
+  return shapeFile??=withDeadline(fetch(asset.simple.url),30000,'The simple shapes could not download.').then(async r=>{
+    if(!r.ok)throw Error('The simple shapes could not download.');
+    const bytes=new Uint8Array(await r.arrayBuffer());if(bytes.length!==asset.simple.fileBytes)throw Error('The simple shapes download was incomplete.');
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }).catch(error=>{shapeFile=null;throw error;});
+}
+// Soft shadows from the key light, fitted to the room, and a brighter, warm bounce light so walls read
+// white and ceilings not navy. Splats ignore lights; disposeSimple() restores the mesh defaults.
+function lightShapes(){
+  const [lo,hi]=data.bounds,size=Math.max(hi[0]-lo[0],hi[2]-lo[2])/2+1,centre=new THREE.Vector3().fromArray(lo).add(new THREE.Vector3().fromArray(hi)).multiplyScalar(.5);
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;fill.groundColor.set(0xb9ae9c);fill.intensity=3;
+  light.castShadow=true;light.shadow.mapSize.set(2048,2048);light.shadow.normalBias=.02;
+  light.target.position.copy(centre);scene.add(light.target);light.position.copy(centre).add(new THREE.Vector3(1.5,10,2.5));
+  Object.assign(light.shadow.camera,{left:-size,right:size,top:size,bottom:-size,near:.5,far:30});light.shadow.camera.updateProjectionMatrix();
+}
+// The Gaussian overview draws the fitted walls (dark tops, door leaves) and furniture as simple shapes,
+// over the photoreal splat floor, instead of fuzzy, shard-edged wall splats and soft furniture. The
+// fitted floor sits just under the splat floor, unlit in the scan's floor colour, so their seam disappears.
+async function addOverviewShell(){
+  const owner=model;
+  try{
+    const shapes=(await fetchShapes()).shapes;if(model!==owner||overviewShell)return;
+    const shell=shapes.filter(s=>s.kind==='wall'||s.kind==='object').concat(shapes.filter(s=>s.kind==='floor').map(s=>({...s,center:[s.center[0],s.center[1]-.04,s.center[2]]})));
+    overviewShell=buildShapes(THREE,{version:1,shapes:shell});
+    for(const m of overviewShell.children)if(m.userData.shape.kind==='floor'){m.material.dispose();m.material=new THREE.MeshBasicMaterial({color:m.userData.shape.color});}lightShapes();scene.add(overviewShell);cutaway?.trimWalls(camera);invalidate();
+  }catch(error){console.error('Overview walls failed',error);}
+}
+async function setSimple(value){
+  if(!ready||!asset?.simple)return;const owner=model;
+  if(value&&!simple){
+    $('simple').disabled=true;
+    try{
+      const shapes=await fetchShapes();lightShapes();
+      const group=buildShapes(THREE,shapes);
+      if(model!==owner){group.userData.dispose();return;}simple=group;scene.add(simple);
+    }catch(error){console.error('Simple shapes failed',error);$('quality-note').textContent='Simple shapes could not load. Try again.';return;}
+    finally{$('simple').disabled=!ready;}
+  }
+  simpleOn=value&&!!simple;if(simple)simple.visible=simpleOn;if(model)model.visible=!simpleOn;
+  $('simple').setAttribute('aria-pressed',String(simpleOn));$('quality-note').textContent=simpleOn?'Simple shapes · boxes, cylinders and spheres fitted to the scan · approximate scale':asset.note||'Approximate scale · reconstruction defects remain';
+  updateSurface();invalidate();
+}
+function disposeSimple(){
+  shapeFile=null;if(overviewShell){scene.remove(overviewShell);overviewShell.userData.dispose();overviewShell=null;}
+  if(!simple)return;scene.remove(simple);simple.userData.dispose();simple=null;fill.groundColor.set(0x6c7890);fill.intensity=2;simpleOn=false;$('simple').setAttribute('aria-pressed','false');
+}
+$('simple').onclick=()=>{setSimple(!simpleOn);focus();};
+function controlsEnabled(value){for(const button of document.querySelectorAll('[data-3d],[data-move]'))button.disabled=!value;$('simple').hidden=!asset?.simple;$('shade').hidden=nativeGaussian;if(nativeGaussian)$('shade').disabled=true;for(const id of ['see-inside','top']){$(id).hidden=false;$(id).disabled=!value;}}
 function updateDiagnostics(){
+  document.body.dataset.phase=phase;document.body.dataset.quality=currentQuality||'choosing';
+  if(!document.body.classList.contains('debug'))return;  // the panel is hidden; skip per-frame JSON
   const state={build:'20261031-native-provisional',phase,quality:currentQuality||'choosing',cameraSet:asset?.cameraSet||null,phoneInput,downloadBytes,fileBytes:asset?.fileBytes||0,
     representation:nativeGaussian?'gaussian':'mesh',splats:modelDiagnostics.splats||0,activeSplats:spark?.activeSplats||0,lodSplatBudget:modelDiagnostics.lodSplatBudget||0,triangles:modelDiagnostics.triangles||0,geometryMiB:modelDiagnostics.geometryMiB||0,textures:modelDiagnostics.textures||[],
-    preparedSeconds:preparedMs/1000,mode,seeInside,heightClipping:false,renderCount,comparison,recorded:recorded?.name||null,
+    preparedSeconds:preparedMs/1000,mode,seeInside,simpleShapes:simpleOn,heightClipping:false,renderCount,comparison,recorded:recorded?.name||null,
     position:camera.position.toArray(),activeMoves:[...touchMoves.values()],keys:[...keys],viewport:[canvas.clientWidth,canvas.clientHeight]};
-  $('diagnostics').textContent=JSON.stringify(state,null,2);document.body.dataset.phase=phase;document.body.dataset.quality=state.quality;
+  $('diagnostics').textContent=JSON.stringify(state,null,2);
 }
 function setPhase(value,message,detail=''){phase=value;$('load-status').textContent=message;$('load-detail').textContent=detail;updateDiagnostics();}
 function stopTimers(){clearTimeout(idleTimer);clearTimeout(totalTimer);}
@@ -344,7 +470,7 @@ function applyCameraData(quality){
 }
 async function loadAsset(quality){
   const request=loads.begin(),generation=request.id;downloadAbort?.abort();stopTimers();release();ready=false;controlsEnabled(false);
-  disposeModel(model);model=null;cutaway?.dispose();cutaway=null;freeCalibration=null;framingPoints=new Float32Array();modelDiagnostics={};shaded=false;$('shade').setAttribute('aria-pressed','false');
+  disposeSimple();disposeModel(model);model=null;cutaway?.dispose();cutaway=null;freeCalibration=null;framingPoints=new Float32Array();modelDiagnostics={};shaded=false;$('shade').setAttribute('aria-pressed','false');
   $('source').hidden=true;stage.classList.remove('compare');comparison=false;recorded=null;
   currentQuality=quality;asset=null;selection=null;data=null;downloadBytes=0;preparedMs=0;loadStarted=performance.now();
   if($('gallery').open)$('gallery').close();$('gallery-photo').removeAttribute('src');
@@ -387,7 +513,7 @@ async function loadAsset(quality){
       if(!loads.current(generation)){disposeModel(model);return;}scene.add(model);
       if(asset.worldFromTraining){model.matrix.fromArray(asset.worldFromTraining);model.matrixAutoUpdate=false;}
       if(!Array.isArray(data.framingPoints)||data.framingPoints.length<30)throw Error('Occupied scene framing is missing.');
-      framingPoints=Float32Array.from(data.framingPoints);cutaway=installCutaway({dyno,THREE,model,shell:data.occupiedShell});
+      framingPoints=Float32Array.from(data.framingPoints);cutaway=installCutaway({dyno,THREE,model,shell:data.occupiedShell,orbitTarget});
       modelDiagnostics={splats:asset.splats,lodSplatBudget:policy.lodSplatCount,triangles:0,geometryMiB:0,textures:[]};
     }else{
       const [{GLTFLoader},{MeshoptDecoder}]=await withDeadline(Promise.all([import('three/addons/loaders/GLTFLoader.js'),import('meshoptimizer')]),60000,'The 3D viewer could not download. Choose a model to retry, or use Photos.');
@@ -404,6 +530,7 @@ async function loadAsset(quality){
       if(selection.lite&&(modelDiagnostics.geometryMiB>selection.geometryLimit||modelDiagnostics.textures.some(([w,h])=>w>selection.textureLimit||h>selection.textureLimit)))throw Error('The lightweight view exceeded its graphics budget. Please use Photos and report this message.');
     }
     ready=true;walkHome();if(params.get('mode')!=='walk'&&(nativeGaussian||selection.lite||params.get('mode')==='orbit'))setMode('orbit');resize();
+    if(nativeGaussian&&asset.simple)addOverviewShell();  // ~10 KB, usually in place before the first frame
     setPhase('drawing','Drawing the room…');$('load-progress').value=98;
     await withDeadline(renderer.compileAsync(scene,camera),30000,'The browser could not finish drawing the room. Retry the phone view or use Photos.');
     if(!loads.current(generation))return;
@@ -425,6 +552,6 @@ async function loadAsset(quality){
   }catch(error){if(!loads.current(generation))return;disposeModel(model);model=null;showFailure(error);}
 }
 canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();loads.cancel();downloadAbort?.abort();showFailure(Error('Your browser interrupted the 3D graphics. Reload the phone view, or use Photos.'));});
-canvas.addEventListener('webglcontextrestored',()=>{if(phase==='failed')$('load-detail').textContent='Graphics are available again. Tap Retry phone view.';});
-window.addEventListener('pagehide',()=>{loads.cancel();release();disposeModel(model);renderer?.dispose();});
+canvas.addEventListener('webglcontextrestored',()=>{if(phase==='failed')$('load-detail').textContent='Graphics are available again. Choose a model to retry.';});
+window.addEventListener('pagehide',()=>{loads.cancel();release();disposeSimple();disposeModel(model);sharpener?.dispose();renderer?.dispose();});
 loadAsset(selectedOnOpen);

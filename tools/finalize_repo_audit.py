@@ -1,7 +1,7 @@
 """Merge verified Drive receipts, update the asset identity map and enrich inventory."""
 from pathlib import Path
 from collections import Counter,defaultdict
-import csv,hashlib,json,os,re
+import csv,hashlib,json,os,re,sys
 import repo_audit as a
 ROOT=a.ROOT;OUT=a.AUDIT
 
@@ -31,7 +31,7 @@ def importance(r):
 def main():
     if (OUT/'deep-cleanup-result.json').exists():
         from deep_cleanup_repo import refresh_manifest
-        summary=refresh_manifest();rows,_=a.save_inventory('current')
+        summary=refresh_manifest('--force' in sys.argv[1:]);rows,_=a.save_inventory('current')
         print(json.dumps({'backup':summary,'currentFiles':len(rows),'datedSnapshotsPreserved':True},indent=2));return
     queue=read(OUT/'asset-upload-queue.json');verified=receipts();dest=read(OUT/'drive-destination.json');entries=[]
     for asset in queue['entries']:

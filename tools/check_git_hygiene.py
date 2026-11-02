@@ -5,7 +5,7 @@ Before git init, ripgrep applies .gitignore with --no-require-git. After staging
 No GitHub authentication tokens are read or printed by this tool.
 """
 from pathlib import Path
-import argparse,hashlib,io,ipaddress,json,re,subprocess
+import argparse,hashlib,io,ipaddress,json,os,re,subprocess,sys
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'docs/repo-audit-2026-11-01'
@@ -80,6 +80,8 @@ def main():
             if b'\x00' in data:problems.append({**row,'reason':'Binary NUL in source candidate'})
         secrets.extend(secret_hits(text,rel))
     result={'passed':not problems and not secrets,'scope':'actual staged blobs' if a.staged else 'ripgrep Git-ignore-aware candidates before init','files':len(rows),'totalBytes':sum(r['bytes'] for r in rows),'largestFiles':sorted(rows,key=lambda r:r['bytes'],reverse=True)[:12],'limitPerFile':MAX_FILE,'fileProblems':problems,'secretFindings':secrets,'secretValuesPrinted':False,'note':'Pattern scanning is supplemented by review of hosting/access/deployment sources; it is not proof that arbitrary secrets cannot exist.'}
-    OUT.mkdir(parents=True,exist_ok=True);dest=OUT/('staged-git-hygiene.json' if a.staged else 'preinit-git-hygiene.json');dest.write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps(result,indent=2))
+    name='staged-git-hygiene' if a.staged else 'preinit-git-hygiene'
+    # Keep the dated Windows receipt; other platforms write a platform-suffixed copy.
+    OUT.mkdir(parents=True,exist_ok=True);dest=OUT/(name+'.json' if os.name=='nt' else f'{name}-{sys.platform}.json');dest.write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps(result,indent=2))
     if not result['passed'] and not a.report_only:raise SystemExit(1)
 if __name__=='__main__':main()

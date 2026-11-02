@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createRequire} from 'node:module';
-const W=path.dirname(fileURLToPath(import.meta.url)),require=createRequire('C:/Users/bombe/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/package.json'),{chromium}=require('playwright');
-const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--enable-gpu','--use-angle=d3d11']});const rows=[];
+const W=path.dirname(fileURLToPath(import.meta.url)),require=createRequire(path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../mobile-20261029/package.json')),{chromium}=require('playwright-core'),angle={win32:'d3d11',darwin:'metal'}[process.platform],chrome=process.env.CHROME_PATH||process.platform==='win32'?{executablePath:process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe'}:{channel:'chrome'};
+const browser=await chromium.launch({...chrome,headless:true,args:['--enable-gpu',...(angle?['--use-angle='+angle]:[])]});const rows=[];
 try{
  for(const profile of [{name:'desktop',viewport:{width:1920,height:1080},deviceScaleFactor:2,hasTouch:false},{name:'narrow-touch',viewport:{width:412,height:915},deviceScaleFactor:3,hasTouch:true},{name:'wide-touch',viewport:{width:900,height:840},deviceScaleFactor:3,hasTouch:true}]){
   const {name,...options}=profile,context=await browser.newContext(options),page=await context.newPage(),requests=[],errors=[];await page.route('**/favicon.ico',r=>r.fulfill({status:204}));page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(String(e)));

@@ -1,21 +1,22 @@
 """CPU integration checks with tiny synthetic fisheye data, no capture/model access."""
 from pathlib import Path
+import argparse
 import json
 import sys
 import tempfile
+import unittest
 import numpy as np
 import cv2
 import normalize_fresh_sfm as prep
 
 
-def main():
-    original_fresh = prep.FRESH
+def main(record=False):
+    original_fresh, original_here = prep.FRESH, prep.HERE
     original_argv = sys.argv
     checks = []
-    with tempfile.TemporaryDirectory(prefix='synthetic-preparation-', dir=prep.HERE) as tmp:
+    with tempfile.TemporaryDirectory(prefix='synthetic-preparation-') as tmp:
         root = Path(tmp).resolve()
-        assert root.is_relative_to(prep.HERE)
-        prep.FRESH = root
+        prep.FRESH = prep.HERE = root  # report/output guards accept the system temp fixture only
         model = root/'sfm/sparse/0'; image_dir = root/'dataset/images'; mask_dir = root/'dataset/masks'
         cameras = {cid: {'id': cid, 'model': 'OPENCV_FISHEYE', 'model_id': 5, 'width': 64, 'height': 64,
                          'params': np.array([12., 12., 32., 32., 0., 0., 0., 0.])} for cid in (1, 2)}
@@ -94,12 +95,19 @@ def main():
             raise AssertionError('Expected overwrite refusal')
         except FileExistsError:
             checks.append('existing seed and prepared model cannot be overwritten')
-        prep.FRESH = original_fresh
+        prep.FRESH, prep.HERE = original_fresh, original_here
         sys.argv = original_argv
     result = {'passed': len(checks), 'checks': checks, 'capture_files_read': False, 'gpu_used': False}
-    prep.save(prep.HERE/'preparation-synthetic-tests.json', result)
+    if record:
+        prep.save(prep.HERE/'preparation-synthetic-tests.json', result)
     print(json.dumps(result, indent=2))
 
 
+class SyntheticPreparation(unittest.TestCase):
+    def test_synthetic_preparation(self):
+        main()
+
+
 if __name__ == '__main__':
-    main()
+    p = argparse.ArgumentParser(description=__doc__); p.add_argument('--record', action='store_true', help='Rewrite the committed evidence JSON')
+    main(p.parse_args().record)

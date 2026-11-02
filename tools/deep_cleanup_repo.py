@@ -83,7 +83,9 @@ def make_plan():
     plan={'authorizedDate':'2026-11-01','workspace':str(ROOT),'references':refs,'canonical':CANONICAL,'filesBefore':summary['files'],'logicalBytesBefore':summary['logical_bytes'],'targets':targets,'protected':protected,'targetFiles':len(targets),'logicalBytesSelected':sum(r['bytes'] for r in targets),'estimatedBytesReleased':released,'hardlinkNote':'Only file identities whose complete link count is selected count as releasable; external hardlinks are never deleted.','families':dict(Counter(r['reason'] for r in targets))}
     (D/'deep-cleanup-plan.json').write_text(json.dumps(plan,indent=2));print(json.dumps({k:v for k,v in plan.items() if k not in {'targets','protected','references'}},indent=2))
 
-def refresh_manifest():
+def refresh_manifest(force=False):
+    # The tracked manifest records the dated cleanup; rerunning on another checkout would rewrite it with that machine's local state.
+    if not force and (D/'deep-cleanup-result.json').exists() and read(D/'deep-cleanup-result.json').get('complete'):raise SystemExit('Dated deep cleanup is complete; assets-manifest.json is the tracked 2026-11-01 record. Pass --force to rewrite its local_paths/local_status/canonical_local_path from this checkout.')
     p=ROOT/'assets-manifest.json';m=read(p)
     for a in m['assets']:
         historical=a.get('historical_local_paths',a['local_paths']);a['historical_local_paths']=historical
@@ -134,7 +136,7 @@ def apply():
     (D/'deep-cleanup-result.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--apply',action='store_true');parser.add_argument('--refresh-manifest',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--apply',action='store_true');parser.add_argument('--refresh-manifest',action='store_true');parser.add_argument('--force',action='store_true');args=parser.parse_args()
     if args.apply:apply()
-    elif args.refresh_manifest:print(json.dumps(refresh_manifest(),indent=2))
+    elif args.refresh_manifest:print(json.dumps(refresh_manifest(args.force),indent=2))
     else:make_plan()

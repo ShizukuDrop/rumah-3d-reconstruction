@@ -36,7 +36,7 @@ Invoke-RumahRemote @('--put',(Join-Path $rumahPackage 'native-site.tar'),$rumahI
 foreach ($rumahScript in @('deploy-native.sh','rollback-native.sh')) {
     Invoke-RumahRemote @('--put',(Join-Path $rumahPackage $rumahScript),($rumahInfo.staging + '/' + $rumahScript),'--limit','60')
 }
-# Use --command intentionally: the old helper's --script path has a fixed 35 s timeout.
+# Use --command intentionally: --script stops the remote run at --limit minus 5 s, too short here.
 $rumahRun = "printf '%s\n' '{0}  {1}/deploy-native.sh' | sha256sum -c - && timeout -s TERM 180 bash '{1}/deploy-native.sh'" -f $rumahInfo.runner_sha256,$rumahInfo.staging
 Invoke-RumahRemote @('--command',$rumahRun,'--limit','195')
 & $rumahPython (Join-Path $rumahStageRoot 'verify-public-native.py')

@@ -21,11 +21,12 @@ for number,im in enumerate(images.values(),1):
     try:
         raw=cv2.imread(str((a.dataset/'depths'/im['name']).with_suffix('.png')),cv2.IMREAD_UNCHANGED)
         if raw is None or raw.dtype!=np.uint16:raise ValueError('Expected raw relative uint16 depth')
-        H,DW=raw.shape;camera=cameras[im['camera_id']];fx,fy,cx,cy=camera['params'];mask=cv2.imread(str((a.dataset/'masks'/im['name']).with_suffix('.png')),0);mask=cv2.resize(mask,(DW,H),interpolation=cv2.INTER_NEAREST);mask=cv2.erode(mask,np.ones((7,7),np.uint8))
+        H,DW=raw.shape;camera=cameras[im['camera_id']];fx,fy,cx,cy=camera['params'];mask=cv2.imread(str((a.dataset/'masks'/im['name']).with_suffix('.png')),0);mask=cv2.resize(mask,(DW,H),interpolation=cv2.INTER_NEAREST);mask[(raw==0)|(raw==65535)]=0;mask=cv2.erode(mask,np.ones((7,7),np.uint8))
         idx=[j for j,pid in enumerate(im['point3D_ids']) if int(pid) in points and len(train_times[int(pid)])>=3 and points[int(pid)]['error']<=1.5]
         if len(idx)<40:raise ValueError('Fewer than 40 qualified multi-timestamp anchors')
         ids=im['point3D_ids'][idx];observed=im['points2D_xy'][idx];xyz=np.array([points[int(pid)]['xyz'] for pid in ids]);R=qvec_to_rotmat(im['qvec']);xc=xyz@R.T+im['tvec'];ranges=np.linalg.norm(xc,axis=1);uv=xc[:,:2]/xc[:,2,None]*[fx,fy]+[cx,cy]
         # Keypoints are COLMAP-continuous; sample_map converts them to cv2 pixel indices.
+        # Empty/saturated levels (seed_fisheye.load_depth validity) leave the eroded mask, so no bilinear sample touches them.
         xy=observed*[DW/camera['width'],H/camera['height']]
         depth=sample_map(raw.astype(np.float32),xy);valid=sample_map(mask,xy,nearest=True)>127
         valid&=(xc[:,2]>.02)&(np.linalg.norm(uv-observed,axis=1)<=2.5)&(depth>0)&np.isfinite(ranges)

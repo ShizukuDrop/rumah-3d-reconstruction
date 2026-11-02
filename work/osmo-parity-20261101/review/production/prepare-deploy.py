@@ -7,7 +7,7 @@ HERE=Path(__file__).resolve().parent
 IPHONES={
  'phone':('models/iphone-phone-2b811d1241.glb',21144604,'2b811d124120e70dcecc25d06e5dc397e2a28f310403a21fdfa1e290c41c9d2b'),
  'native':('models/iphone-full-room-16f8963b.glb',435614584,'16f8963b043a766317497ee4281f4cf39c6b2190fafaaed51334734723c8b207')}
-ALLOWED=re.compile(r'(?:index\.html|robots\.txt|room-[0-9a-f]{10}\.json|room-viewer-[A-Z0-9]{8}\.js|chunks/[A-Za-z0-9_.-]+-[A-Z0-9]{8}\.js|models/osmo-native-[0-9a-f]{10}\.(?:spz|sog)|sources/osmo-[0-9a-f]{10}\.jpg)')
+ALLOWED=re.compile(r'(?:index\.html|robots\.txt|room-[0-9a-f]{10}\.json|room-viewer-[A-Z0-9]{8}\.js|chunks/[A-Za-z0-9_.-]+-[A-Z0-9]{8}\.js|models/osmo-native-[0-9a-f]{10}\.(?:spz|sog)|sources/osmo-[0-9a-f]{10}\.jpg|models/osmo-shapes-[0-9a-f]{10}\.json)')
 
 def sha(path):
     with Path(path).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
@@ -58,6 +58,7 @@ def collect(here=HERE):
     if build['manifestName'] not in (public/build['bundleName']).read_text(encoding='utf-8'):raise ValueError('Bundle points at another manifest')
     if 'deploymentAuthorized' not in build:raise ValueError('Unreviewed build report')
     names={'index.html','robots.txt',build['manifestName'],build['bundleName'],asset['url']}
+    if asset.get('simple'):names.add(asset['simple']['url'])  # optional simple-shape file behind the viewer toggle
     # Derive chunk closure from esbuild's outputs, never from an unconstrained folder walk.
     for filename in build['metafile']['outputs']:
         path=Path(filename)
@@ -71,6 +72,7 @@ def collect(here=HERE):
     rows=[local_row(public,name) for name in sorted(names)];by_name={r['path']:r for r in rows}
     if by_name[asset['url']]['sha256']!=candidate['sha256'] or by_name[asset['url']]['bytes']!=asset['fileBytes']:raise ValueError('Native candidate changed after build')
     if candidate['sha256'][:10] not in asset['url']:raise ValueError('Native model filename is not content-addressed')
+    if asset.get('simple') and (by_name[asset['simple']['url']]['bytes']!=asset['simple']['fileBytes'] or by_name[asset['simple']['url']]['sha256'][:10] not in asset['simple']['url']):raise ValueError('Simple shapes changed after build')
     if by_name[build['manifestName']]['sha256'][:10] not in build['manifestName']:raise ValueError('Manifest filename is not content-addressed')
     with (public/asset['url']).open('rb') as f:header=f.read(12)
     if asset['format']=='sog' and header[:4]!=b'PK\x03\x04':raise ValueError('Not a SOG ZIP')

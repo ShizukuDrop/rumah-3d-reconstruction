@@ -1,0 +1,175 @@
+{
+  "passed": true,
+  "date": "2026-11-02",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "checks": [
+    {
+      "command": [
+        "node",
+        "--test",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/production/loader-core.test.mjs",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/production/choice-gate.test.mjs",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/production/model-selection.test.mjs",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/production/native-delivery.test.mjs",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/production/loader-core.test.mjs",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/production/choice-gate.test.mjs",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/production/model-selection.test.mjs",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/production/native-delivery.test.mjs",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/production/cutaway.test.mjs"
+      ],
+      "passed": true,
+      "stdoutTail": "mat-aware download validation never treats HTML or arbitrary bytes as a valid native file\nok 49 - format-aware download validation never treats HTML or arbitrary bytes as a valid native file\n  ---\n  duration_ms: 12.885917\n  type: 'test'\n  ...\n# Subtest: download formats map to the installed Spark SDK decoder names\nok 50 - download formats map to the installed Spark SDK decoder names\n  ---\n  duration_ms: 3.2415\n  type: 'test'\n  ...\n# Subtest: native ready waits for a sorted, nonempty draw instead of decoded data alone\nok 51 - native ready waits for a sorted, nonempty draw instead of decoded data alone\n  ---\n  duration_ms: 34.975292\n  type: 'test'\n  ...\n# Subtest: a stuck first sort fails visibly and never draws after the deadline\nok 52 - a stuck first sort fails visibly and never draws after the deadline\n  ---\n  duration_ms: 34.570042\n  type: 'test'\n  ...\n# Subtest: an empty scene cannot report ready\nok 53 - an empty scene cannot report ready\n  ---\n  duration_ms: 27.408417\n  type: 'test'\n  ...\n# Subtest: cancelled native preparation cannot draw or report ready\nok 54 - cancelled native preparation cannot draw or report ready\n  ---\n  duration_ms: 22.271917\n  type: 'test'\n  ...\n1..54\n# tests 54\n# suites 0\n# pass 54\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 180.982791\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-geometry/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-reconstruct-20261031/test_seed_fisheye.py"
+      ],
+      "passed": true,
+      "stdoutTail": "",
+      "stderrTail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.140s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-geometry/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/geometry/test_operator_pinhole.py"
+      ],
+      "passed": true,
+      "stdoutTail": "{'passed': True, 'gpu_used': False, 'capture_files_read': False, 'views': [{'phi': 0.0, 'round_trip_iou': 1.0, 'native_coverage_fraction': 0.1837836371527778, 'native_excluded_fraction': 0.028923882378472224}, {'phi': 90.0, 'round_trip_iou': 1.0, 'native_coverage_fraction': 0.1837836371527778, 'native_excluded_fraction': 0.028923882378472224}, {'phi': 180.0, 'round_trip_iou': 1.0, 'native_coverage_fraction': 0.1837836371527778, 'native_excluded_fraction': 0.028923882378472224}, {'phi': 270.0, 'round_trip_iou': 1.0, 'native_coverage_fraction': 0.1837836371527778, 'native_excluded_fraction': 0.028923882378472224}], 'semantics_verified': ['four native rim orientations', 'proper rotation, no reflection', 'inverse exclusion stays inside validity coverage', 'keep/exclude polarity equivalence', 'an all-keep view excludes no native pixels', 'binary mask round trip IoU above0.90']}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-geometry/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/geometry/test_preparation_synthetic.py"
+      ],
+      "passed": true,
+      "stdoutTail": "{\n  \"selected_component\": \"/private/var/folders/sz/npmscf6d631cp3y37w2z292r0000gn/T/synthetic-preparation-069np_9k/sfm/sparse/0\",\n  \"registered_images\": 8,\n  \"registered_complete_pairs\": 4,\n  \"p95_reprojection_native_px\": 0.0,\n  \"seed_points\": 2,\n  \"train_pose_count\": 6,\n  \"eval_pose_count\": 2,\n  \"ray_identity_max_error\": 5.551115123125783e-17,\n  \"metric_scale_known\": false,\n  \"applied\": true,\n  \"report\": \"/private/var/folders/sz/npmscf6d631cp3y37w2z292r0000gn/T/synthetic-preparation-069np_9k/report.json\"\n}\n{\n  \"passed\": 9,\n  \"checks\": [\n    \"two lenses at one timestamp are not two independent training observations\",\n    \"eval-only and masked train points are excluded\",\n    \"train point tracks and eval image links remain mutually consistent after text round-trip\",\n    \"seed colors come only from train RGB, not old points3D colors or eval RGB\",\n    \"one Y-up similarity preserves projection rays\",\n    \"repeat-room audit counts cross-visit tracks separately from one-instant lens duplicates\",\n    \"registration gates count complete synchronized pairs\",\n    \"fisheye projection round-trips a 100-degree behind-hemisphere ray\",\n    \"existing seed and prepared model cannot be overwritten\"\n  ],\n  \"capture_files_read\": false,\n  \"gpu_used\": false\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-geometry/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/geometry/test_negative_rays.py"
+      ],
+      "passed": true,
+      "stdoutTail": "{\n  \"passed\": 6,\n  \"checks\": [\n    \"actual CPU triangle intersection flags two distinct-timestamp, distinct-point early contradictions\",\n    \"two lens views at the same timestamp cannot satisfy temporal independence\",\n    \"repeated evidence from a single sparse point cannot reject a face\",\n    \"camera rotation without translated baseline cannot satisfy the witness gate\",\n    \"observed surface support vetoes deleting the whole triangle\",\n    \"no-hit and unknown evidence never rejects a face\"\n  ],\n  \"gpu_used\": false,\n  \"capture_files_read\": false,\n  \"mesh_edited\": false\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-audit/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/tools/test_restore_assets.py"
+      ],
+      "passed": true,
+      "stdoutTail": "",
+      "stderrTail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.025s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-audit/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/tools/restore_assets.py",
+        "--check"
+      ],
+      "passed": true,
+      "stdoutTail": "Transfer encoding size differs across zlib versions; native model hash remains exact: iphone-phone-2b811d1241.glb.gz\n{\"verifiedAssetIds\": [\"A001\", \"A003\", \"A006\", \"A013\", \"A018\", \"A034\"], \"referenceFiles\": 37, \"externalWrites\": 0, \"networkRequests\": 0}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "node",
+        "build.mjs"
+      ],
+      "passed": true,
+      "stdoutTail": "false,\n  \"deploymentAuthorized\": false,\n  \"sourceCandidate\": \"/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/clean-final.sog\",\n  \"candidateSha256\": \"cbb33c91b5b481460b2c75e2125f3efa1458e6634abc3da1ce051a0989fd315c\",\n  \"manifestName\": \"room-173dad2959.json\",\n  \"bundleName\": \"room-viewer-WNFPTVAA.js\",\n  \"osmo\": {\n    \"label\": \"Osmo\",\n    \"representation\": \"gaussian\",\n    \"format\": \"sog\",\n    \"cameraSet\": \"osmo\",\n    \"url\": \"models/osmo-native-cbb33c91b5.sog\",\n    \"fileBytes\": 45177102,\n    \"downloadBytes\": 45177102,\n    \"splats\": 2997908,\n    \"shDegree\": 2,\n    \"note\": \"Osmo \u00b7 native Gaussian view \u00b7 approximate scale\",\n    \"provisional\": false\n  },\n  \"iphoneMetadataUnchanged\": true,\n  \"choiceRequired\": true,\n  \"automaticModelRetry\": false,\n  \"prechoiceExternalRequests\": 0,\n  \"lodPolicy\": {\n    \"lodSplatCount\": 750000,\n    \"baseSplats\": 2997908,\n    \"lod\": true,\n    \"nonLod\": false,\n    \"extSplats\": false\n  },\n  \"runtimeMemoryWarning\": \"LOD display budget limits active draws, not transient decoder/build memory. Physical Fold 7/iPhone 17 memory and touch tests remain required. Prebuilt paged RAD or SOG path should be benchmarked before release.\",\n  \"sourceFormat\": \"Actual Gaussian PLY -> SOG; no mesh or photo texture proxy\",\n  \"newTrainingNotUsed\": false\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-audit/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/production/audit-deploy-native.py"
+      ],
+      "passed": true,
+      "stdoutTail": "{\n  \"passed\": 21,\n  \"checks\": [\n    \"valid three-choice gate\",\n    \"reject initial resource <img\",\n    \"reject initial resource <script\",\n    \"reject initial resource <link\",\n    \"reject initial resource <style>body{background:url(photo.jpg)}</style>\",\n    \"reject initial resource <meta\",\n    \"reject duplicate choice\",\n    \"reject unsafe path ../private.json\",\n    \"reject unsafe path /etc/passwd\",\n    \"reject unsafe path models\\\\scene.sog\",\n    \"reject unsafe path models/model;touch\",\n    \"old provisional model blocked\",\n    \"ignored range rejected before model body is read\",\n    \"range failure reads zero model body bytes\",\n    \"archive has only explicit regular public files\",\n    \"iPhone models excluded from upload\",\n    \"all replacement hardlinks detached before extraction\",\n    \"atomic promotion and guarded rollback generated\",\n    \"rendered deployment and rollback scripts pass bash -n\",\n    \"origin verification contains no full model GET\",\n    \"package cannot silently overwrite a prior release package\"\n  ],\n  \"remoteCalls\": 0,\n  \"gpuWork\": false\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-audit/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/production/prepare-deploy.py",
+        "--audit-only"
+      ],
+      "passed": true,
+      "stdoutTail": "{\n  \"auditPassed\": true,\n  \"provisional\": false,\n  \"files\": 16,\n  \"applicationBytes\": 3516801,\n  \"nativeBytes\": 45177102,\n  \"iphoneHashesPreserved\": true,\n  \"remoteCalls\": 0,\n  \"packageCreated\": false\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "node",
+        "build.mjs"
+      ],
+      "passed": true,
+      "stdoutTail": "-20261101/review/final-sharp.sog\",\n  \"candidateSha256\": \"db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1\",\n  \"manifestName\": \"room-dae2390368.json\",\n  \"bundleName\": \"room-viewer-BVIHE4EX.js\",\n  \"osmo\": {\n    \"label\": \"Osmo\",\n    \"representation\": \"gaussian\",\n    \"format\": \"sog\",\n    \"cameraSet\": \"osmo\",\n    \"url\": \"models/osmo-native-db0e94c2fa.sog\",\n    \"fileBytes\": 44904208,\n    \"downloadBytes\": 44904208,\n    \"splats\": 2960980,\n    \"shDegree\": 2,\n    \"note\": \"Osmo \u00b7 native Gaussian view \u00b7 approximate scale\",\n    \"provisional\": false,\n    \"simple\": {\n      \"url\": \"models/osmo-shapes-85a9e6f7bc.json\",\n      \"fileBytes\": 10422,\n      \"shapes\": 84\n    }\n  },\n  \"iphoneMetadataUnchanged\": true,\n  \"choiceRequired\": true,\n  \"automaticModelRetry\": false,\n  \"prechoiceExternalRequests\": 0,\n  \"lodPolicy\": {\n    \"lodSplatCount\": 1500000,\n    \"baseSplats\": 2960980,\n    \"lod\": true,\n    \"nonLod\": false,\n    \"extSplats\": true\n  },\n  \"runtimeMemoryWarning\": \"LOD display budget limits active draws, not transient decoder/build memory. Physical Fold 7/iPhone 17 memory and touch tests remain required. Prebuilt paged RAD or SOG path should be benchmarked before release.\",\n  \"sourceFormat\": \"Actual Gaussian PLY -> SOG; no mesh or photo texture proxy\",\n  \"newTrainingNotUsed\": false\n}\n",
+      "stderrTail": "models/iphone-phone-2b811d1241.glb.gz is 17958518 bytes, not the recorded 17853120 (another zlib build); the chooser still shows the recorded size.\n"
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-audit/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/production/audit-deploy-native.py"
+      ],
+      "passed": true,
+      "stdoutTail": "{\n  \"passed\": 21,\n  \"checks\": [\n    \"valid three-choice gate\",\n    \"reject initial resource <img\",\n    \"reject initial resource <script\",\n    \"reject initial resource <link\",\n    \"reject initial resource <style>body{background:url(photo.jpg)}</style>\",\n    \"reject initial resource <meta\",\n    \"reject duplicate choice\",\n    \"reject unsafe path ../private.json\",\n    \"reject unsafe path /etc/passwd\",\n    \"reject unsafe path models\\\\scene.sog\",\n    \"reject unsafe path models/model;touch\",\n    \"old provisional model blocked\",\n    \"ignored range rejected before model body is read\",\n    \"range failure reads zero model body bytes\",\n    \"archive has only explicit regular public files\",\n    \"iPhone models excluded from upload\",\n    \"all replacement hardlinks detached before extraction\",\n    \"atomic promotion and guarded rollback generated\",\n    \"rendered deployment and rollback scripts pass bash -n\",\n    \"origin verification contains no full model GET\",\n    \"package cannot silently overwrite a prior release package\"\n  ],\n  \"remoteCalls\": 0,\n  \"gpuWork\": false\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "/Users/david/Code/rumah-3d-reconstruction/.venv-audit/bin/python",
+        "-B",
+        "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/production/prepare-deploy.py",
+        "--audit-only"
+      ],
+      "passed": true,
+      "stdoutTail": "{\n  \"auditPassed\": true,\n  \"provisional\": false,\n  \"files\": 18,\n  \"applicationBytes\": 4367274,\n  \"nativeBytes\": 44904208,\n  \"iphoneHashesPreserved\": true,\n  \"remoteCalls\": 0,\n  \"packageCreated\": false\n}\n",
+      "stderrTail": ""
+    }
+  ],
+  "phases": [
+    {
+      "phase": "osmo-clean-20261031",
+      "preview": {
+        "passed": true,
+        "landingBytes": 16114,
+        "modelHeads": 3,
+        "modelRangeBytes": 12,
+        "productionRequests": 0
+      },
+      "fileClosurePassed": true,
+      "reviewDeploymentRefusal": null
+    },
+    {
+      "phase": "osmo-parity-20261101",
+      "preview": {
+        "passed": true,
+        "landingBytes": 16261,
+        "modelHeads": 3,
+        "modelRangeBytes": 12,
+        "productionRequests": 0
+      },
+      "fileClosurePassed": true,
+      "reviewDeploymentRefusal": "Root release review does not approve this exact model/release"
+    }
+  ],
+  "trainingJobsLaunched": 0,
+  "productionRequests": 0,
+  "physicalPhoneValidation": false
+}

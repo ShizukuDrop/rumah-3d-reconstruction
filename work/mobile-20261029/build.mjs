@@ -5,7 +5,7 @@ import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 const here=new URL('./',import.meta.url),pub=new URL('public/',here);
-const runtimeRequire=createRequire('C:/Users/bombe/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp/package.json');
+const runtimeRequire=createRequire(import.meta.url);
 const sharp=runtimeRequire('sharp'),hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 await mkdir(new URL('models/',pub),{recursive:true});await mkdir(new URL('sources/',pub),{recursive:true});
 const phone=JSON.parse(await readFile(new URL('phone-asset-report.json',here),'utf8'));

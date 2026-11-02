@@ -15,7 +15,6 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 FORMAT = HERE.parents[1] / 'osmo-format-20261031'
-DEFAULT_IMAGES = Path('C:/Users/bombe/OneDrive/Documents/ChatGPT/Ruang Kamare/roomscan-reconstruction/data/20261031_OSMO360/clean-v3/dataset/images')
 
 
 def sha(path):
@@ -77,10 +76,15 @@ def raw_slot_audit(path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image-dir', type=Path, default=DEFAULT_IMAGES)
+    parser.add_argument('--image-dir', type=Path, required=True, help='Native 3840 dataset/images folder (cam0/, cam1/)')
     args = parser.parse_args()
     cal_path = FORMAT / 'calibration.json'
     fit_path = FORMAT / 'kb4-fit-report.json'
+    raw_path = FORMAT / 'djmd-first.bin'
+    missing = [str(p) for p in (cal_path, fit_path, raw_path) if not p.is_file()] + ([] if args.image_dir.is_dir() else [str(args.image_dir)])
+    if missing:
+        raise FileNotFoundError('Missing inputs, nothing written: ' + ', '.join(missing))
+    raw_sha, raw_slots = sha(raw_path), raw_slot_audit(raw_path)
     cal = json.loads(cal_path.read_text())
     fit = json.loads(fit_path.read_text())
     assert fit['resolution'] == [1920, 1920], 'Unexpected previous calibration resolution'
@@ -113,11 +117,13 @@ def main():
                 'members': [{'prefix': 'cam0', 'rotation': [1, 0, 0, 0], 'translation': [0, 0, 0], 'fixed': True},
                             {'prefix': 'cam1', 'rotation': q10.tolist(), 'translation': [0, 0, 0],
                              'fixed': False, 'refine': 'axial'}]}]}
-    output = HERE / 'sfm-manifest-native3840.json'
-    output.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+    output, validation = HERE / 'sfm-manifest-native3840.json', HERE / 'manifest-validation.json'
+    # Written via .partial files and renamed only after every input was read; write_text keeps the platform newline the hash records.
+    manifest_partial, validation_partial = output.with_name(output.name + '.partial'), validation.with_name(validation.name + '.partial')
+    manifest_partial.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
     report = {'calibration_file': str(cal_path), 'calibration_sha256': sha(cal_path),
               'fit_file': str(fit_path), 'fit_sha256': sha(fit_path),
-              'manifest_sha256': sha(output), 'image_dir': manifest['image_dir'],
+              'manifest_sha256': sha(manifest_partial), 'image_dir': manifest['image_dir'],
               'source_slots_available': sorted(cal['slots'], key=int),
               'far_distance_slots_available': [str(i) for i in range(13, 25) if str(i) in cal['slots']],
               'validated_radial_approximation': validations,
@@ -129,12 +135,12 @@ def main():
               'limitations': ['KB5 radial approximation is validated only to the recorded angle; it omits native tangential p terms.',
                               'This calibration does not prove frame synchronization, image orientation, or recovered geometry; audit fresh SfM separately.',
                               'Keep synchronized source-frame filenames identical between cam0 and cam1.']}
-    raw_path = FORMAT/'djmd-first.bin'
-    report['raw_djmd_first_sample_sha256'] = sha(raw_path)
-    report['raw_calibration_slots'] = raw_slot_audit(raw_path)
+    report['raw_djmd_first_sample_sha256'] = raw_sha
+    report['raw_calibration_slots'] = raw_slots
     report['far_distance_slot_note'] = ('Raw slots13-24 exist as placeholder records, but contain no fx/fy/width/height/extrinsic quaternion. '
                                        'They cannot establish a baseline for this clip. The decoded JSON omits unusable slots.')
-    (HERE / 'manifest-validation.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+    validation_partial.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+    manifest_partial.replace(output); validation_partial.replace(validation)
     print(json.dumps({'manifest': str(output), 'validation': validations,
                       'far_distance_slots_available': report['far_distance_slots_available'],
                       'metric_scale': report['metric_scale']}, indent=2))

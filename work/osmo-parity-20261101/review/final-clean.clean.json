@@ -1,0 +1,20 @@
+{
+  "source": "new-full-50000.ply",
+  "sourceSha256": "a8b127e7d8b4a9b1b9679958ff9fe1a36117258a69ecf8325dc831ebf4761eeb",
+  "output": "final-clean.ply",
+  "sha256": "6f5b767a48fe00b1dfc479bbd6d6dd21d5423711949c5f371c0da18990a7e4a9",
+  "splatsBefore": 2960980,
+  "splatsAfter": 2563805,
+  "removedByRule": {
+    "invisible": 385338,
+    "needle": 5984,
+    "outside": 6227
+  },
+  "removedTotal": 397175,
+  "thresholds": {
+    "minAlpha": 0.02,
+    "needleRatio": 10.0,
+    "needleMin": 0.03,
+    "outsideFootprint": 0.4
+  }
+}

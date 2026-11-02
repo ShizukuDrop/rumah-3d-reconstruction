@@ -2,8 +2,8 @@
 
 The convex hull in occupied_bounds.py covers corridor and bathroom recesses that are
 not room, so concave walls were never cut and exterior splats stayed visible. The
-interior is where the trained model shows floor or ceiling: flat, opaque splats on
-the fitted planes. A signed distance grid (positive outside) lets the viewer hide
+interior is where the trained model shows floor or ceiling (flat, opaque splats on
+the fitted planes) and the capture path reaches without crossing a wall. A signed distance grid (positive outside) lets the viewer hide
 exterior splats and camera-facing walls with one texture lookup per splat.
 
 Usage: python -B occupied_footprint.py MODEL.ply review/occupied-cameras.json [more camera JSON...]
@@ -22,9 +22,14 @@ MIN_AREA=.5       # square units; drops isolated reflections on the planes
 PAD=1.0           # SDF margin past the occupied bounds; floor evidence runs ~0.4 beyond them
 CLAMP=127         # int8 storage in hundredths of a unit
 LOWER_MIN_AREA=1.5 # square units; a dropped ceiling, not a wardrobe top
-# Camera-facing wall layer the overview hides. Wall faces peak ~0.12 inside the edge with a
-# deep tail; 0.40 cleared near walls visibly better than 0.22 in the 2026-11-02 A/B.
-WALL_BAND=.40
+# Share of the 0.3-2.0 height bins (pooled 3x3) opaque vertical splats fill on a wall. A metre-high
+# shelf against a wall fills about 0.4: it must stay furniture in front of the wall, not become it.
+WALL_EVIDENCE=.55
+# Wall faces sit 0.05-0.20 outside the wall-trimmed edge (61% of opaque vertical splats within 0.5
+# of it; furniture fronts stay inside). The overview hides
+# the camera-facing layer from WALL_BAND inside the edge and everything past EXTERIOR_MARGIN.
+WALL_BAND=.25
+EXTERIOR_MARGIN=.22
 
 def normals(d):
     # Smallest-scale axis of each Gaussian; flat floor/ceiling splats point it vertically.
@@ -35,6 +40,17 @@ def normals(d):
              np.stack([2*(x*y-w*z),1-2*(x*x+z*z),2*(y*z+w*x)],1),
              np.stack([2*(x*z+w*y),2*(y*z-w*x),1-2*(x*x+y*y)],1)]
     return np.choose(axis[:,None],columns)
+
+def wall_evidence(cover,cap=None):
+    # cover: (W,H,17) bool, opaque vertical splats per 0.1 height bin from 0.3 to 2.0. A wall's splats
+    # spread over 2-3 cells of thickness, so pool each bin over 3x3. A wall fills most bins and reaches
+    # above 1.6; a 1.4 high bedding stack against it fills 0.65 of them but not the top. cap (W,H) is
+    # the height above the floor up to which splats were counted: under a low ceiling the top bins
+    # can never fill, so only bins below it take part.
+    pooled=ndimage.maximum_filter(cover,size=(3,3,1))
+    valid=np.ones(cover.shape,bool) if cap is None else .3+.1*np.arange(1,cover.shape[2]+1)<=cap[...,None]+1e-9
+    share=lambda b:(pooled[...,b:]&valid[...,b:]).sum(2)/np.maximum(valid[...,b:].sum(2),1)
+    return (share(0)>=WALL_EVIDENCE)&((share(13)>=.5)|(valid[...,13:].sum(2)==0))
 
 def plane_fit(points):
     # Same robust horizontal fit as occupied_bounds.py uses for floor and upper ceiling.
@@ -70,14 +86,28 @@ def footprint(model,shell):
         if region.any():planes['lowerCeiling'],seen['lowerCeiling']=level,region
     grid=regions(ndimage.binary_fill_holes(close(np.logical_or.reduce(list(seen.values())))),MIN_AREA)
     if not grid.any():raise ValueError('No floor/ceiling evidence for a room footprint')
+    # Floor evidence runs 0.1-0.5 past the walls (doorways, reflections, blur), which left a fuzzy
+    # belt of wall-top shards inside the cut. Keep only floor reachable from the capture path
+    # without crossing wall evidence, grown back to the wall's inner face.
+    floor=planes['floor'];h=xyz[:,1]-(floor[0]*xyz[:,0]+floor[1]*xyz[:,2]+floor[2])
+    wall=(alpha>.4)&(np.abs(n[:,1])<.3)&(h>.3)&(h<2.)&inside
+    cover=np.zeros((W,H,17),bool);cover[i[wall],k[wall],((h[wall]-.3)/.1).astype(int)]=True
+    evidence=wall_evidence(cover);square=np.ones((3,3),bool)
+    lab,_=ndimage.label(grid&~ndimage.binary_dilation(evidence,square,2));cams=np.asarray(shell['interiorCameras'],float).reshape(-1,3)
+    # A capture position within the wall margin counts for the floor next to it (up to 0.25 away).
+    gap,(ni,nk)=ndimage.distance_transform_edt(lab==0,return_indices=True)
+    ci,ck=np.clip(((cams[:,0]-lo[0])/CELL).astype(int),0,W-1),np.clip(((cams[:,2]-lo[2])/CELL).astype(int),0,H-1)
+    near=gap[ci,ck]*CELL<=.25;reached=np.setdiff1d(lab[ni[ci,ck][near],nk[ci,ck][near]],[0])
+    if not reached.size:raise ValueError('No capture position stands on wall-trimmed floor')
+    grid=ndimage.binary_dilation(np.isin(lab,reached),square,3)&grid
     sdf=(ndimage.distance_transform_edt(~grid)-ndimage.distance_transform_edt(grid))*CELL
     cm=np.clip(np.round(sdf*100),-CLAMP,CLAMP).astype(np.int8)
     result={'origin':[float(lo[0]),float(lo[2])],'cellSize':CELL,'size':[W,H],
         # Row-major by X then Z: value index = i*H + k. Hundredths of a unit, positive outside.
-        'sdfCm':base64.b64encode(cm.tobytes()).decode(),'exteriorMargin':.10,'wallBand':WALL_BAND,
-        'method':'union of opaque flat floor/ceiling splats on fitted planes (plus a dropped ceiling); closed, hole-filled, components >= 0.5; signed EDT',
+        'sdfCm':base64.b64encode(cm.tobytes()).decode(),'exteriorMargin':EXTERIOR_MARGIN,'wallBand':WALL_BAND,
+        'method':'union of opaque flat floor/ceiling splats on fitted planes (plus a dropped ceiling); closed, hole-filled, components >= 0.5; trimmed to floor reachable from capture positions without crossing wall evidence; signed EDT',
         'source':{'file':Path(model).name,'sha256':hashlib.file_digest(open(model,'rb'),'sha256').hexdigest()},
-        'evidence':{name:int(v.sum()) for name,v in seen.items()},'interiorAreaSceneUnits2':float(grid.sum()*CELL*CELL)}
+        'evidence':{**{name:int(v.sum()) for name,v in seen.items()},'wallCells':int(evidence.sum())},'interiorAreaSceneUnits2':float(grid.sum()*CELL*CELL)}
     if 'lowerCeiling' in planes:
         # Per cell, the nearer of the two ceilings caps the room; 1 selects the dropped one.
         lower=ndimage.distance_transform_edt(~seen['lowerCeiling'])<ndimage.distance_transform_edt(~upper)

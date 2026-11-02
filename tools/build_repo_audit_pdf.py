@@ -19,8 +19,9 @@ from PIL import Image
 import repo_audit as a
 
 ROOT=a.ROOT;D=a.AUDIT;OUTPUT=ROOT/'output/pdf/Rumah_Repository_Map_and_Cleanup_Audit_2026-11-01.pdf'
-for name,file in [('Arial','arial.ttf'),('Arial-Bold','arialbd.ttf'),('Arial-Italic','ariali.ttf'),('Consolas','consola.ttf')]:pdfmetrics.registerFont(TTFont(name,'C:/Windows/Fonts/'+file))
-pdfmetrics.registerFontFamily('Arial',normal='Arial',bold='Arial-Bold',italic='Arial-Italic',boldItalic='Arial-Bold')
+# ponytail: off Windows the same names alias reportlab's built-in Type 1 fonts (WinAnsi only; metrics differ slightly).
+for name,file,builtin in [('Arial','arial.ttf','Helvetica'),('Arial-Bold','arialbd.ttf','Helvetica-Bold'),('Arial-Italic','ariali.ttf','Helvetica-Oblique'),('Consolas','consola.ttf','Courier')]:pdfmetrics.registerFont(TTFont(name,'C:/Windows/Fonts/'+file) if Path('C:/Windows/Fonts/'+file).is_file() else pdfmetrics.Font(name,builtin,'WinAnsiEncoding'))
+pdfmetrics.registerFontFamily('Arial',normal='Arial',bold='Arial-Bold',italic='Arial-Italic',boldItalic='Arial-Bold');pdfmetrics.registerFontFamily('Consolas')
 INK=colors.HexColor('#19313e');MUTED=colors.HexColor('#58707e');TEAL=colors.HexColor('#117c80');PALE=colors.HexColor('#edf3f5');LINE=colors.HexColor('#d1dde2')
 PW,PH=841.89,595.28;M=34;W=PW-2*M
 S=ParagraphStyle('body',fontName='Arial',fontSize=10.2,leading=14,textColor=INK)

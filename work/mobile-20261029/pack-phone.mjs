@@ -6,12 +6,13 @@ import {createRequire} from 'node:module';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
-const runtimeRequire=createRequire('C:/Users/bombe/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp/package.json');
+import {fileURLToPath} from 'node:url';
+const runtimeRequire=createRequire(import.meta.url);
 const sharp=runtimeRequire('sharp');
 await Promise.all([MeshoptEncoder.ready,MeshoptDecoder.ready]);
 const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.encoder':MeshoptEncoder,'meshopt.decoder':MeshoptDecoder});
 const input=new URL('phone-simplified.glb',import.meta.url);
-const doc=await io.read(input.pathname.slice(1));
+const doc=await io.read(fileURLToPath(input));
 const before=doc.getRoot().listMeshes().map(m=>({name:m.getName(),triangles:m.listPrimitives().reduce((s,p)=>s+p.getIndices().getCount()/3,0)}));
 await doc.transform(
   textureCompress({encoder:sharp,targetFormat:'jpeg',resize:[2048,2048],quality:86,chromaSubsampling:'4:4:4'}),

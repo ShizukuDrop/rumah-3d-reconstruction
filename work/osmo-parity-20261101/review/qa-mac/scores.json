@@ -1,0 +1,781 @@
+{
+  "rows": [
+    {
+      "model": "new-full-50000",
+      "modelSha256": "a8b127e7d8b4a9b1b9679958ff9fe1a36117258a69ecf8325dc831ebf4761eeb",
+      "view": "fridge",
+      "validFraction": 1.0,
+      "psnrDb": 22.18853036315478,
+      "rmse255": 19.82045693107333,
+      "cropPSNR": 22.75873294435781,
+      "cropRMSE255": 18.56109242075616,
+      "cropSSIM": 0.7761497923854284,
+      "alignedCropPSNR": 22.88243506589791,
+      "alignedCropSSIM": 0.7749577516791312,
+      "gradientRatio": 0.7158535185774199,
+      "ecc": {
+        "phaseShiftPx": [
+          0.17640191571581454,
+          -0.24195379071267098
+        ],
+        "motion": "affine",
+        "correlation": 0.9725070792739603,
+        "warp": [
+          [
+            1.001823902130127,
+            0.0029104072600603104,
+            -1.0760858058929443
+          ],
+          [
+            -0.0014250593958422542,
+            1.00413179397583,
+            -1.0604523420333862
+          ]
+        ],
+        "shiftPx": [
+          0.3442070111632347,
+          -0.24843196803703904
+        ]
+      },
+      "cropBox": [
+        950,
+        480,
+        1550,
+        1080
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "final-sharp",
+      "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+      "view": "fridge",
+      "validFraction": 1.0,
+      "psnrDb": 22.18838378902082,
+      "rmse255": 19.820791403527256,
+      "cropPSNR": 22.743470992652327,
+      "cropRMSE255": 18.59373473233111,
+      "cropSSIM": 0.7756997315675928,
+      "alignedCropPSNR": 22.85440972911866,
+      "alignedCropSSIM": 0.774077897850459,
+      "gradientRatio": 0.7197665649070227,
+      "ecc": {
+        "phaseShiftPx": [
+          0.19241074776783762,
+          -0.19039468825218364
+        ],
+        "motion": "affine",
+        "correlation": 0.9724313857643221,
+        "warp": [
+          [
+            1.0018500089645386,
+            0.002907402813434601,
+            -1.0835729837417603
+          ],
+          [
+            -0.0015117350267246366,
+            1.0041296482086182,
+            -1.0023409128189087
+          ]
+        ],
+        "shiftPx": [
+          0.34365054965019226,
+          -0.21696695825085044
+        ]
+      },
+      "cropBox": [
+        950,
+        480,
+        1550,
+        1080
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "clean-final",
+      "modelSha256": "cbb33c91b5b481460b2c75e2125f3efa1458e6634abc3da1ce051a0989fd315c",
+      "view": "fridge",
+      "validFraction": 1.0,
+      "psnrDb": 22.31522665112385,
+      "rmse255": 19.53344517293542,
+      "cropPSNR": 22.666998603837833,
+      "cropRMSE255": 18.75816061917625,
+      "cropSSIM": 0.769703858734827,
+      "alignedCropPSNR": 22.84675836058403,
+      "alignedCropSSIM": 0.7699346994595375,
+      "gradientRatio": 0.7415559716297173,
+      "ecc": {
+        "phaseShiftPx": [
+          0.3173315623003532,
+          -0.15673092110580455
+        ],
+        "motion": "affine",
+        "correlation": 0.9724351677874232,
+        "warp": [
+          [
+            1.0008302927017212,
+            0.0017570494674146175,
+            -0.1877463459968567
+          ],
+          [
+            -0.0009090892854146659,
+            1.0037939548492432,
+            -0.9532584547996521
+          ]
+        ],
+        "shiftPx": [
+          0.588456304743886,
+          -0.08779878565110266
+        ]
+      },
+      "cropBox": [
+        950,
+        480,
+        1550,
+        1080
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "final-clean",
+      "modelSha256": "0bcc22dfe7385a77d2d02e1bf621ae4ebe841bb87e4a5dd68b69f00ded3c5cb4",
+      "view": "fridge",
+      "validFraction": 1.0,
+      "psnrDb": 22.178015250300582,
+      "rmse255": 19.844466048614905,
+      "cropPSNR": 22.725545998074836,
+      "cropRMSE255": 18.632146081238,
+      "cropSSIM": 0.7754626483084041,
+      "alignedCropPSNR": 22.839240716216572,
+      "alignedCropSSIM": 0.7738796885835524,
+      "gradientRatio": 0.7207742149150563,
+      "ecc": {
+        "phaseShiftPx": [
+          0.1813043264859857,
+          -0.20279262409337662
+        ],
+        "motion": "affine",
+        "correlation": 0.9725535262654476,
+        "warp": [
+          [
+            1.001790165901184,
+            0.0028346464969217777,
+            -1.0600285530090332
+          ],
+          [
+            -0.0014646812342107296,
+            1.0041171312332153,
+            -1.0203814506530762
+          ]
+        ],
+        "shiftPx": [
+          0.3274151664227247,
+          -0.22464645095169544
+        ]
+      },
+      "cropBox": [
+        950,
+        480,
+        1550,
+        1080
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "new-full-50000",
+      "modelSha256": "a8b127e7d8b4a9b1b9679958ff9fe1a36117258a69ecf8325dc831ebf4761eeb",
+      "view": "fan",
+      "validFraction": 1.0,
+      "psnrDb": 25.492232808595542,
+      "rmse255": 13.549664441418889,
+      "cropPSNR": 25.146247633000893,
+      "cropRMSE255": 14.100282010576164,
+      "cropSSIM": 0.7892029892449728,
+      "alignedCropPSNR": 25.2722747526495,
+      "alignedCropSSIM": 0.7907046113977246,
+      "gradientRatio": 0.6986771246235794,
+      "ecc": {
+        "phaseShiftPx": [
+          -0.69723684377891,
+          -0.12365468618725117
+        ],
+        "motion": "affine",
+        "correlation": 0.9891370928134555,
+        "warp": [
+          [
+            1.000609278678894,
+            -0.0012476630508899689,
+            0.3066991865634918
+          ],
+          [
+            0.001015203888528049,
+            1.002261757850647,
+            -0.9701880812644958
+          ]
+        ],
+        "shiftPx": [
+          0.11518387496471405,
+          0.012900440488010645
+        ]
+      },
+      "cropBox": [
+        400,
+        300,
+        1000,
+        900
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "final-sharp",
+      "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+      "view": "fan",
+      "validFraction": 1.0,
+      "psnrDb": 25.419035265514754,
+      "rmse255": 13.664332368257735,
+      "cropPSNR": 25.05043485428411,
+      "cropRMSE255": 14.256681182285496,
+      "cropSSIM": 0.7878059982133204,
+      "alignedCropPSNR": 25.166776329631052,
+      "alignedCropSSIM": 0.7888850947270587,
+      "gradientRatio": 0.6971737976786224,
+      "ecc": {
+        "phaseShiftPx": [
+          -0.16790482414762664,
+          -0.029627212444268025
+        ],
+        "motion": "affine",
+        "correlation": 0.9887965828364026,
+        "warp": [
+          [
+            1.000497579574585,
+            -0.0014070954639464617,
+            0.4114900827407837
+          ],
+          [
+            0.0010173373157158494,
+            1.0023669004440308,
+            -0.9759193062782288
+          ]
+        ],
+        "shiftPx": [
+          0.13863531593233347,
+          0.039352021645754576
+        ]
+      },
+      "cropBox": [
+        400,
+        300,
+        1000,
+        900
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "clean-final",
+      "modelSha256": "cbb33c91b5b481460b2c75e2125f3efa1458e6634abc3da1ce051a0989fd315c",
+      "view": "fan",
+      "validFraction": 1.0,
+      "psnrDb": 25.284151793328633,
+      "rmse255": 13.878182389555096,
+      "cropPSNR": 24.808583783125435,
+      "cropRMSE255": 14.659224342827056,
+      "cropSSIM": 0.7851585538229588,
+      "alignedCropPSNR": 24.84386616860011,
+      "alignedCropSSIM": 0.7860200611101072,
+      "gradientRatio": 0.7086848074223792,
+      "ecc": {
+        "phaseShiftPx": [
+          -0.18617227369514922,
+          0.0008141125671272675
+        ],
+        "motion": "affine",
+        "correlation": 0.9890306054284947,
+        "warp": [
+          [
+            0.9989957213401794,
+            2.814810250129085e-05,
+            0.37289881706237793
+          ],
+          [
+            0.0012945984490215778,
+            1.0025837421417236,
+            -1.0189309120178223
+          ]
+        ],
+        "shiftPx": [
+          0.08005964986659819,
+          0.14457126520574093
+        ]
+      },
+      "cropBox": [
+        400,
+        300,
+        1000,
+        900
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "final-clean",
+      "modelSha256": "0bcc22dfe7385a77d2d02e1bf621ae4ebe841bb87e4a5dd68b69f00ded3c5cb4",
+      "view": "fan",
+      "validFraction": 1.0,
+      "psnrDb": 25.236286511016154,
+      "rmse255": 13.954871922023589,
+      "cropPSNR": 25.029515536683032,
+      "cropRMSE255": 14.29105871722803,
+      "cropSSIM": 0.7874201830936288,
+      "alignedCropPSNR": 25.154422426530118,
+      "alignedCropSSIM": 0.7887864143068505,
+      "gradientRatio": 0.6963337139842639,
+      "ecc": {
+        "phaseShiftPx": [
+          -0.1769598366161631,
+          -0.030124191995071214
+        ],
+        "motion": "affine",
+        "correlation": 0.988768326921051,
+        "warp": [
+          [
+            1.0004931688308716,
+            -0.0014190706424415112,
+            0.3851037919521332
+          ],
+          [
+            0.000953571405261755,
+            1.002333641052246,
+            -0.9420285820960999
+          ]
+        ],
+        "shiftPx": [
+          0.10733324848115444,
+          0.04413515515625477
+        ]
+      },
+      "cropBox": [
+        400,
+        300,
+        1000,
+        900
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "new-full-50000",
+      "modelSha256": "a8b127e7d8b4a9b1b9679958ff9fe1a36117258a69ecf8325dc831ebf4761eeb",
+      "view": "dining",
+      "validFraction": 1.0,
+      "psnrDb": 24.64730122807374,
+      "rmse255": 14.933964651713268,
+      "cropPSNR": 23.674401235435326,
+      "cropRMSE255": 16.703986051239387,
+      "cropSSIM": 0.8714772084803336,
+      "alignedCropPSNR": 27.928550717254584,
+      "alignedCropSSIM": 0.887617659303772,
+      "gradientRatio": 0.8363734112558971,
+      "ecc": {
+        "phaseShiftPx": [
+          -8.757737196141875,
+          7.506696348991625
+        ],
+        "motion": "translation",
+        "correlation": 0.987115886858101,
+        "warp": [
+          [
+            1.0,
+            0.0,
+            -7.669187545776367
+          ],
+          [
+            0.0,
+            1.0,
+            5.457274913787842
+          ]
+        ],
+        "shiftPx": [
+          -7.669187545776367,
+          5.457274913787842
+        ]
+      },
+      "cropBox": [
+        200,
+        400,
+        800,
+        1000
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "final-sharp",
+      "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+      "view": "dining",
+      "validFraction": 1.0,
+      "psnrDb": 24.575287692154042,
+      "rmse255": 15.058294822426108,
+      "cropPSNR": 23.62803782038348,
+      "cropRMSE255": 16.793386732966134,
+      "cropSSIM": 0.8702790270280876,
+      "alignedCropPSNR": 27.90525111053106,
+      "alignedCropSSIM": 0.8873931144863422,
+      "gradientRatio": 0.8367094768472644,
+      "ecc": {
+        "phaseShiftPx": [
+          -8.782243219219765,
+          7.5108416896417225
+        ],
+        "motion": "translation",
+        "correlation": 0.9869940493923649,
+        "warp": [
+          [
+            1.0,
+            0.0,
+            -7.727503776550293
+          ],
+          [
+            0.0,
+            1.0,
+            5.462544918060303
+          ]
+        ],
+        "shiftPx": [
+          -7.727503776550293,
+          5.462544918060303
+        ]
+      },
+      "cropBox": [
+        200,
+        400,
+        800,
+        1000
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "clean-final",
+      "modelSha256": "cbb33c91b5b481460b2c75e2125f3efa1458e6634abc3da1ce051a0989fd315c",
+      "view": "dining",
+      "validFraction": 1.0,
+      "psnrDb": 24.642219493251126,
+      "rmse255": 14.942704418829551,
+      "cropPSNR": 23.552691695448512,
+      "cropRMSE255": 16.939695354512835,
+      "cropSSIM": 0.8674622501661461,
+      "alignedCropPSNR": 27.707695029212246,
+      "alignedCropSSIM": 0.8844997075888639,
+      "gradientRatio": 0.8344438709432072,
+      "ecc": {
+        "phaseShiftPx": [
+          -8.215782231308879,
+          7.2716775396758635
+        ],
+        "motion": "translation",
+        "correlation": 0.9870354012900401,
+        "warp": [
+          [
+            1.0,
+            0.0,
+            -7.868979454040527
+          ],
+          [
+            0.0,
+            1.0,
+            6.001370906829834
+          ]
+        ],
+        "shiftPx": [
+          -7.868979454040527,
+          6.001370906829834
+        ]
+      },
+      "cropBox": [
+        200,
+        400,
+        800,
+        1000
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "final-clean",
+      "modelSha256": "0bcc22dfe7385a77d2d02e1bf621ae4ebe841bb87e4a5dd68b69f00ded3c5cb4",
+      "view": "dining",
+      "validFraction": 1.0,
+      "psnrDb": 24.473850700764213,
+      "rmse255": 15.235181954728104,
+      "cropPSNR": 23.671888863718916,
+      "cropRMSE255": 16.70881833599208,
+      "cropSSIM": 0.8711471061372159,
+      "alignedCropPSNR": 27.828530685498755,
+      "alignedCropSSIM": 0.8875073624088998,
+      "gradientRatio": 0.8322584325383134,
+      "ecc": {
+        "phaseShiftPx": [
+          -8.80737822091379,
+          7.558658726296301
+        ],
+        "motion": "translation",
+        "correlation": 0.986808565358526,
+        "warp": [
+          [
+            1.0,
+            0.0,
+            -7.698214530944824
+          ],
+          [
+            0.0,
+            1.0,
+            5.523808479309082
+          ]
+        ],
+        "shiftPx": [
+          -7.698214530944824,
+          5.523808479309082
+        ]
+      },
+      "cropBox": [
+        200,
+        400,
+        800,
+        1000
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "new-full-50000",
+      "modelSha256": "a8b127e7d8b4a9b1b9679958ff9fe1a36117258a69ecf8325dc831ebf4761eeb",
+      "view": "bathroom",
+      "validFraction": 1.0,
+      "psnrDb": 26.21744842995465,
+      "rmse255": 12.464296141581407,
+      "cropPSNR": 28.25107728879473,
+      "cropRMSE255": 9.862484098470963,
+      "cropSSIM": 0.8977351113921906,
+      "alignedCropPSNR": 28.423328781140054,
+      "alignedCropSSIM": 0.8986618139603402,
+      "gradientRatio": 0.7413415543738007,
+      "ecc": {
+        "phaseShiftPx": [
+          -0.048967450300494875,
+          -0.2562131424304539
+        ],
+        "motion": "affine",
+        "correlation": 0.9953575678078637,
+        "warp": [
+          [
+            0.9972313046455383,
+            0.004430399741977453,
+            0.3183732032775879
+          ],
+          [
+            0.0009433125960640609,
+            1.0026028156280518,
+            -0.996404767036438
+          ]
+        ],
+        "shiftPx": [
+          0.8168845195323229,
+          0.06743370019830763
+        ]
+      },
+      "cropBox": [
+        660,
+        180,
+        1260,
+        780
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "final-sharp",
+      "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+      "view": "bathroom",
+      "validFraction": 1.0,
+      "psnrDb": 26.12958141156627,
+      "rmse255": 12.591025684615127,
+      "cropPSNR": 28.15028985947393,
+      "cropRMSE255": 9.977590770952304,
+      "cropSSIM": 0.8965213945637778,
+      "alignedCropPSNR": 28.36957472006612,
+      "alignedCropSSIM": 0.8977673950193921,
+      "gradientRatio": 0.7406247893594888,
+      "ecc": {
+        "phaseShiftPx": [
+          -0.735217750307072,
+          -0.2426251157569368
+        ],
+        "motion": "affine",
+        "correlation": 0.995376741674811,
+        "warp": [
+          [
+            0.9986026287078857,
+            0.0027975228149443865,
+            0.38585206866264343
+          ],
+          [
+            0.0006123704370111227,
+            1.0029325485229492,
+            -0.9384384155273438
+          ]
+        ],
+        "shiftPx": [
+          0.805897525511682,
+          0.12503727246075869
+        ]
+      },
+      "cropBox": [
+        660,
+        180,
+        1260,
+        780
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "clean-final",
+      "modelSha256": "cbb33c91b5b481460b2c75e2125f3efa1458e6634abc3da1ce051a0989fd315c",
+      "view": "bathroom",
+      "validFraction": 1.0,
+      "psnrDb": 25.795202169103575,
+      "rmse255": 13.085191172056266,
+      "cropPSNR": 27.779589002894326,
+      "cropRMSE255": 10.412637042804535,
+      "cropSSIM": 0.8914577228409817,
+      "alignedCropPSNR": 27.658386677353015,
+      "alignedCropSSIM": 0.8871891577179061,
+      "gradientRatio": 0.7328340987424228,
+      "ecc": {
+        "phaseShiftPx": [
+          -0.8723306872271905,
+          -0.25243797654405853
+        ],
+        "motion": "affine",
+        "correlation": 0.9932887802381621,
+        "warp": [
+          [
+            0.9954639673233032,
+            -0.00083122932119295,
+            1.020450234413147
+          ],
+          [
+            -0.000452132779173553,
+            1.003942847251892,
+            -1.211127758026123
+          ]
+        ],
+        "shiftPx": [
+          -0.5897283649537712,
+          -0.163913416210562
+        ]
+      },
+      "cropBox": [
+        660,
+        180,
+        1260,
+        780
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    },
+    {
+      "model": "final-clean",
+      "modelSha256": "0bcc22dfe7385a77d2d02e1bf621ae4ebe841bb87e4a5dd68b69f00ded3c5cb4",
+      "view": "bathroom",
+      "validFraction": 1.0,
+      "psnrDb": 26.16086041092459,
+      "rmse255": 12.545765334022393,
+      "cropPSNR": 28.180487072385407,
+      "cropRMSE255": 9.942963080229898,
+      "cropSSIM": 0.8967001958952374,
+      "alignedCropPSNR": 28.38483683373368,
+      "alignedCropSSIM": 0.8979578043077562,
+      "gradientRatio": 0.7370149802977113,
+      "ecc": {
+        "phaseShiftPx": [
+          -0.795105723062818,
+          -0.20234806411343698
+        ],
+        "motion": "affine",
+        "correlation": 0.995619794248669,
+        "warp": [
+          [
+            0.9984144568443298,
+            0.0029305482748895884,
+            0.333351731300354
+          ],
+          [
+            0.0007012379937805235,
+            1.0025813579559326,
+            -0.9011073708534241
+          ]
+        ],
+        "shiftPx": [
+          0.7368532670661807,
+          0.08367141406051815
+        ]
+      },
+      "cropBox": [
+        660,
+        180,
+        1260,
+        780
+      ],
+      "mask": "none",
+      "GT": "Native photograph remapped by camera only; NO keep mask (unavailable): full 600x600 crop box, operator/mirror pixels included; cropPSNR/cropSSIM unregistered, aligned* after ECC registration of the render (ecc)"
+    }
+  ],
+  "modelMeans": {
+    "new-full-50000": {
+      "views": 4,
+      "psnrDb": 24.63637820744468,
+      "cropPSNR": 24.95761477539719,
+      "cropSSIM": 0.8336412753757313,
+      "alignedCropPSNR": 26.126647329235514,
+      "alignedCropSSIM": 0.837985459085242,
+      "gradientRatio": 0.7480614022076741
+    },
+    "final-sharp": {
+      "views": 4,
+      "psnrDb": 24.57807203956397,
+      "cropPSNR": 24.893058381698463,
+      "cropSSIM": 0.8325765378431946,
+      "alignedCropPSNR": 26.07400297233672,
+      "alignedCropSSIM": 0.8370308755208129,
+      "gradientRatio": 0.7485686571980996
+    },
+    "clean-final": {
+      "views": 4,
+      "psnrDb": 24.509200026701794,
+      "cropPSNR": 24.701965771326527,
+      "cropSSIM": 0.8284455963912284,
+      "alignedCropPSNR": 25.76417655893735,
+      "alignedCropSSIM": 0.8319109064691037,
+      "gradientRatio": 0.7543796871844316
+    },
+    "final-clean": {
+      "views": 4,
+      "psnrDb": 24.512253218251388,
+      "cropPSNR": 24.90185936771555,
+      "cropSSIM": 0.8326825333586215,
+      "alignedCropPSNR": 26.051757665494783,
+      "alignedCropSSIM": 0.8370328174017647,
+      "gradientRatio": 0.7465953354338363
+    }
+  },
+  "keepMasks": false,
+  "scope": "Four fixed full-viewport 1920x1080 camera views. cropPSNR/cropSSIM are unregistered; alignedCropPSNR/SSIM register the render to the reference inside the 600x600 crop (phase correlation, ECC translation, small affine). gradientRatio = mean |Sobel grad| render / reference inside the crop mask (unregistered): <1 is softer than the photograph, >1 can also mean noise or artifacts. Three are source training timestamps and bathroom is appearance-held-out. Same-capture SfM is not independent geometry truth. Pilot steps and budgets match each other; original full uses a larger budget and more steps.",
+  "physicalPhoneTests": false
+}

@@ -1,10 +1,12 @@
 """CPU geometric/semantic checks for operator segmentation view reprojection."""
+import argparse
+import unittest
 import numpy as np
 import cv2
 import operator_pinhole as op
 
 
-def main():
+def main(record=False):
     camera = {'id': 1, 'model': 'OPENCV_FISHEYE', 'model_id': 5, 'width': 384, 'height': 384,
               'params': np.array([104.8, 104.8, 191.5, 191.5, .0458, .022, -.0146, .0014])}
     checks = []
@@ -29,9 +31,16 @@ def main():
               'semantics_verified': ['four native rim orientations', 'proper rotation, no reflection',
                                      'inverse exclusion stays inside validity coverage', 'keep/exclude polarity equivalence',
                                      'an all-keep view excludes no native pixels', 'binary mask round trip IoU above0.90']}
-    op.save(op.HERE/'operator-pinhole-synthetic-tests.json', result)
+    if record:
+        op.save(op.HERE/'operator-pinhole-synthetic-tests.json', result)
     print(result)
 
 
+class OperatorPinhole(unittest.TestCase):
+    def test_operator_pinhole(self):
+        main()
+
+
 if __name__ == '__main__':
-    main()
+    p = argparse.ArgumentParser(description=__doc__); p.add_argument('--record', action='store_true', help='Rewrite the committed evidence JSON')
+    main(p.parse_args().record)

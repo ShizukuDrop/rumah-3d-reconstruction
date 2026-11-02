@@ -1,5 +1,5 @@
 """Scoped OpenSSH/SFTP helper. Never kills another task's connections."""
-import argparse,sys,subprocess
+import argparse,sys,subprocess,posixpath
 from pathlib import Path
 import json, os
 
@@ -22,13 +22,14 @@ def run(command,data=None,limit=45):
     sys.stdout.buffer.write(result.stdout);sys.stderr.buffer.write(result.stderr);return result.returncode
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--script');p.add_argument('--command');p.add_argument('--put',nargs=2);p.add_argument('--limit',type=int,default=45);a=p.parse_args()
+    p=argparse.ArgumentParser();g=p.add_mutually_exclusive_group(required=True);g.add_argument('--script');g.add_argument('--command');g.add_argument('--put',nargs=2);p.add_argument('--limit',type=int,default=45);a=p.parse_args()
     if a.put:
-        local,remote=a.put
-        if not remote.startswith('/var/lib/vz/rumah-deploy/'):raise ValueError('Task uploads must stay in the task staging directory')
-        local=str(Path(local).resolve()).replace('\\','/')
+        local,remote=a.put;local=Path(local).resolve().as_posix()
+        if not remote.startswith('/var/lib/vz/rumah-deploy/') or posixpath.normpath(remote)!=remote or '..' in remote.split('/'):raise ValueError('Task uploads must stay in the task staging directory')
+        if any(c in s for s in (local,remote) for c in '"\'\\\r\n'):raise ValueError('Upload paths must not contain quotes, backslashes or newlines (sftp batch text)')
+        HOST,OPTIONS=_access_settings()
         batch=Path(__file__).parent/'upload.sftp';batch.write_text(f'put -a "{local}" "{remote}"\n',encoding='utf-8')
         r=subprocess.run(['sftp','-q',*OPTIONS,'-b',str(batch),HOST],capture_output=True,timeout=a.limit)
         sys.stdout.buffer.write(r.stdout);sys.stderr.buffer.write(r.stderr);raise SystemExit(r.returncode)
     data=Path(a.script).read_bytes().replace(b'\r\n',b'\n') if a.script else None
-    raise SystemExit(run('timeout -s TERM 35 bash -s' if a.script else a.command,data,a.limit))
+    raise SystemExit(run(f'timeout -s TERM {max(1,a.limit-5)} bash -s' if a.script else a.command,data,a.limit))

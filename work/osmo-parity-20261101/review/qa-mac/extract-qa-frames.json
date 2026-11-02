@@ -1,0 +1,176 @@
+{
+  "source": {
+    "assetId": "A056",
+    "file": "CAM_20261031005909_0004_D.OSV",
+    "bytes": 1162988987,
+    "sha256": "c88ff8b64ed453e6bb4da61bafaad51bbe1b477c97d7efc66360f053d52aeaa0"
+  },
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "lenses": {
+    "cam0": {
+      "stream": 0,
+      "trackId": "0x1",
+      "factorySlot": "1",
+      "principalPointMatchesColmap": true
+    },
+    "cam1": {
+      "stream": 1,
+      "trackId": "0x2",
+      "factorySlot": "2",
+      "principalPointMatchesColmap": true
+    }
+  },
+  "decode": "[0:v:lens]select=eq(n,N),format=yuvj420p, then full-range BT.601 to RGB (what cv2 does to the q1 training JPEGs; 44.4 dB vs that JPEG path on frame 27) -> PNG",
+  "frames": [
+    {
+      "label": "fridge",
+      "source": "cam0/frame_000027_train.jpg",
+      "lens": 0,
+      "stream": 0,
+      "sourceFrame": 27,
+      "pts": 27027,
+      "ptsTime": 0.9009,
+      "selectionTimeSeconds": 0.9009,
+      "file": "qa-mac/frames/cam0/frame_000027_train.png",
+      "sharpnessByOffset": {
+        "-3": {
+          "measured": 391.9644775390625,
+          "recorded": 392.1176452636719
+        },
+        "0": {
+          "measured": 387.6372375488281,
+          "recorded": 388.76153564453125
+        },
+        "3": {
+          "measured": 385.6748352050781,
+          "recorded": 385.42974853515625
+        }
+      },
+      "closestRecordedOffset": {
+        "-3": -3,
+        "0": 0,
+        "3": 3
+      },
+      "uprightCropPsnrByOffset": {
+        "-1": 22.09215035958978,
+        "0": 43.44103628452385,
+        "1": 22.945802366241598
+      },
+      "uprightCrop": "work/osmo-clean-20261031/review/clean-cameras-photos/fresh-01-cam0-frame_000027_train.jpg",
+      "identityConfirmed": true
+    },
+    {
+      "label": "fan",
+      "source": "cam0/frame_001800_train.jpg",
+      "lens": 0,
+      "stream": 0,
+      "sourceFrame": 1800,
+      "pts": 1801800,
+      "ptsTime": 60.06,
+      "selectionTimeSeconds": 60.06,
+      "file": "qa-mac/frames/cam0/frame_001800_train.png",
+      "sharpnessByOffset": {
+        "-3": {
+          "measured": 631.2828369140625,
+          "recorded": 632.6417846679688
+        },
+        "0": {
+          "measured": 693.5699462890625,
+          "recorded": 692.1776123046875
+        },
+        "3": {
+          "measured": 866.3106689453125,
+          "recorded": 866.3435668945312
+        }
+      },
+      "closestRecordedOffset": {
+        "-3": -3,
+        "0": 0,
+        "3": 3
+      },
+      "uprightCropPsnrByOffset": {
+        "-1": 20.295043002292253,
+        "0": 44.31420037408756,
+        "1": 19.777217926943244
+      },
+      "uprightCrop": "work/osmo-clean-20261031/review/clean-cameras-photos/fresh-07-cam0-frame_001800_train.jpg",
+      "identityConfirmed": true
+    },
+    {
+      "label": "dining",
+      "source": "cam0/frame_001197_train.jpg",
+      "lens": 0,
+      "stream": 0,
+      "sourceFrame": 1197,
+      "pts": 1198197,
+      "ptsTime": 39.9399,
+      "selectionTimeSeconds": 39.9399,
+      "file": "qa-mac/frames/cam0/frame_001197_train.png",
+      "sharpnessByOffset": {
+        "-3": {
+          "measured": 186.62461853027344,
+          "recorded": 186.88189697265625
+        },
+        "0": {
+          "measured": 202.78890991210938,
+          "recorded": 202.6164093017578
+        },
+        "3": {
+          "measured": 181.85389709472656,
+          "recorded": 182.4917755126953
+        }
+      },
+      "closestRecordedOffset": {
+        "-3": -3,
+        "0": 0,
+        "3": 3
+      },
+      "uprightCropPsnrByOffset": {
+        "-1": 19.608551256951092,
+        "0": 43.23737639850694,
+        "1": 18.791678555376006
+      },
+      "uprightCrop": "work/osmo-clean-20261031/review/clean-cameras-photos/fresh-05-cam0-frame_001197_train.jpg",
+      "identityConfirmed": true
+    },
+    {
+      "label": "bathroom",
+      "source": "cam0/frame_001557_eval.jpg",
+      "lens": 0,
+      "stream": 0,
+      "sourceFrame": 1557,
+      "pts": 1558557,
+      "ptsTime": 51.9519,
+      "selectionTimeSeconds": 51.9519,
+      "file": "qa-mac/frames/cam0/frame_001557_eval.png",
+      "sharpnessByOffset": {
+        "-3": {
+          "measured": 238.59744262695312,
+          "recorded": 240.04896545410156
+        },
+        "0": {
+          "measured": 334.68310546875,
+          "recorded": 333.4796447753906
+        },
+        "3": {
+          "measured": 215.76382446289062,
+          "recorded": 214.11758422851562
+        }
+      },
+      "closestRecordedOffset": {
+        "-3": -3,
+        "0": 0,
+        "3": 3
+      },
+      "uprightCropPsnrByOffset": {
+        "-1": 21.8857665684625,
+        "0": 44.13330942050603,
+        "1": 22.313893577059652
+      },
+      "uprightCrop": "work/osmo-clean-20261031/review/clean-cameras-photos/fresh-06-cam0-frame_001557_eval.jpg",
+      "identityConfirmed": true
+    }
+  ],
+  "masks": "Operator/mirror keep masks are not in this checkout or the OSV; references are unmasked.",
+  "allIdentityConfirmed": true
+}

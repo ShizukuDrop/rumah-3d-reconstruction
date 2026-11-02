@@ -1,0 +1,167 @@
+{
+  "results": [
+    {
+      "kind": "final-clean",
+      "label": "fridge",
+      "file": "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/qa-mac/final-clean-fridge.png",
+      "loaded": {
+        "kind": "final-clean",
+        "splats": 2563805
+      },
+      "evidence": {
+        "pose": {
+          "label": "fridge",
+          "source": "cam0/frame_000027_train.jpg",
+          "sourceFrame": 27,
+          "split": "train",
+          "position": [
+            -0.04734322054037422,
+            1.5427764395823702,
+            0.16500877423918853
+          ],
+          "quaternion": [
+            -0.027726370259387508,
+            -0.9473786602564561,
+            -0.08549504078119761,
+            0.3072385400381
+          ],
+          "fov": 75,
+          "width": 1920,
+          "height": 1080,
+          "intrinsics": [
+            703.741701334251,
+            703.741701334251,
+            960,
+            540
+          ],
+          "mask": null,
+          "sourceFile": "qa-mac/frames/cam0/frame_000027_train.png"
+        },
+        "activeSplats": 2563805
+      }
+    },
+    {
+      "kind": "final-clean",
+      "label": "fan",
+      "file": "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/qa-mac/final-clean-fan.png",
+      "loaded": {
+        "kind": "final-clean",
+        "splats": 2563805
+      },
+      "evidence": {
+        "pose": {
+          "label": "fan",
+          "source": "cam0/frame_001800_train.jpg",
+          "sourceFrame": 1800,
+          "split": "train",
+          "position": [
+            -0.8176386469064271,
+            0.4255116593924649,
+            0.8534996480900683
+          ],
+          "quaternion": [
+            -0.0036111427560121846,
+            -0.9961398662994274,
+            -0.049848540690604154,
+            0.07216265937430248
+          ],
+          "fov": 75,
+          "width": 1920,
+          "height": 1080,
+          "intrinsics": [
+            703.741701334251,
+            703.741701334251,
+            960,
+            540
+          ],
+          "mask": null,
+          "sourceFile": "qa-mac/frames/cam0/frame_001800_train.png"
+        },
+        "activeSplats": 2563805
+      }
+    },
+    {
+      "kind": "final-clean",
+      "label": "dining",
+      "file": "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/qa-mac/final-clean-dining.png",
+      "loaded": {
+        "kind": "final-clean",
+        "splats": 2563805
+      },
+      "evidence": {
+        "pose": {
+          "label": "dining",
+          "source": "cam0/frame_001197_train.jpg",
+          "sourceFrame": 1197,
+          "split": "train",
+          "position": [
+            0.7616677170986236,
+            0.7530471853609798,
+            1.059430921517134
+          ],
+          "quaternion": [
+            -0.049835155377638655,
+            0.07576462952175617,
+            0.0037913914957084585,
+            0.9958723831658571
+          ],
+          "fov": 75,
+          "width": 1920,
+          "height": 1080,
+          "intrinsics": [
+            703.741701334251,
+            703.741701334251,
+            960,
+            540
+          ],
+          "mask": null,
+          "sourceFile": "qa-mac/frames/cam0/frame_001197_train.png"
+        },
+        "activeSplats": 2563805
+      }
+    },
+    {
+      "kind": "final-clean",
+      "label": "bathroom",
+      "file": "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/qa-mac/final-clean-bathroom.png",
+      "loaded": {
+        "kind": "final-clean",
+        "splats": 2563805
+      },
+      "evidence": {
+        "pose": {
+          "label": "bathroom",
+          "source": "cam0/frame_001557_eval.jpg",
+          "sourceFrame": 1557,
+          "split": "eval",
+          "position": [
+            -0.11036735204714103,
+            0.4616502046204495,
+            -3.4100854048200673
+          ],
+          "quaternion": [
+            0,
+            0.8397103441859145,
+            0,
+            0.5430345641551493
+          ],
+          "fov": 75,
+          "width": 1920,
+          "height": 1080,
+          "intrinsics": [
+            703.741701334251,
+            703.741701334251,
+            960,
+            540
+          ],
+          "mask": null,
+          "sourceFile": "qa-mac/frames/cam0/frame_001557_eval.png"
+        },
+        "activeSplats": 2563805
+      }
+    }
+  ],
+  "errors": [],
+  "platform": "darwin",
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Max, Unspecified Version)"
+}

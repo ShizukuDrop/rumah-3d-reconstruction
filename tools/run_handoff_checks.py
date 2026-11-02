@@ -40,6 +40,7 @@ def main():
     checks.append(run(['node','--test',*suites]))
     for rel in ['work/osmo-reconstruct-20261031/test_seed_fisheye.py','work/osmo-clean-20261031/geometry/test_operator_pinhole.py','work/osmo-clean-20261031/geometry/test_preparation_synthetic.py','work/osmo-clean-20261031/geometry/test_negative_rays.py']:
         f=ROOT/rel;checks.append(run([a.geometry_python.absolute(),'-B',f],f.parent))
+    checks.append(run([sys.executable,'-B',ROOT/'tools/test_restore_assets.py']))
     checks.append(run([sys.executable,'-B',ROOT/'tools/restore_assets.py','--check']))
     phases=[]
     for i,phase in enumerate(PHASES):

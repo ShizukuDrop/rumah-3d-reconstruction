@@ -271,7 +271,7 @@ def assets(rows):
     (AUDIT/'asset-upload-queue.json').write_text(json.dumps(data,indent=2),encoding='utf-8');print(json.dumps({'uniqueAssets':len(entries),'uploadBytes':data['bytes'],'models':sum(r['kind']=='model' for r in entries),'videos':sum(r['kind']=='source-video' for r in entries)},indent=2),flush=True)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--label',default='current');p.add_argument('--assets',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--label',default='current');p.add_argument('--assets',action='store_true');p.add_argument('--capture',type=Path,default=CAP,help='External 20261031_OSMO360 capture folder for --assets');a=p.parse_args();CAP=a.capture
     if not re.fullmatch(r'[a-z0-9_-]+',a.label):p.error('Use a simple lowercase inventory label.')
     if (AUDIT/'deep-cleanup-result.json').exists() and a.label in {'before','after'}:p.error('Dated snapshots are preserved; use --label current or another new label.')
     rows,_=save_inventory(a.label)

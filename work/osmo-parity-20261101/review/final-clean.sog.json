@@ -1,0 +1,65 @@
+{
+  "source": "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/final-clean.ply",
+  "output": "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/final-clean.sog",
+  "sourceSha256": "6f5b767a48fe00b1dfc479bbd6d6dd21d5423711949c5f371c0da18990a7e4a9",
+  "sourceBytes": 420465027,
+  "bytes": 39361478,
+  "sha256": "0bcc22dfe7385a77d2d02e1bf621ae4ebe841bb87e4a5dd68b69f00ded3c5cb4",
+  "splats": 2563805,
+  "shDegree": 2,
+  "sourceShDegree": 2,
+  "model": "antialiased",
+  "sourceCountPreserved": true,
+  "sourceShDegreePreserved": true,
+  "under50MB": true,
+  "format": "sog",
+  "tool": "@playcanvas/splat-transform 3.10.3",
+  "command": [
+    "node",
+    "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/converter/node_modules/@playcanvas/splat-transform/bin/cli.mjs",
+    "-g",
+    "0",
+    "--max-workers",
+    "2",
+    "/Users/david/Code/rumah-3d-reconstruction/work/osmo-clean-20261031/review/final-clean.mip-tagged-input.ply",
+    "/Users/david/Code/rumah-3d-reconstruction/work/osmo-parity-20261101/review/final-clean.sog"
+  ],
+  "primitiveDeclaration": "Mip supplied by wrapper, consistent with the audited old v4 and planned fresh mip training. Verify training config before using on another scene.",
+  "sourceModification": "Temporary header-only Mip comment added; all binary splat bytes unchanged. Original file unmodified.",
+  "members": [
+    {
+      "name": "means_l.webp",
+      "bytes": 7620134
+    },
+    {
+      "name": "means_u.webp",
+      "bytes": 1412926
+    },
+    {
+      "name": "quats.webp",
+      "bytes": 8349552
+    },
+    {
+      "name": "scales.webp",
+      "bytes": 7046704
+    },
+    {
+      "name": "sh0.webp",
+      "bytes": 8725312
+    },
+    {
+      "name": "shN_centroids.webp",
+      "bytes": 1279394
+    },
+    {
+      "name": "shN_labels.webp",
+      "bytes": 4910714
+    },
+    {
+      "name": "meta.json",
+      "bytes": 15794
+    }
+  ],
+  "seconds": 16.13919654104393,
+  "validation": "Count/SH-degree/model metadata only. Visual fidelity must be checked separately against original Gaussian renders; not a phone loading benchmark."
+}

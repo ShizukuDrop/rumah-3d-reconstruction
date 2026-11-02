@@ -360,11 +360,11 @@ def voxel_reduce(points,colors,normals,scores,voxel_size,max_points):
     size=voxel_size;indices=np.arange(len(points))
     for _ in range(15):
         cells=np.floor(points/size).astype(np.int64)
-        _,indices=np.unique(cells,axis=0,return_index=True)
+        _,indices=np.unique(cells,axis=0,return_index=True);used=size
         if len(indices)<=max_points:break
         size*=max(1.05,(len(indices)/max_points)**(1/3)*1.02)
     if len(indices)>max_points:indices=np.sort(np.random.default_rng(73031).choice(indices,max_points,replace=False))
-    return points[indices],colors[indices],normals[indices],float(size)
+    return points[indices],colors[indices],normals[indices],float(used)
 
 def write_seed_ply(path,points,colors,normals):
     dtype=np.dtype([('x','<f4'),('y','<f4'),('z','<f4'),('nx','<f4'),('ny','<f4'),('nz','<f4'),('red','u1'),('green','u1'),('blue','u1')])

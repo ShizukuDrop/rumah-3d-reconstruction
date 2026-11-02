@@ -47,6 +47,14 @@ class SeedGeometryChecks(unittest.TestCase):
         # cv2.remap quantizes to 1/32 px; the convention bug this guards against is ~0.5 px.
         np.testing.assert_allclose(read[ok],native[ok],atol=.08)
 
+    def test_voxel_reduce_reports_the_voxel_it_used_when_growth_does_not_converge(self):
+        p=np.array([[0,0,0],[1000,0,0.]]);one=np.ones((2,3))
+        xyz,_,_,size=s.voxel_reduce(p,one,one,np.ones(2),.001,1)
+        self.assertEqual(len(xyz),1);self.assertAlmostEqual(size,.001*(2**(1/3)*1.02)**14,places=12)
+        self.assertEqual(len(np.unique(np.floor(p/size),axis=0)),2,'the last unique() at this size still kept both points')
+        xyz,_,_,size=s.voxel_reduce(np.random.default_rng(1).random((500,3)),np.ones((500,3)),np.ones((500,3)),np.ones(500),.01,50)
+        self.assertLessEqual(len(np.unique(np.floor(xyz/size),axis=0)),50);self.assertEqual(len(xyz),len(np.unique(np.floor(xyz/size),axis=0)))
+
     def test_affine_uses_euclidean_range_and_rejects_bad_fits(self):
         rng=np.random.default_rng(8);x=rng.uniform(.5,7,800);y=1.4*x+.7+rng.normal(0,.015,800)
         bad=rng.choice(800,80,replace=False);y[bad]*=rng.uniform(1.5,2.2,len(bad))

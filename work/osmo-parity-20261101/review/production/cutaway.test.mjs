@@ -19,6 +19,7 @@ test('the shipped footprint belongs to the packed candidate and contains every c
  assert.equal(packing.sha256,candidate.sha256);assert.equal(fp.source.sha256,packing.sourceSha256);
  const distance=([x,,z])=>(bytes[2*(Math.floor((x-fp.origin[0])/fp.cellSize)*h+Math.floor((z-fp.origin[1])/fp.cellSize))]-128)/100;
  const positions=[...cameras.occupiedShell.interiorCameras,cameras.startCamera.position,...cameras.presets.map(p=>p.position)];
- for(const p of positions)assert.ok(distance(p)<-.2,`capture position ${p} lies inside the room footprint`);
+ // The edge is the wall line now, and the phone passed within ~0.2 of some walls.
+ for(const p of positions)assert.ok(distance(p)<-.05,`capture position ${p} lies inside the room footprint`);
  assert.ok(fp.wallBand>=.15&&fp.wallBand<=.4&&fp.exteriorMargin>0);
 });

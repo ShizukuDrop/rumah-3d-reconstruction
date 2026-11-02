@@ -18,7 +18,10 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1]/'osmo-improve-20261031/qa-deps'))
 from normalize_fresh_sfm import FRESH, read_model, qvec_to_rotmat, Fisheye, split_name, fresh_path, digest, save
 import trimesh
-from trimesh.ray.ray_pyembree import RayMeshIntersector
+try:
+    from trimesh.ray.ray_pyembree import RayMeshIntersector
+except ImportError:  # ponytail: embreex missing; trimesh's rtree intersector gives the same first hits, slower on full meshes
+    from trimesh.ray.ray_triangle import RayMeshIntersector
 
 
 def collect_rays(model, masks_dir, per_image_cap=200, max_error=2.5, min_track=5, max_theta=85):
@@ -117,7 +120,8 @@ def cast_rays(mesh, rays):
         faces, ids, locations = intersector.intersects_id(origins[start:end], directions[start:end],
                                                          multiple_hits=False, return_locations=True)
         face_ids[start+ids] = faces
-        distances[start+ids] = np.linalg.norm(locations - origins[start+ids], axis=1)
+        # ray_triangle returns shape (0,) rather than (0, 3) when a whole batch misses.
+        distances[start+ids] = np.linalg.norm(np.asarray(locations).reshape(-1, 3) - origins[start+ids], axis=1)
     return face_ids, distances
 
 
