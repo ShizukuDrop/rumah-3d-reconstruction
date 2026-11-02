@@ -7,3 +7,7 @@ Nine local Full/trial paths were deleted after containment and full-hash checks:
 The restore tool refuses retired A001/A002 IDs. The active build, chooser, manifest, deployment package and tests require only Lite+Osmo. Historical source/audit documents are retained as dated records; the old clean viewer is no longer part of the active build checks. Deployment removes Full from the new server release; historical rollback releases are retained separately.
 
 The existing Osmo model is unchanged. Photographic sharpness remains unaccepted, with no new training or physical Fold 7/iPhone 17 validation claimed. The desktop Chrome controls, Lite phone-size loading and Osmo desktop/wide-touch rendering are checked separately.
+
+Deployment completed: 21 anonymous public delivery checks passed, including 404 for both removed Full transport URLs. The user's existing Chrome tab was refreshed at the bare root URL and visibly shows exactly iPhone Lite and Osmo, with Open disabled until selection. No cache problem was established: the previous tab already showed the updated Osmo when opened.
+
+All 16 control/UI checks also passed against the public release in hardware Chrome. Public browser receipt: ../../../work/osmo-parity-20261101/review/controls-public-verification-20261103-v2.json. The screenshot 00-model-chooser.png in evidence-public-20261103-v2 shows the live two-card chooser before Open.

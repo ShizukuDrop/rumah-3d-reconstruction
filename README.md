@@ -11,7 +11,7 @@
 
 Sizes are decimal, before optional HTTP gzip. SOG is a Gaussian splat archive, not a triangle mesh. Surface extraction and photo-textured GLBs are separate experimental outputs.
 
-**Current live release: 20261103-osmo-viewer-v2.** Sources: work/osmo-parity-20261101/review/production/. DavidN8 PRs #1 and #2 are approved and merged. The viewer adds the fitted layout overview, improved cutaway/framing/controls and display sharpening. Inferred walls and furniture are explicitly labeled on desktop and phones; **View photographic scan** opens the actual Gaussian Walk view. No retraining was launched. The existing A018 photographic sharpness remains unaccepted, and physical Fold 7 / iPhone 17 validation remains unverified. [Integration and release evidence](docs/release-2026-11-03/README.md). The previous viewer release is retained on the server for rollback. iPhone Full and the obsolete non-Lite iPhone trial were retired locally at the user's request; the current website offers only iPhone Lite and Osmo. [Removal record](docs/release-2026-11-03/iphone-full-removal.json).
+**Current live release: 20261103-osmo-viewer-v2.** Sources: work/osmo-parity-20261101/review/production/. DavidN8 PRs #1 and #2 are approved and merged. The viewer adds the fitted layout overview, improved cutaway/framing/controls and display sharpening. Inferred walls and furniture are explicitly labeled on desktop and phones; **View photographic scan** opens the actual Gaussian Walk view. No retraining was launched. The existing A018 photographic sharpness remains unaccepted, and physical Fold 7 / iPhone 17 validation remains unverified. [Current release evidence](docs/release-2026-11-03/lite-only/README.md). The previous viewer release is retained on the server for rollback. iPhone Full and the obsolete non-Lite iPhone trial were retired locally at the user's request; the current website offers only iPhone Lite and Osmo. [Removal record](docs/release-2026-11-03/iphone-full-removal.json).
 
 **Historical reconstruction review: 20261101-osmo-parity-review**, in work/osmo-parity-20261101/. Viewer controls, occupied room bounds (occupied_bounds.py), and dollhouse/top/reversible-shell UI behavior are **implemented and verified**. **Model sharpness, surface quality and outside cutaway visuals failed acceptance.** The 1600px/50k Gaussian remains soft; cutaway artifacts persist; sharper textured surfaces have wrong geometry. review/production/release-approval.json has **approvedForDeployment: false**.
 
@@ -43,7 +43,7 @@ Read EXECUTION-STATE.json, acceptance-gates.json, then review/production/release
     |   |-- runtime-assets.json       # pinned trainer archive and hashes
     |   `-- repo-audit-2026-11-01/     # cleanup / backup / verification records
     |-- output/pdf/                   # finalized handoff PDFs
-    |-- outputs/                      # local iPhone Full and older reports
+    |-- outputs/                      # retained reports; Full model retired
     `-- work/
         |-- osmo-clean-20261031/       # live baseline and reconstruction foundation
         |   |-- geometry/ / masking/
@@ -98,14 +98,13 @@ Models, video, extracted images, installed environments and generated builds are
 
 | Default restore | Canonical checkout-relative path |
 |---|---|
-| A001 iPhone Full | outputs/iPhone_Wide_Full_Native.glb |
-| A003 iPhone Fast | work/mobile-20261029/public-phone.glb |
-| A006 live raw export | work/osmo-clean-20261031/review/checkpoints/explicit-full-final.ply |
-| A013 live packed Osmo | work/osmo-clean-20261031/review/clean-final.sog |
-| A018 rejected packed WIP | work/osmo-parity-20261101/review/final-sharp.sog |
-| A034 rejected 50k raw export | work/osmo-parity-20261101/review/qa/new-full-50000.ply |
+| A003 iPhone Lite | work/mobile-20261029/public-phone.glb |
+| A006 previous Osmo raw export | work/osmo-clean-20261031/review/checkpoints/explicit-full-final.ply |
+| A013 previous packed Osmo | work/osmo-clean-20261031/review/clean-final.sog |
+| A018 current viewer baseline; photographic quality unaccepted | work/osmo-parity-20261101/review/final-sharp.sog |
+| A034 raw 50k source export | work/osmo-parity-20261101/review/qa/new-full-50000.ply |
 
-Download those six files using their manifest drive_name filenames. Also download the [reference-photo ZIP](https://drive.google.com/file/d/1gDz-2TAD_6KDGnEfozxzJ5He9wQyA0Dj/view) and, for reconstruction, [pinned trainer ZIP](https://drive.google.com/file/d/1-4yyj3SWXnl2dlGXuceXPnF_BjVDpolY/view). docs/viewer-resources.json and docs/runtime-assets.json record their hashes and destinations. Existing private Drive permissions apply.
+Download those five retained files using their manifest drive_name filenames. Also download the [reference-photo ZIP](https://drive.google.com/file/d/1gDz-2TAD_6KDGnEfozxzJ5He9wQyA0Dj/view) and, for reconstruction, [pinned trainer ZIP](https://drive.google.com/file/d/1-4yyj3SWXnl2dlGXuceXPnF_BjVDpolY/view). docs/viewer-resources.json and docs/runtime-assets.json record their hashes and destinations. Existing private Drive permissions apply.
 
 From the checkout root, substitute your own download directory:
 
@@ -170,7 +169,7 @@ Training also needs the hash-pinned **Spirula 2026.10.30 Windows Vulkan x64** ex
 
 ## 6. Running Tests, Local Preview & Deployment
 
-From the root, **npm test** runs loader-core.test.mjs, choice-gate.test.mjs, model-selection.test.mjs and native-delivery.test.mjs in both production folders, plus the parity cutaway.test.mjs and simple-shapes.test.mjs: **57 tests**. Run `npm ci` in work/mobile-20261029 first; otherwise the two Spark SDK checks and the simple-shapes three.js check fail with `Cannot find module`.
+From the root, **npm test** runs loader-core.test.mjs, choice-gate.test.mjs, model-selection.test.mjs and native-delivery.test.mjs in both production folders, plus the parity cutaway.test.mjs and simple-shapes.test.mjs: **59 tests**. Run `npm ci` in work/mobile-20261029 first; otherwise the two Spark SDK checks and the simple-shapes three.js check fail with `Cannot find module`.
 
     npm test
     # Equivalent per-viewer command:
@@ -188,9 +187,9 @@ CPU geometry checks are executable unittest/synthetic harnesses:
 
 Plain runs only check: they leave the committed evidence JSON untouched, and test_preparation_synthetic builds its fixture in the system temp dir. Add `--record` to rewrite an evidence file. The geometry harnesses are also collected by `python -B -m unittest discover -s work/osmo-clean-20261031/geometry` and by pytest. negative_ray_audit.py uses embreex when installed and otherwise trimesh's pure-Python ray_triangle intersector. work/recovery-report/reference_pack/implementation/scripts/test_colmap_io.py checks colmap_io's camera-model table against seed_fisheye's, and work/hosting/test_remote.py checks the deploy CLI without a network. geometry/make_native_manifest.py now requires `--image-dir`, needs calibration.json, kb4-fit-report.json and the git-ignored djmd-first.bin, and writes nothing unless every input exists.
 
-The combined check builds both viewers, audits file closure and local HTTP HEAD/ranges, runs tools/test_restore_assets.py, and verifies that the rejected WIP cannot be packaged. build.mjs now verifies every carried iPhone file against asset-files.json and that a regenerated .gz decodes to the protected bytes. On other platforms it writes docs/repo-audit-2026-11-01/handoff-validation-<platform>.json and leaves the dated Windows receipt alone:
+The combined check builds the active parity viewer, audits file closure and local HTTP HEAD/ranges, runs tools/test_restore_assets.py, and verifies that the original failed reconstruction approval cannot package it. build.mjs now verifies every carried iPhone file against asset-files.json and that a regenerated .gz decodes to the protected bytes. On other platforms it writes docs/repo-audit-2026-11-01/handoff-validation-<platform>.json and leaves the dated Windows receipt alone:
 
-    ./.venv-audit/Scripts/python.exe -B tools/run_handoff_checks.py --geometry-python .venv-geometry/Scripts/python.exe
+    ./.venv-audit/Scripts/python.exe -B tools/run_handoff_checks.py --geometry-python .venv-geometry/Scripts/python.exe --output .local/current-handoff-validation.json
 
 Four-view QA from the original video (verified on macOS):
 

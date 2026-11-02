@@ -1,0 +1,191 @@
+{
+  "release": "/var/www/rumah/releases/20261103-osmo-viewer-v2",
+  "previous": "/var/www/rumah/releases/20261103-osmo-viewer-v1",
+  "staging": "/var/lib/vz/rumah-deploy/20261103-osmo-viewer-v2",
+  "container": 710,
+  "archive_sha256": "658520f4cea6bfd4d761fda911e533fade778840faa98565dba8230ec45014e1",
+  "archive_bytes": 50647040,
+  "remote_archive": "/var/lib/vz/rumah-deploy/20261103-osmo-viewer-v2/native-site-658520f4cea6bfd4d761fda911e533fade778840faa98565dba8230ec45014e1.tar.partial",
+  "files": [
+    {
+      "path": "chunks/GLTFLoader-LB5NR3GW.js",
+      "bytes": 44550,
+      "sha256": "783f2777492fd326b562c4d221abbbfa48a288db6a37f9388b7461c6f7faa1df"
+    },
+    {
+      "path": "chunks/chunk-PCQTWMT7.js",
+      "bytes": 701804,
+      "sha256": "3b312b4db7a45d20dfecb033e9aff23533dcd841fea3043355b7c563d37b57d6"
+    },
+    {
+      "path": "chunks/chunk-VC46IEJQ.js",
+      "bytes": 106,
+      "sha256": "ff9e0dca4365b7b1581e7275f3c6dbcf1474ffb874d81a3375ecf7a835dbaa6f"
+    },
+    {
+      "path": "chunks/index.module-7RF7OSAR.js",
+      "bytes": 108121,
+      "sha256": "a26c2a039e552bfd78d491c83b7dd6dc60897714012dd8aacb0c207b5cf6e4d3"
+    },
+    {
+      "path": "chunks/spark.module-XXGQBJ7P.js",
+      "bytes": 2800032,
+      "sha256": "5218c6d3afe09372c37748869e76fa997aeeec660d948285d01ba7acbc8f3264"
+    },
+    {
+      "path": "index.html",
+      "bytes": 16258,
+      "sha256": "066b07ac910496393bb7fbb00032674ca0eb404a6840ba2375e3637b60d27bfd"
+    },
+    {
+      "path": "models/osmo-native-db0e94c2fa.sog",
+      "bytes": 44904208,
+      "sha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1"
+    },
+    {
+      "path": "models/osmo-shapes-76f1f581d5.json",
+      "bytes": 12179,
+      "sha256": "76f1f581d5565255feac32e28a21d5aeca5125bae46619541e4358a57785db6b"
+    },
+    {
+      "path": "robots.txt",
+      "bytes": 26,
+      "sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
+    },
+    {
+      "path": "room-e9f093c738.json",
+      "bytes": 664979,
+      "sha256": "e9f093c7382488aa37a70b6f9ecd5f0c1ccf78699a38ecc5c0cc8d216d3e47a7"
+    },
+    {
+      "path": "room-viewer-VV6IDETS.js",
+      "bytes": 44725,
+      "sha256": "6faf4e9436497dbaf3297fdf8302dc6578788e48ea5ca52446e6e8da1840fa33"
+    },
+    {
+      "path": "sources/osmo-1b610b42ef.jpg",
+      "bytes": 172441,
+      "sha256": "1b610b42ef81fcaef67f78813013db56f16cce5b82da3aebf72bc91e064fec79"
+    },
+    {
+      "path": "sources/osmo-57fe103d92.jpg",
+      "bytes": 180673,
+      "sha256": "57fe103d92eaaecb3d74f2d529f65a899164384bc1f2f912eab91cf8fb8d4e2b"
+    },
+    {
+      "path": "sources/osmo-8bc2039b2e.jpg",
+      "bytes": 132639,
+      "sha256": "8bc2039b2e99ce052abfb2999e1614091c939f5a7940d0e567eace52ff833f9f"
+    },
+    {
+      "path": "sources/osmo-a7944e89b7.jpg",
+      "bytes": 221524,
+      "sha256": "a7944e89b700ce94c039519ea0a08a33c16d5d7450f11488fa3ab93e5bf58349"
+    },
+    {
+      "path": "sources/osmo-d7e19f0bb5.jpg",
+      "bytes": 196798,
+      "sha256": "d7e19f0bb5bbebd8bd9fb7a73513708cd341a2472d79a9f6396111f94d2f5474"
+    },
+    {
+      "path": "sources/osmo-e0a59daf0b.jpg",
+      "bytes": 200100,
+      "sha256": "e0a59daf0b1638ca17ffcf48f112a441109e34d81b11828655ce7601bdb32224"
+    },
+    {
+      "path": "sources/osmo-f740edfb13.jpg",
+      "bytes": 209705,
+      "sha256": "f740edfb13a4471db28367d8bf51fa9284254ad548a3bc75ef7334ddd06c8da9"
+    }
+  ],
+  "inherited_files": [
+    {
+      "path": "models/iphone-phone-2b811d1241.glb",
+      "bytes": 21144604,
+      "sha256": "2b811d124120e70dcecc25d06e5dc397e2a28f310403a21fdfa1e290c41c9d2b"
+    },
+    {
+      "path": "models/iphone-phone-2b811d1241.glb.gz",
+      "bytes": 17853120,
+      "sha256": "2683f178656b3c6c48a05a49812ecc3d62bd46bfb16989045c41c66708e570ca"
+    },
+    {
+      "path": "overview-8516540657.jpg",
+      "bytes": 79837,
+      "sha256": "8516540657f307fcf60a29e2f6eba34186f9f75421139e643fb560f2cc8d6c5c"
+    },
+    {
+      "path": "sources/frame_0000903.jpg",
+      "bytes": 218338,
+      "sha256": "544835ade72c22594fbfad011d60e2358579b71922407f7abdf24509439853a0"
+    },
+    {
+      "path": "sources/frame_0000999.jpg",
+      "bytes": 287839,
+      "sha256": "3af470bb2687de65bb8f574f06348a7ebda7dc6302bce7aa8f5c49515d1854eb"
+    },
+    {
+      "path": "sources/frame_0001398.jpg",
+      "bytes": 209011,
+      "sha256": "a468d1455616eca37fd99c60cfe22bff7b02eca88b601a60642cb3cfde16aa41"
+    },
+    {
+      "path": "sources/frame_0001612.jpg",
+      "bytes": 263857,
+      "sha256": "43a803084c79304cdc3abef83f42f73c3207bf39d590c7474d752fbbdb233a55"
+    },
+    {
+      "path": "sources/frame_0002402.jpg",
+      "bytes": 274875,
+      "sha256": "8a4cbada269b96b02bca186868eb6c5583565386ebb5352b09e9073c4b48f5dd"
+    },
+    {
+      "path": "sources/frame_0003606.jpg",
+      "bytes": 259433,
+      "sha256": "9aafb22ee5af6a806f432622cdbbb405b5551ad1df69773922c2382cacf94f8a"
+    },
+    {
+      "path": "sources/frame_0004297.jpg",
+      "bytes": 223728,
+      "sha256": "bff0d428b383a592fca70bc5e7de18109fd3c86e1ca7531f1d53f897354bca36"
+    },
+    {
+      "path": "sources/frame_0004400.jpg",
+      "bytes": 248068,
+      "sha256": "e5923f2cef8f1d571329a9767bce8c0e501fefea8926d375a9c58f0d227a9648"
+    }
+  ],
+  "removed_public_files": [
+    "models/iphone-full-room-16f8963b.glb",
+    "models/iphone-full-room-16f8963b.glb.gz"
+  ],
+  "build": "20261103-osmo-viewer-v2",
+  "manifest": "room-e9f093c738.json",
+  "bundle": "room-viewer-VV6IDETS.js",
+  "model": {
+    "label": "Osmo",
+    "representation": "gaussian",
+    "format": "sog",
+    "cameraSet": "osmo",
+    "url": "models/osmo-native-db0e94c2fa.sog",
+    "fileBytes": 44904208,
+    "downloadBytes": 44904208,
+    "splats": 2960980,
+    "shDegree": 2,
+    "note": "Osmo \u00b7 native Gaussian view \u00b7 approximate scale",
+    "provisional": false,
+    "simple": {
+      "url": "models/osmo-shapes-76f1f581d5.json",
+      "fileBytes": 12179,
+      "shapes": 85
+    }
+  },
+  "model_sha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+  "index_sha256": "066b07ac910496393bb7fbb00032674ca0eb404a6840ba2375e3637b60d27bfd",
+  "approval_sha256": "f79b2765346532380d3990b15ef4642d04af321e853c2c8a799000dea37efbfd",
+  "application_bytes": 4376496,
+  "model_transfer_in_verification": "HEAD only; bounded 12-byte range if length absent",
+  "automatic_rollback": true,
+  "runner_sha256": "fde2094ea5b201c83f80a4295772066fa1685c53eda6306af7ec8b8192fee7bc",
+  "rollback_sha256": "e885a523bcb7edc0fe219e8b045d90ea3f51fd33a34f145cba5eb75579aa4a03"
+}
