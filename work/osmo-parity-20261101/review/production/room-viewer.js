@@ -49,6 +49,9 @@ function clearRecorded(){
   const calibration={fx:fx*scale,fy:fy*scale,dx:(cx-recorded.imageWidth/2)*scale,dy:(cy-recorded.imageHeight/2)*scale};
   recorded=null;if(comparison)setCompare(false);$('views').selectedIndex=0;
   const w=canvas.clientWidth,h=canvas.clientHeight;
+  // A letterboxed square frame on a portrait phone would otherwise open to ~122° vertically.
+  const widen=Math.max(1,h/(2*Math.tan(THREE.MathUtils.degToRad(50)))/calibration.fy);
+  for(const key of ['fx','fy','dx','dy'])calibration[key]*=widen;
   freeCalibration={...calibration,width:w,height:h};camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(h/(2*calibration.fy)));resize();
 }
 function updateSurface(){
@@ -181,6 +184,8 @@ canvas.addEventListener('wheel',e=>{
 },{passive:false});
 const movement=new Set(['KeyW','KeyS','KeyA','KeyD','KeyQ','KeyE','Space','KeyC']);
 window.addEventListener('keydown',e=>{
+  // macOS sends no keyup for keys released while Cmd is held; stop walking instead of drifting.
+  if(e.metaKey)keys.clear();
   if(!ready||e.ctrlKey||e.metaKey||e.altKey||e.target.closest?.('select,input,button,a'))return;
   if(e.code==='Escape'){release();return;}
   if(e.code==='KeyR'){e.preventDefault();home();return;}
@@ -339,7 +344,7 @@ function applyCameraData(quality){
 }
 async function loadAsset(quality){
   const request=loads.begin(),generation=request.id;downloadAbort?.abort();stopTimers();release();ready=false;controlsEnabled(false);
-  disposeModel(model);model=null;cutaway=null;freeCalibration=null;framingPoints=new Float32Array();modelDiagnostics={};shaded=false;$('shade').setAttribute('aria-pressed','false');
+  disposeModel(model);model=null;cutaway?.dispose();cutaway=null;freeCalibration=null;framingPoints=new Float32Array();modelDiagnostics={};shaded=false;$('shade').setAttribute('aria-pressed','false');
   $('source').hidden=true;stage.classList.remove('compare');comparison=false;recorded=null;
   currentQuality=quality;asset=null;selection=null;data=null;downloadBytes=0;preparedMs=0;loadStarted=performance.now();
   if($('gallery').open)$('gallery').close();$('gallery-photo').removeAttribute('src');

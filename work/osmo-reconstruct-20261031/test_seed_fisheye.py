@@ -33,6 +33,20 @@ class SeedGeometryChecks(unittest.TestCase):
         values=np.arange(16,dtype=np.float32).reshape(4,4)
         np.testing.assert_equal(s.sample_map(values,np.array([[.5,.5],[3.5,3.5],[1.5,2.5]])),[0,15,9])
 
+    def test_pinhole_face_rgb_matches_its_written_camera_model(self):
+        # Ramp images hold each source pixel's continuous coordinate, so the resampled
+        # face must read back model.project() wherever the PINHOLE model puts a ray.
+        model=s.Fisheye(camera());size=256;f=size/2;cv2=s.cv2
+        face=np.array([[0,0,-1],[0,1,0],[1,0,0]],float)
+        mx,my,valid=s.pinhole_face_maps(model,face,size);self.assertGreater(valid.mean(),.3)
+        ramp=np.meshgrid(np.arange(model.width,dtype=np.float32)+.5,np.arange(model.height,dtype=np.float32)+.5)
+        faced=[cv2.remap(r,mx,my,cv2.INTER_LINEAR) for r in ramp]
+        rng=np.random.default_rng(3);q=np.column_stack([rng.uniform(-.8,.8,(200,2)),np.ones(200)])
+        pixel=q[:,:2]*f+f;native,ok=model.project(q@face);ok&=valid[pixel[:,1].astype(int),pixel[:,0].astype(int)]
+        read=np.column_stack([s.sample_map(img,pixel) for img in faced])
+        # cv2.remap quantizes to 1/32 px; the convention bug this guards against is ~0.5 px.
+        np.testing.assert_allclose(read[ok],native[ok],atol=.08)
+
     def test_affine_uses_euclidean_range_and_rejects_bad_fits(self):
         rng=np.random.default_rng(8);x=rng.uniform(.5,7,800);y=1.4*x+.7+rng.normal(0,.015,800)
         bad=rng.choice(800,80,replace=False);y[bad]*=rng.uniform(1.5,2.2,len(bad))

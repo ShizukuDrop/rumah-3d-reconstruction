@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test work/osmo-clean-20261031/review/production/loader-core.test.mjs work/osmo-clean-20261031/review/production/choice-gate.test.mjs work/osmo-clean-20261031/review/production/model-selection.test.mjs work/osmo-clean-20261031/review/production/native-delivery.test.mjs work/osmo-parity-20261101/review/production/loader-core.test.mjs work/osmo-parity-20261101/review/production/choice-gate.test.mjs work/osmo-parity-20261101/review/production/model-selection.test.mjs work/osmo-parity-20261101/review/production/native-delivery.test.mjs"
+    "test": "node --test work/osmo-clean-20261031/review/production/loader-core.test.mjs work/osmo-clean-20261031/review/production/choice-gate.test.mjs work/osmo-clean-20261031/review/production/model-selection.test.mjs work/osmo-clean-20261031/review/production/native-delivery.test.mjs work/osmo-parity-20261101/review/production/loader-core.test.mjs work/osmo-parity-20261101/review/production/choice-gate.test.mjs work/osmo-parity-20261101/review/production/model-selection.test.mjs work/osmo-parity-20261101/review/production/native-delivery.test.mjs work/osmo-parity-20261101/review/production/cutaway.test.mjs"
   }
 }

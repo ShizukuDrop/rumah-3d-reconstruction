@@ -30,7 +30,7 @@ for row in scale_audit['frames']:
 if not views:raise ValueError('No scale-qualified depth frames')
 shapes={v['depth'].shape for v in views}
 if len(shapes)!=1:raise ValueError('Expected uniform explicit pinhole depth maps')
-H,DW=next(iter(shapes));fx,fy,cx,cy=views[0]['k'];x,y=np.meshgrid(np.arange(DW,dtype=np.float32),np.arange(H,dtype=np.float32));rays=np.stack([(x-cx)/fx,(y-cy)/fy,np.ones_like(x)],axis=-1);rays/=np.linalg.norm(rays,axis=-1,keepdims=True)
+H,DW=next(iter(shapes));fx,fy,cx,cy=views[0]['k'];x,y=np.meshgrid(np.arange(DW,dtype=np.float32)+.5,np.arange(H,dtype=np.float32)+.5);rays=np.stack([(x-cx)/fx,(y-cy)/fy,np.ones_like(x)],axis=-1);rays/=np.linalg.norm(rays,axis=-1,keepdims=True)
 print(f'Loaded {len(views)} accepted depth views for consistency validation',flush=True)
 def sample_image(image,mx,my,interpolation):
     # OpenCV remap dimensions are bounded by SHRT_MAX. Pack long point lists
@@ -60,7 +60,7 @@ def process(index):
         if len(chosen)==14:break
     valid_indices=np.flatnonzero(view['mask']);depth=view['depth'].ravel()[valid_indices];local_points=rays.reshape(-1,3)[valid_indices]*depth[:,None];world=(local_points-view['t'])@view['R'];votes=np.zeros(len(world),np.uint8);cross=np.zeros(len(world),bool)
     for j in chosen:
-        other=views[j];xc=world@other['R'].T+other['t'];distance=np.linalg.norm(xc,axis=1);z=xc[:,2];fx,fy,cx,cy=other['k'];uv=xc[:,:2]/np.maximum(z[:,None],1e-12)*[fx,fy]+[cx,cy];mx=uv[:,0].astype(np.float32).reshape(-1,1);my=uv[:,1].astype(np.float32).reshape(-1,1)
+        other=views[j];xc=world@other['R'].T+other['t'];distance=np.linalg.norm(xc,axis=1);z=xc[:,2];fx,fy,cx,cy=other['k'];uv=xc[:,:2]/np.maximum(z[:,None],1e-12)*[fx,fy]+[cx,cy];mx=(uv[:,0]-.5).astype(np.float32).reshape(-1,1);my=(uv[:,1]-.5).astype(np.float32).reshape(-1,1)
         observed=sample_image(other['depth'],mx.ravel(),my.ravel(),cv2.INTER_NEAREST);valid=sample_image(other['mask'].astype(np.uint8),mx.ravel(),my.ravel(),cv2.INTER_NEAREST)>0
         agree=valid&(z>.02)&(np.abs(observed-distance)<=.05*np.maximum(distance,1e-5));votes+=agree
         if (other['sourceFrame']<1000)!=(view['sourceFrame']<1000):cross|=agree
@@ -74,7 +74,7 @@ def process(index):
     pc=rays*view['depth'][...,None];dx=np.zeros_like(pc);dy=np.zeros_like(pc);dx[:,1:-1]=pc[:,2:]-pc[:,:-2];dy[1:-1]=pc[2:]-pc[:-2];normal=np.cross(dx,dy);length=np.linalg.norm(normal,axis=2);normal/=np.maximum(length[...,None],1e-12);normal[np.sum(normal*pc,axis=2)>0]*=-1
     sparse_grid=np.zeros((H,DW),bool);sparse_grid[::4,::4]=True;sample=trusted_map&sparse_grid&(length>1e-10)
     points_camera=pc[sample];world_seed=(points_camera-view['t'])@view['R'];normals=normal[sample]@view['R']
-    image=cv2.imread(str(a.dataset/'images'/view['name']));ys,xs=np.nonzero(sample);rgb=sample_image(image,xs.astype(np.float32)*image.shape[1]/DW,ys.astype(np.float32)*image.shape[0]/H,cv2.INTER_LINEAR)[:,::-1]
+    image=cv2.imread(str(a.dataset/'images'/view['name']));ys,xs=np.nonzero(sample);rgb=sample_image(image,(xs.astype(np.float32)+.5)*image.shape[1]/DW-.5,(ys.astype(np.float32)+.5)*image.shape[0]/H-.5,cv2.INTER_LINEAR)[:,::-1]
     scores=np.ones(len(rgb),np.float32)
     # Record stronger cross-visit evidence in priorities without inventing geometry.
     cross_map=np.zeros((H,DW),bool);cross_map.ravel()[valid_indices]=cross;scores+=cross_map[sample]

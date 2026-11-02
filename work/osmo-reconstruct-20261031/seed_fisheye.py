@@ -228,6 +228,18 @@ def load_depth(path,integer_scale=.001):
     else:depth=raw.astype(np.float32)
     return depth,valid
 
+def pinhole_face_maps(model,face,size):
+    """cv2.remap maps for a PINHOLE view (f=cx=cy=size/2) looking along face.
+
+    Both sides follow COLMAP: output pixel i holds the ray through i+0.5, and a
+    fisheye sample at continuous u is cv2 index u-0.5. Treating either side as
+    integer-centred shifts the RGB 0.1-0.9 px off its written camera model.
+    """
+    f=size/2;xx,yy=np.meshgrid(np.arange(size)+.5,np.arange(size)+.5)
+    uv,valid=model.project(np.stack([(xx-f)/f,(yy-f)/f,np.ones_like(xx)],axis=-1).reshape(-1,3)@face)
+    valid&=(uv[:,0]>=0)&(uv[:,0]<model.width)&(uv[:,1]>=0)&(uv[:,1]<model.height)
+    return (uv[:,0]-.5).reshape(size,size).astype(np.float32),(uv[:,1]-.5).reshape(size,size).astype(np.float32),valid.reshape(size,size)
+
 def sample_map(values,xy,nearest=False):
     """COLMAP continuous pixel coordinates -> cv2 integer-centered sample grid."""
     xy=np.asarray(xy,dtype=np.float32).reshape(-1,2)

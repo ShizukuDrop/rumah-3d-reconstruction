@@ -73,7 +73,8 @@ def main():
         dst=target(rel)
         if dst.exists():verify(dst,row);continue
         if a.check:raise FileNotFoundError('Missing '+asset_id+': '+rel)
-        source=a.downloads/row['drive_name'] if a.downloads else a.from_workspace/rel if a.from_workspace else None
+        # Browser downloads of a Drive folder may arrive in subfolders; skip partial copies (place() still hashes).
+        source=next((p for p in a.downloads.rglob(row['drive_name']) if p.is_file() and p.stat().st_size==row['bytes']),a.downloads/row['drive_name']) if a.downloads else a.from_workspace/rel if a.from_workspace else None
         if source is None:raise ValueError('Provide --downloads for verified browser downloads')
         place(source,dst,row)
     if not a.check:
@@ -81,7 +82,8 @@ def main():
             if arg:archive(arg,read(ROOT/'docs'/name))
         if a.from_workspace:
             for row in read(ROOT/'docs/viewer-resources.json')['files']:place(a.from_workspace/row['path'],target(row['path']),row)
-        iphone_baseline(a.from_workspace)
+        # The iPhone transfer copies derive from A001/A003; a subset restore without them skips this step.
+        if all(target(CANONICAL[i]).exists() for i in ('A001','A003')):iphone_baseline(a.from_workspace)
     else:
         for row in read(ROOT/'docs/viewer-resources.json')['files']:verify(target(row['path']),row)
     print(json.dumps({'verifiedAssetIds':a.ids,'referenceFiles':len(read(ROOT/'docs/viewer-resources.json')['files']),'externalWrites':0,'networkRequests':0}))

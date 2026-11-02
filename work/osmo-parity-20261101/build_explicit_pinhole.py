@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 import argparse,hashlib,json,sys,time
 import cv2,numpy as np
 W=Path(__file__).resolve().parent;sys.path.insert(0,str(W.parent/'osmo-reconstruct-20261031'))
-from seed_fisheye import read_model,write_model_text,write_seed_ply,Fisheye,qvec_to_rotmat,rotmat_to_qvec
+from seed_fisheye import read_model,write_model_text,write_seed_ply,Fisheye,qvec_to_rotmat,rotmat_to_qvec,pinhole_face_maps
 P=argparse.ArgumentParser();P.add_argument('--source',type=Path,required=True);P.add_argument('--output',type=Path,required=True);P.add_argument('--size',type=int,default=1024);P.add_argument('--subset',choices=['bathroom','all'],default='bathroom');a=P.parse_args();started=time.monotonic();cv2.setNumThreads(1)
 if a.output.exists():raise FileExistsError(a.output)
 if not 512<=a.size<=2048:raise ValueError('Invalid face size')
@@ -25,9 +25,8 @@ S=a.size;f=S/2;xx,yy=np.meshgrid(np.arange(S),np.arange(S));virtual=np.stack([(x
 maps={};models={}
 for cid,camera in cameras.items():
     models[cid]=Fisheye(camera,max_theta_degrees=99)
-    for j,face in enumerate(faces):
-        uv,valid=models[cid].project(virtual@face);valid&=(uv[:,0]>=0)&(uv[:,0]<camera['width'])&(uv[:,1]>=0)&(uv[:,1]<camera['height'])
-        maps[cid,j]=(uv[:,0].reshape(S,S).astype(np.float32),uv[:,1].reshape(S,S).astype(np.float32),valid.reshape(S,S))
+    # COLMAP pixel centres on both sides; the old corner rays put the RGB 0.1-0.9 px off the model.
+    for j,face in enumerate(faces):maps[cid,j]=pinhole_face_maps(models[cid],face,S)
 (a.output/'images').mkdir(parents=True);(a.output/'masks').mkdir()
 def process(im):
     row=by_name[Path(im['name']).name];source=cv2.imread(str(a.source/'images'/im['name']));mask_path=(a.source/'masks'/im['name']).with_suffix('.png');mask=cv2.imread(str(mask_path),0)

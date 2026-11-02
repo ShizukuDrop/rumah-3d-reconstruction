@@ -1,6 +1,6 @@
 """CPU/local-HTTP handoff checks; never trains or contacts production hosts."""
 from pathlib import Path
-import argparse,hashlib,importlib.util,json,os,socket,subprocess,sys,time,urllib.request
+import argparse,hashlib,importlib.util,json,os,platform,socket,subprocess,sys,time,urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
 PHASES=['osmo-clean-20261031','osmo-parity-20261101']
@@ -36,10 +36,10 @@ def preview(prod):
         except subprocess.TimeoutExpired:process.kill();process.communicate()
 def main():
     p=argparse.ArgumentParser();p.add_argument('--geometry-python',type=Path,default=Path(sys.executable));p.add_argument('--skip-build',action='store_true');a=p.parse_args();checks=[]
-    suites=[ROOT/'work'/phase/'review/production'/name for phase in PHASES for name in ['loader-core.test.mjs','choice-gate.test.mjs','model-selection.test.mjs','native-delivery.test.mjs']]
+    suites=[ROOT/'work'/phase/'review/production'/name for phase in PHASES for name in ['loader-core.test.mjs','choice-gate.test.mjs','model-selection.test.mjs','native-delivery.test.mjs']]+[ROOT/'work/osmo-parity-20261101/review/production/cutaway.test.mjs']
     checks.append(run(['node','--test',*suites]))
     for rel in ['work/osmo-reconstruct-20261031/test_seed_fisheye.py','work/osmo-clean-20261031/geometry/test_operator_pinhole.py','work/osmo-clean-20261031/geometry/test_preparation_synthetic.py','work/osmo-clean-20261031/geometry/test_negative_rays.py']:
-        f=ROOT/rel;checks.append(run([a.geometry_python.resolve(),'-B',f],f.parent))
+        f=ROOT/rel;checks.append(run([a.geometry_python.absolute(),'-B',f],f.parent))
     checks.append(run([sys.executable,'-B',ROOT/'tools/restore_assets.py','--check']))
     phases=[]
     for i,phase in enumerate(PHASES):
@@ -53,6 +53,6 @@ def main():
             except ValueError as e:refusal=str(e)
             else:raise AssertionError('Rejected review model was approved')
         phases.append({'phase':phase,'preview':preview(prod),'fileClosurePassed':True,'reviewDeploymentRefusal':refusal})
-    result={'passed':True,'date':'2026-11-01','checks':checks,'phases':phases,'trainingJobsLaunched':0,'productionRequests':0,'physicalPhoneValidation':False}
-    out=ROOT/'docs/repo-audit-2026-11-01/handoff-validation.json';out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps({'passed':True,'commandGroups':len(checks),'phases':phases,'report':out.relative_to(ROOT).as_posix()},indent=2))
+    result={'passed':True,'date':time.strftime('%Y-%m-%d'),'platform':platform.platform(),'checks':checks,'phases':phases,'trainingJobsLaunched':0,'productionRequests':0,'physicalPhoneValidation':False}
+    out=ROOT/'docs/repo-audit-2026-11-01'/('handoff-validation.json' if os.name=='nt' else f'handoff-validation-{sys.platform}.json');out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps({'passed':True,'commandGroups':len(checks),'phases':phases,'report':out.relative_to(ROOT).as_posix()},indent=2))
 if __name__=='__main__':main()

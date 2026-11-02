@@ -7,7 +7,7 @@ from pathlib import Path
 import argparse,json,sys,time
 import cv2,numpy as np
 W=Path(__file__).resolve().parent;sys.path.insert(0,str(W.parent/'osmo-reconstruct-20261031'))
-from seed_fisheye import read_model,qvec_to_rotmat
+from seed_fisheye import read_model,qvec_to_rotmat,sample_map
 P=argparse.ArgumentParser();P.add_argument('--dataset',type=Path,required=True);a=P.parse_args();started=time.monotonic();cv2.setNumThreads(2)
 report_path=a.dataset/'depth-scale-audit.json'
 if report_path.exists():raise FileExistsError(report_path)
@@ -25,8 +25,9 @@ for number,im in enumerate(images.values(),1):
         idx=[j for j,pid in enumerate(im['point3D_ids']) if int(pid) in points and len(train_times[int(pid)])>=3 and points[int(pid)]['error']<=1.5]
         if len(idx)<40:raise ValueError('Fewer than 40 qualified multi-timestamp anchors')
         ids=im['point3D_ids'][idx];observed=im['points2D_xy'][idx];xyz=np.array([points[int(pid)]['xyz'] for pid in ids]);R=qvec_to_rotmat(im['qvec']);xc=xyz@R.T+im['tvec'];ranges=np.linalg.norm(xc,axis=1);uv=xc[:,:2]/xc[:,2,None]*[fx,fy]+[cx,cy]
-        xy=observed*[DW/camera['width'],H/camera['height']];mx=xy[:,0].astype(np.float32).reshape(-1,1);my=xy[:,1].astype(np.float32).reshape(-1,1)
-        depth=cv2.remap(raw.astype(np.float32),mx,my,cv2.INTER_LINEAR,borderMode=cv2.BORDER_CONSTANT,borderValue=0).ravel();valid=cv2.remap(mask,mx,my,cv2.INTER_NEAREST,borderMode=cv2.BORDER_CONSTANT,borderValue=0).ravel()>127
+        # Keypoints are COLMAP-continuous; sample_map converts them to cv2 pixel indices.
+        xy=observed*[DW/camera['width'],H/camera['height']]
+        depth=sample_map(raw.astype(np.float32),xy);valid=sample_map(mask,xy,nearest=True)>127
         valid&=(xc[:,2]>.02)&(np.linalg.norm(uv-observed,axis=1)<=2.5)&(depth>0)&np.isfinite(ranges)
         depth=depth[valid];ranges=ranges[valid];xy=xy[valid]
         if len(depth)<40:raise ValueError('Fewer than 40 unmasked accurate anchor observations')

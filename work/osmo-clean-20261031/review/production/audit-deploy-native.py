@@ -1,7 +1,7 @@
 """Local-only release failure checks, fixture archive and generated shell syntax."""
 from pathlib import Path
 from unittest.mock import patch
-import hashlib,importlib.util,json,subprocess,tarfile,tempfile
+import hashlib,importlib.util,json,os,subprocess,tarfile,tempfile
 HERE=Path(__file__).resolve().parent
 def module(name,file):
     spec=importlib.util.spec_from_file_location(name,HERE/file);result=importlib.util.module_from_spec(spec);spec.loader.exec_module(result);return result
@@ -54,7 +54,7 @@ with tempfile.TemporaryDirectory(prefix='native-deploy-audit-',dir=HERE) as temp
     assert script.index('rm -f --')<script.index('tar --no-same-owner')
     assert 'curl -fsS --compressed' not in script and 'model GET' not in script
     for name in ['deploy-native.sh','rollback-native.sh']:
-        result=subprocess.run([r'C:\Program Files\Git\bin\bash.exe','-n',str(fixture/'deployment'/name)],capture_output=True)
+        result=subprocess.run([r'C:\Program Files\Git\bin\bash.exe' if os.name=='nt' else 'bash','-n',str(fixture/'deployment'/name)],capture_output=True)
         assert result.returncode==0,result.stderr.decode()
     checks += ['archive has only explicit regular public files','iPhone models excluded from upload','all replacement hardlinks detached before extraction','atomic promotion and guarded rollback generated','rendered deployment and rollback scripts pass bash -n','origin verification contains no full model GET']
     with patch.object(deploy,'quality_gate',return_value={}):reject('package cannot silently overwrite a prior release package',lambda:deploy.package(audit,approval,'/var/www/rumah/releases/20261031-osmo-v3',fixture))

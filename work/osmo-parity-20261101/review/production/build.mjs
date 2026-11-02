@@ -19,6 +19,9 @@ if(!provisional&&(!candidate.newTraining||!candidate.cameras))throw Error('Final
 const assetPath=path.resolve(here,candidate.file), bytes=await fs.readFile(assetPath),sha=hash(bytes);
 const format=candidate.format;
 if(sha!==candidate.sha256||bytes.length!==candidate.bytes||!validateModelHeader(bytes,format))throw Error('Candidate hash, bytes or format do not match.');
+// Splat count and SH degree drive the phone budget; take them only from the matching pack report.
+const packing=candidate.packingReport&&await read(path.resolve(here,candidate.packingReport));
+if(packing&&(packing.sha256!==sha||packing.splats!==candidate.splats||packing.shDegree!==candidate.shDegree))throw Error('Candidate splats or SH degree differ from its packing report.');
 const sourceName=`models/osmo-native-${sha.slice(0,10)}.${format}`;
 const asset={label:'Osmo',representation:'gaussian',format,cameraSet:'osmo',url:sourceName,fileBytes:bytes.length,downloadBytes:bytes.length,splats:candidate.splats,shDegree:candidate.shDegree,note:'Osmo · native Gaussian view · approximate scale',provisional};
 nativePolicy(asset,true);
@@ -50,7 +53,7 @@ for(const output of result.outputFiles){await fs.mkdir(path.dirname(output.path)
 const bundle=result.outputFiles.find(o=>path.basename(o.path).startsWith('room-viewer-')),bundleName=path.basename(bundle.path);
 const chooser=(await fs.readFile(path.join(here,'chooser.js'),'utf8')).replace('__BUNDLE__',bundleName);
 const gate=await build({stdin:{contents:chooser,sourcefile:'chooser.js',resolveDir:here},bundle:true,write:false,minify:true,format:'iife',target:'es2020',logLevel:'warning'});
-let shell=(await fs.readFile(path.join(here,'room-shell.html'),'utf8')).replace('__CHOOSER_INLINE__',gate.outputFiles[0].text.replaceAll('20261031-native-provisional',releaseId).replaceAll('</script','<\\/script'));
+let shell=(await fs.readFile(path.join(here,'room-shell.html'),'utf8')).replace('__CHOOSER_INLINE__',()=>gate.outputFiles[0].text.replaceAll('20261031-native-provisional',releaseId).replaceAll('</script','<\\/script'));
 for(const [key,marker] of [['phone','PHONE'],['native','NATIVE'],['osmo','OSMO']]){const m=manifest.models[key];shell=shell.replace(`__${marker}_COST__`,'≈ '+(m.downloadBytes/1e6).toFixed(1)+' MB').replace(`__${marker}_FILE__`,(m.fileBytes/1e6).toFixed(1)+' MB');}
 if(/__[A-Z_]+__/.test(shell)||/<(?:img|script)\b[^>]*\bsrc\s*=/i.test(shell)||/\brel=["'](?:preload|prefetch|modulepreload)/i.test(shell))throw Error('Quota gate contains an automatic resource request.');
 await fs.writeFile(path.join(pub,'index.html'),shell);

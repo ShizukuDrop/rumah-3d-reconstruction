@@ -16,6 +16,8 @@ Sizes are decimal, before optional HTTP gzip. SOG is a Gaussian splat archive, n
 
 **Latest local WIP: 20261101-osmo-parity-review**, in work/osmo-parity-20261101/. Viewer controls, occupied room bounds (occupied_bounds.py), and dollhouse/top/reversible-shell UI behavior are **implemented and verified**. **Model sharpness, surface quality and outside cutaway visuals failed acceptance.** The 1600px/50k Gaussian remains soft; cutaway artifacts persist; sharper textured surfaces have wrong geometry. review/production/release-approval.json has **approvedForDeployment: false**.
 
+**2026-11-02 cutaway rework (local, not deployed, not re-approved).** The overview cutaway now uses the room's real, non-convex footprint instead of the convex hull of the dense seed. The hull covered about 20% more area than the room (21% of the hull is not room), so concave corridor/bathroom walls were never cut and the halo of unobserved exterior splats stayed visible. occupied_footprint.py derives the footprint from opaque flat splats on the fitted floor, upper ceiling and a detected dropped ceiling (y≈2.00, about half of the apartment). It stores a signed-distance grid, a per-cell local-ceiling selector and the wall band (0.40, chosen by visual A/B against 0.22) in occupiedShell.footprint. gaussian-cutaway.js reads them from one RG8 texture per splat and hides the following whenever See inside is on (the default in Orbit/Top; Walk starts with it off): splats whose 2σ reach crosses the wall line, camera-facing wall layers, the local ceiling, anything outside the floor–ceiling volume, and needle splats near the shell. Default Walk mode and the downloaded model are unchanged. The model hash, the four acceptance gates and the release approval are untouched: visual acceptance is still the architect's call. Regenerate with `python -B occupied_footprint.py review/qa/new-full-50000.ply review/occupied-cameras.json review/calibrated-occupied-cameras.json` (from work/osmo-parity-20261101, NumPy+SciPy+Pillow).
+
 | WIP gate | Recorded result |
 |---|---|
 | Full-height dollhouse | Behavior passed; visual acceptance failed |
@@ -105,6 +107,11 @@ From the checkout root, substitute your own download directory:
     python -B tools/restore_assets.py --downloads C:/Downloads/Rumah --reference-archive C:/Downloads/Rumah/viewer-reference-resources-2026-11-01.zip --runtime-archive C:/Downloads/Rumah/spirula-2026.10.30-windows-vulkan-x86_64.zip
     python -B tools/restore_assets.py --check
 
+macOS/Linux: download the six default models and the reference ZIP into one folder (model files may sit in subfolders; pass the ZIP's actual path), omit the Windows-only runtime archive, and use Python 3.11+ (for example .venv-audit/bin/python from section 5). The combined handoff check needs all six models, including A006; `--ids A001 A003 A013 A018 A034` is enough to build and preview both viewers. A subset restore without A001/A003 skips the iPhone transfer copies.
+
+    .venv-audit/bin/python -B tools/restore_assets.py --downloads ~/Downloads/Rumah --reference-archive ~/Downloads/Rumah/viewer-reference-resources-2026-11-01.zip
+    .venv-audit/bin/python -B tools/restore_assets.py --check
+
 The tool verifies hashes, refuses differing existing files, writes only inside the checkout, restores iPhone aliases and regenerates gzip transport from protected GLBs. Gzip can differ across zlib versions; decoded model identity must match. Use --ids A004 for a specific archived experiment. External dataset restoration is manual.
 
 Original workstation data locations:
@@ -135,6 +142,11 @@ The recorded native setup is Windows x64: **CPython 3.14.3** for CPU geometry/ra
     py -3.12 -m venv .venv-audit
     ./.venv-audit/Scripts/python.exe -m pip install -r requirements/audit-py312.txt
 
+macOS/Linux equivalent (verified on Apple Silicon; uv fetches the interpreters). Use `.venv-*/bin/python` wherever this guide says `Scripts/python.exe`:
+
+    uv venv -p 3.14 .venv-geometry && uv pip install -p .venv-geometry -r requirements/geometry-py314.txt
+    uv venv -p 3.12 .venv-audit && uv pip install -p .venv-audit -r requirements/audit-py312.txt
+
 The clean-clone web check used **Node.js 24.13.1**. Exact package pins: Three.js **0.180.0**; @gltf-transform/core, extensions and functions **4.5.1**; meshoptimizer **0.25.0**; esbuild **0.25.11**; sharp **0.35.5**; @sparkjsdev/spark **2.4.0**. The npm Spark module matches the former vendored module byte-for-byte. The converter pins @playcanvas/splat-transform **3.10.3**. Active builds now use shared npm Sharp/Spark instead of a Codex cache.
 
 requirements/geometry-py314.txt records NumPy **2.4.2**, Pillow **12.2.0**, OpenCV headless **4.13.0.92**, SciPy **1.17.0**, trimesh **5.2.0**, embreex **4.4.0.post1** and rtree **1.4.1**. requirements/surface-py312.txt separately records NumPy **2.3.5**, OpenCV **5.0.0.93**, moderngl **5.13.0**, glcontext **3.1.0**, SciPy **1.18.1**, pymeshlab **2025.7.post1**, scikit-image **0.26.0** and xatlas **0.0.11**. Separate audit and hosting requirements are also provided.
@@ -151,7 +163,7 @@ Training also needs the hash-pinned **Spirula 2026.10.30 Windows Vulkan x64** ex
 
 ## 6. Running Tests, Local Preview & Deployment
 
-From the root, **npm test** runs loader-core.test.mjs, choice-gate.test.mjs, model-selection.test.mjs and native-delivery.test.mjs in both production folders: **52 tests** in the initial handoff check.
+From the root, **npm test** runs loader-core.test.mjs, choice-gate.test.mjs, model-selection.test.mjs and native-delivery.test.mjs in both production folders, plus the parity cutaway.test.mjs: **54 tests**. Run `npm ci` in work/mobile-20261029 first; otherwise the two Spark SDK checks fail with `Cannot find module '@sparkjsdev/spark'`.
 
     npm test
     # Equivalent per-viewer command:
@@ -166,7 +178,7 @@ CPU geometry checks are executable unittest/synthetic harnesses:
     ./.venv-geometry/Scripts/python.exe -B work/osmo-clean-20261031/geometry/test_preparation_synthetic.py
     ./.venv-geometry/Scripts/python.exe -B work/osmo-clean-20261031/geometry/test_negative_rays.py
 
-The combined check builds both viewers, audits file closure and local HTTP HEAD/ranges, and verifies that the rejected WIP cannot be packaged:
+The combined check builds both viewers, audits file closure and local HTTP HEAD/ranges, and verifies that the rejected WIP cannot be packaged. On other platforms it writes docs/repo-audit-2026-11-01/handoff-validation-<platform>.json and leaves the dated Windows receipt alone:
 
     ./.venv-audit/Scripts/python.exe -B tools/run_handoff_checks.py --geometry-python .venv-geometry/Scripts/python.exe
 
@@ -190,7 +202,7 @@ For deployment, run **python -B prepare-deploy.py --audit-only** in the selected
 
 ### Next Engineering Priorities for Handover
 
-1. Check dense camera/edge consistency, angular sampling and guidance alignment before another full training run. Preserve the audited frame, masks and timestamp splits.
+1. Check dense camera/edge consistency, angular sampling and guidance alignment before another full training run. Preserve the audited frame, masks and timestamp splits. **Found 2026-11-02:** build_explicit_pinhole.py sampled the pinhole RGB/masks with integer-centred rays and passed COLMAP-continuous fisheye coordinates straight to cv2.remap. Every training image therefore sat 0.1–0.9 px (median 0.11 front face, 0.32 side faces, at 1600 px) off the PINHOLE model it was written with, while the SfM keypoints used the correct convention. Both copies now use seed_fisheye.pinhole_face_maps (regression test in test_seed_fisheye.py), and fit_explicit_depth.py / validate_explicit_depth.py now sample depth, masks and seed colour on the same pixel-centre convention (their old half-pixel offsets were about 0.5 depth px). None of this has run on real training data. It only takes effect when the 1200 px base dataset is rebuilt end to end (build_explicit_pinhole → MoGe guidance → continue_explicit_full.py fit/validate) and retrained. prepare-highres.py does not do that: it skips an existing output folder and hard-links depths-trusted/, normals-trusted/ and seed-dense-train.ply from the old base, and verify-input-contract.py asserts those old hashes. prepare-qa.py's reference remap has the same half-pixel pattern and still needs the same fix before reference crops are rebuilt.
 2. Compare the recorded mip primitive/appearance corrections with controlled RGB-only and independent-trainer runs at the same four poses, 1920 x 1080 viewport and masks. Small PSNR/crop gains are insufficient without visible full-view gains.
 3. Fix geometry and photographic alignment together. TSDF/Poisson/photo-baked alternatives were rejected for unsupported closures, holes, wrong shapes and projection errors despite sharper patches.
 4. Deliver a clean full-height cutaway that preserves cabinets, doors/windows and furniture, while keeping reversible roof/wall state and the passing controls behavior.
