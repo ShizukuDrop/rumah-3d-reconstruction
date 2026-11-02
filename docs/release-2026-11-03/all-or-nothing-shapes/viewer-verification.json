@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "releaseId": "20261103-osmo-viewer-v3",
+  "manifestSha256": "b0d0fc83f3d666e10ef5f85fc5a0f3ef592f53c39737d1ec02013b7314902bc7",
+  "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+  "checks": {
+    "viewerQuotaAndErrorsPassed": true,
+    "viewerControlsPassed": true,
+    "zeroModelBytesBeforeOpen": true,
+    "iphoneHashesPreserved": true,
+    "totalModelDownloadWithin50MB": true,
+    "reversibleShellPassed": true
+  },
+  "allOrNothingShapesPassed": true,
+  "defaultRepresentation": "gaussian",
+  "automaticShapeSubstitution": false,
+  "shapeDownloadOnlyAfterExplicitOn": true,
+  "controlChecks": 54,
+  "physicalPhonesTested": false,
+  "trainingJobsLaunched": 0,
+  "receipts": [
+    {
+      "path": "../controls-verification-20261103-v3.json",
+      "sha256": "596252777856ecc958e7f498d039e7025ced53bd3cd137b3677e01f0ac5dbde7",
+      "bytes": 183638
+    },
+    {
+      "path": "../../../../docs/release-2026-11-03/all-or-nothing-shapes/release-validation.json",
+      "sha256": "a8dc2be89dd78337c3644710835e4190e6ad7834f9e77f1574574cf3f5bd5365",
+      "bytes": 4097
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "../evidence-20261103-v3/00-model-chooser.png",
+      "sha256": "c6a99c171c2c64c06abd480bf8741504e1877ad1a92c81b30c74037796ca3f04",
+      "bytes": 318942
+    },
+    {
+      "path": "../evidence-20261103-v3/01-osmo-dollhouse.png",
+      "sha256": "92c2614d4a48632fe181cc54d2c98c06d7fc7eae1937db3796392bd8274c4043",
+      "bytes": 1363480
+    },
+    {
+      "path": "../evidence-20261103-v3/02-osmo-top.png",
+      "sha256": "15c467e6eb62558f3047c6acb48fcd41d8862c8da312d52f68706cb88cbbc1f4",
+      "bytes": 1003916
+    },
+    {
+      "path": "../evidence-20261103-v3/03-osmo-roof-restored.png",
+      "sha256": "c7348231dd592e304c6e8339cdffc9a27696607b3cbc2b9aeee127c69454aa9a",
+      "bytes": 2111008
+    },
+    {
+      "path": "../evidence-20261103-v3/04-osmo-orbit-return.png",
+      "sha256": "92c2614d4a48632fe181cc54d2c98c06d7fc7eae1937db3796392bd8274c4043",
+      "bytes": 1363480
+    },
+    {
+      "path": "../evidence-20261103-v3/05-osmo-phone-layout-label.png",
+      "sha256": "b78d6933e6db87a22dd032a2cbfee957cb0f8560fff8c8aa4c7cd6e63dcbefe1",
+      "bytes": 231621
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-orbit-inside-true-off-restored.png",
+      "sha256": "1a907d7096e9415a63cbf39ed1c182a209ee7e6d5eea19ccb976f20fb1a52181",
+      "bytes": 1363673
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-orbit-inside-true-off.png",
+      "sha256": "92c2614d4a48632fe181cc54d2c98c06d7fc7eae1937db3796392bd8274c4043",
+      "bytes": 1363480
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-orbit-inside-true-on.png",
+      "sha256": "460ec4a1637895e29e1ba7861346dc243a44e10d6cac633b2a9eacd8439d2fad",
+      "bytes": 65718
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-top-inside-true-off-restored.png",
+      "sha256": "d85d406a00c026bc85a7b8b2b90d83f44876a5b530b30516b4b05fffd4dd9130",
+      "bytes": 1003856
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-top-inside-true-off.png",
+      "sha256": "15c467e6eb62558f3047c6acb48fcd41d8862c8da312d52f68706cb88cbbc1f4",
+      "bytes": 1003916
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-top-inside-true-on.png",
+      "sha256": "248759cbd1f34b0a6f774e9b52aa4cd81a2f93702622894a23a7baf3245fc36d",
+      "bytes": 26605
+    },
+    {
+      "path": "../evidence-20261103-v3/06-phone-orbit-inside-true-off-restored.png",
+      "sha256": "df10e2c4e11c2c94584100d825c4b3b93508a0ab8b289b707124e19648ce7634",
+      "bytes": 231595
+    },
+    {
+      "path": "../evidence-20261103-v3/06-phone-orbit-inside-true-off.png",
+      "sha256": "b78d6933e6db87a22dd032a2cbfee957cb0f8560fff8c8aa4c7cd6e63dcbefe1",
+      "bytes": 231621
+    },
+    {
+      "path": "../evidence-20261103-v3/06-phone-orbit-inside-true-on.png",
+      "sha256": "00aad9e066fea07bdcdfc58ae76ef46822159dc0889e86eca60c4ea076f54854",
+      "bytes": 31431
+    }
+  ]
+}

@@ -1,17 +1,17 @@
 {
   "releaseKind": "viewer-update",
   "approvedForDeployment": true,
-  "releaseId": "20261103-osmo-viewer-v2",
+  "releaseId": "20261103-osmo-viewer-v3",
   "baselineRelease": "20261101-osmo-parity-review",
   "baselineModelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
   "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
-  "manifestSha256": "e9f093c7382488aa37a70b6f9ecd5f0c1ccf78699a38ecc5c0cc8d216d3e47a7",
+  "manifestSha256": "b0d0fc83f3d666e10ef5f85fc5a0f3ef592f53c39737d1ec02013b7314902bc7",
   "reconstructionAccepted": false,
   "userAuthorization": {
     "action": "deploy-viewer-update",
     "source": "user-message",
-    "instruction": "but not live in the web? Also iPhone Full = delete it, we do not need it, also remove the model and related in our local file (only keep the iphone lite)",
-    "recordedAt": "2026-11-02T23:18:25.579208+00:00"
+    "instruction": "can you make simple shapes toggle to everything? i.e. all simple shapes or no shape substitution at all",
+    "recordedAt": "2026-11-02T23:33:57.116556+00:00"
   },
   "qualityChecks": {
     "viewerQuotaAndErrorsPassed": true,
@@ -60,8 +60,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 16258,
-      "sha256": "066b07ac910496393bb7fbb00032674ca0eb404a6840ba2375e3637b60d27bfd"
+      "bytes": 16701,
+      "sha256": "6f15d8ef8f8f1025e3047e3eca563fe3a319cb8d01b16620270f0ca808907cf2"
     },
     {
       "path": "models/osmo-native-db0e94c2fa.sog",
@@ -79,14 +79,14 @@
       "sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
     },
     {
-      "path": "room-e9f093c738.json",
+      "path": "room-b0d0fc83f3.json",
       "bytes": 664979,
-      "sha256": "e9f093c7382488aa37a70b6f9ecd5f0c1ccf78699a38ecc5c0cc8d216d3e47a7"
+      "sha256": "b0d0fc83f3d666e10ef5f85fc5a0f3ef592f53c39737d1ec02013b7314902bc7"
     },
     {
-      "path": "room-viewer-VV6IDETS.js",
-      "bytes": 44725,
-      "sha256": "6faf4e9436497dbaf3297fdf8302dc6578788e48ea5ca52446e6e8da1840fa33"
+      "path": "room-viewer-JACM3SLV.js",
+      "bytes": 44763,
+      "sha256": "1f250c8db045a070e5323032e5f8c67bc7d532433b05884a7faa28119205247d"
     },
     {
       "path": "sources/osmo-1b610b42ef.jpg",
@@ -186,9 +186,9 @@
   "baselineAcceptanceSha256": "36838ae4daea78a237121beba3ff24475948d1b750476fb7ce25452831185e79",
   "baselineApprovalSha256": "5a4675809baefa0631d9a8969797721e18d389a50f8766a97932b4239c276ed7",
   "viewerVerification": {
-    "path": "../../../../docs/release-2026-11-03/lite-only/viewer-verification.json",
-    "sha256": "590d8cba71905f12b10bcdcba93c2b5103f9db6d11cda42c1f4631d3205c7cf6",
-    "bytes": 2359
+    "path": "../../../../docs/release-2026-11-03/all-or-nothing-shapes/viewer-verification.json",
+    "sha256": "d1eff429afa3dd4f5b214bed01d8b87d47bf33428d8cb499a508e0739f9f1afd",
+    "bytes": 4159
   },
   "evidence": [
     {
@@ -212,54 +212,99 @@
       "bytes": 4968
     },
     {
-      "path": "../../../../docs/release-2026-11-03/lite-only/viewer-verification.json",
-      "sha256": "590d8cba71905f12b10bcdcba93c2b5103f9db6d11cda42c1f4631d3205c7cf6",
-      "bytes": 2359
+      "path": "../../../../docs/release-2026-11-03/all-or-nothing-shapes/viewer-verification.json",
+      "sha256": "d1eff429afa3dd4f5b214bed01d8b87d47bf33428d8cb499a508e0739f9f1afd",
+      "bytes": 4159
     },
     {
-      "path": "../controls-verification-20261103-v2.json",
-      "sha256": "43157a406767d063a49e90cae9033aca1fa6832988a9c9b3691388edfb59cc44",
-      "bytes": 18096
+      "path": "../controls-verification-20261103-v3.json",
+      "sha256": "596252777856ecc958e7f498d039e7025ced53bd3cd137b3677e01f0ac5dbde7",
+      "bytes": 183638
     },
     {
-      "path": "../choice-and-phone-policy-verification-20261103-v2.json",
-      "sha256": "829ed087f8739d417ce06e6d1cfdfee6d92519903c33cd6f91ae666be57cb23b",
-      "bytes": 8516
+      "path": "../../../../docs/release-2026-11-03/all-or-nothing-shapes/release-validation.json",
+      "sha256": "a8dc2be89dd78337c3644710835e4190e6ad7834f9e77f1574574cf3f5bd5365",
+      "bytes": 4097
     },
     {
-      "path": "../../../../docs/release-2026-11-03/lite-only/handoff-validation.json",
-      "sha256": "67fef33c73cc71040d3f0c222ca7ce677227c96986f5cfeedd06ccd1fcc3ba1f",
-      "bytes": 12430
+      "path": "../evidence-20261103-v3/00-model-chooser.png",
+      "sha256": "c6a99c171c2c64c06abd480bf8741504e1877ad1a92c81b30c74037796ca3f04",
+      "bytes": 318942
     },
     {
-      "path": "../../../../docs/release-2026-11-03/iphone-full-removal.json",
-      "sha256": "2f70933215fe8be34a63640bcf0d51fac30f866e909968dc82b6b5f5fbc1de6a",
-      "bytes": 6519
+      "path": "../evidence-20261103-v3/01-osmo-dollhouse.png",
+      "sha256": "92c2614d4a48632fe181cc54d2c98c06d7fc7eae1937db3796392bd8274c4043",
+      "bytes": 1363480
     },
     {
-      "path": "../evidence-20261103-v2/01-osmo-dollhouse.png",
-      "sha256": "9ccd118a9c225985ed8c889ddb4a06700b3de6f678e6bee52acfad68d547b332",
-      "bytes": 406318
+      "path": "../evidence-20261103-v3/02-osmo-top.png",
+      "sha256": "15c467e6eb62558f3047c6acb48fcd41d8862c8da312d52f68706cb88cbbc1f4",
+      "bytes": 1003916
     },
     {
-      "path": "../evidence-20261103-v2/02-osmo-top.png",
-      "sha256": "0370ef2dfa3f6757663a1be43248c62676ff3d82d704e3e2f0efa88a2e61446c",
-      "bytes": 496331
+      "path": "../evidence-20261103-v3/03-osmo-roof-restored.png",
+      "sha256": "c7348231dd592e304c6e8339cdffc9a27696607b3cbc2b9aeee127c69454aa9a",
+      "bytes": 2111008
     },
     {
-      "path": "../evidence-20261103-v2/03-osmo-roof-restored.png",
-      "sha256": "03c6824b3c345e2d1d6df73567014ef02fe154763e49c38655a38b579d3ed846",
-      "bytes": 2166719
+      "path": "../evidence-20261103-v3/04-osmo-orbit-return.png",
+      "sha256": "92c2614d4a48632fe181cc54d2c98c06d7fc7eae1937db3796392bd8274c4043",
+      "bytes": 1363480
     },
     {
-      "path": "../evidence-20261103-v2/04-osmo-orbit-return.png",
-      "sha256": "9ccd118a9c225985ed8c889ddb4a06700b3de6f678e6bee52acfad68d547b332",
-      "bytes": 406318
+      "path": "../evidence-20261103-v3/05-osmo-phone-layout-label.png",
+      "sha256": "b78d6933e6db87a22dd032a2cbfee957cb0f8560fff8c8aa4c7cd6e63dcbefe1",
+      "bytes": 231621
     },
     {
-      "path": "../evidence-20261103-v2/05-osmo-phone-layout-label.png",
-      "sha256": "e4c25cbee11a4a1c762514f4dc7dab7ebdc6855aef5c818b0c968486d50f4315",
-      "bytes": 103875
+      "path": "../evidence-20261103-v3/06-desktop-orbit-inside-true-off-restored.png",
+      "sha256": "1a907d7096e9415a63cbf39ed1c182a209ee7e6d5eea19ccb976f20fb1a52181",
+      "bytes": 1363673
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-orbit-inside-true-off.png",
+      "sha256": "92c2614d4a48632fe181cc54d2c98c06d7fc7eae1937db3796392bd8274c4043",
+      "bytes": 1363480
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-orbit-inside-true-on.png",
+      "sha256": "460ec4a1637895e29e1ba7861346dc243a44e10d6cac633b2a9eacd8439d2fad",
+      "bytes": 65718
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-top-inside-true-off-restored.png",
+      "sha256": "d85d406a00c026bc85a7b8b2b90d83f44876a5b530b30516b4b05fffd4dd9130",
+      "bytes": 1003856
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-top-inside-true-off.png",
+      "sha256": "15c467e6eb62558f3047c6acb48fcd41d8862c8da312d52f68706cb88cbbc1f4",
+      "bytes": 1003916
+    },
+    {
+      "path": "../evidence-20261103-v3/06-desktop-top-inside-true-on.png",
+      "sha256": "248759cbd1f34b0a6f774e9b52aa4cd81a2f93702622894a23a7baf3245fc36d",
+      "bytes": 26605
+    },
+    {
+      "path": "../evidence-20261103-v3/06-phone-orbit-inside-true-off-restored.png",
+      "sha256": "df10e2c4e11c2c94584100d825c4b3b93508a0ab8b289b707124e19648ce7634",
+      "bytes": 231595
+    },
+    {
+      "path": "../evidence-20261103-v3/06-phone-orbit-inside-true-off.png",
+      "sha256": "b78d6933e6db87a22dd032a2cbfee957cb0f8560fff8c8aa4c7cd6e63dcbefe1",
+      "bytes": 231621
+    },
+    {
+      "path": "../evidence-20261103-v3/06-phone-orbit-inside-true-on.png",
+      "sha256": "00aad9e066fea07bdcdfc58ae76ef46822159dc0889e86eca60c4ea076f54854",
+      "bytes": 31431
     }
-  ]
+  ],
+  "representationPolicy": {
+    "default": "gaussian",
+    "simpleShapes": "all-or-nothing",
+    "automaticOverlay": false
+  }
 }

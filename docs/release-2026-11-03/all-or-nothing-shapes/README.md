@@ -1,0 +1,7 @@
+# All-or-nothing Simple shapes — 2026-11-03
+
+Release 20261103-osmo-viewer-v3 makes Simple shapes the only control that selects a representation. It starts OFF: actual Gaussian reconstruction only in Orbit, Top and Walk. ON hides the Gaussian and renders the entire 85-primitive inferred scene, including its floor, ceilings, walls and furniture. The independent See inside option still controls shell visibility in either representation. There is no automatic hybrid layer, fitted floor or furniture substitution.
+
+The shape JSON is fetched only after explicit ON and reused on later toggles. OFF removes every visible primitive, restores photographic lighting state and releases shape-only shadow targets. A generation/owner guard prevents delayed shape requests from re-enabling shapes after cancellation or model disposal. Both representations use the same camera; switching representations does not reset, pan or zoom it. iPhone Lite and Osmo are the only model choices; retired Full files stay absent.
+
+Validation covers generated cutaway shader behavior, 60 Node checks, deployment fixtures and exact file identities, plus real hardware Chrome checks across desktop/390x844 layouts, Orbit/Top/Walk, See inside ON/OFF and representation roundtrips. Physical phone validation and reconstruction sharpness are not claimed. The Gaussian model itself remains the same A018 artifact; no retraining was launched.

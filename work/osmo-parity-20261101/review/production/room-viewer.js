@@ -34,7 +34,7 @@ const light=new THREE.DirectionalLight(0xffffff,2);light.position.set(3,8,5);sce
 const keys=new Set(),velocity=new THREE.Vector3(),wheelVelocity=new THREE.Vector3();
 const forward=new THREE.Vector3(),right=new THREE.Vector3(),euler=new THREE.Euler(0,0,0,'YXZ');
 let data,model,mode='walk',yaw=0,pitch=0,speed=1.2,drag=null,ready=false,dirty=true;
-let recorded=null,comparison=false,seeInside=false,shaded=false,simple=null,simpleOn=false,shapeFile=null,overviewShell=null;
+let recorded=null,comparison=false,seeInside=false,shaded=false,simple=null,simpleOn=false,shapeFile=null,simpleRequest=0,shapeLighting=null;
 let orbit={target:new THREE.Vector3(),theta:0,phi:1,radius:8};
 let framingPoints=new Float32Array();
 let forceRender=false,frames=[],last=performance.now(),renderCount=0;
@@ -49,9 +49,11 @@ function focus(){canvas.focus({preventScroll:true});}
 function angles(){camera.getWorldDirection(forward);yaw=Math.atan2(-forward.x,-forward.z);pitch=Math.asin(THREE.MathUtils.clamp(forward.y,-1,1));}
 function orient(){euler.set(pitch,yaw,0,'YXZ');camera.quaternion.setFromEuler(euler);camera.up.set(0,1,0);}
 function updateViewDescription(){
-  const inferred=nativeGaussian&&(simpleOn||(mode==='orbit'&&seeInside&&!!overviewShell));
-  $('quality-note').textContent=simpleOn?'Simple shapes · inferred room and furniture · approximate scale':inferred?'Layout approximation · fitted walls and furniture':nativeGaussian?'Photographic reconstruction · approximate scale · defects remain':asset?.note||'Approximate scale · reconstruction defects remain';
-  $('photographic-view').hidden=!inferred;
+  $('quality-note').textContent=simpleOn?'Simple shapes · inferred room and furniture · approximate scale':nativeGaussian?'Photographic reconstruction · approximate scale · defects remain':asset?.note||'Approximate scale · reconstruction defects remain';
+  // Reserve the action's space while shapes are available: toggling must not resize the canvas
+  // and make ResizeObserver refit the camera. The OFF action is invisible and non-interactive.
+  const shapeOption=!!asset?.simple,button=$('photographic-view');$('view-details').dataset.shapeOption=String(shapeOption);
+  button.hidden=!shapeOption;button.style.visibility=simpleOn?'visible':'hidden';button.disabled=!ready||!simpleOn;button.setAttribute('aria-hidden',String(!simpleOn));
 }
 function clearRecorded(){
   if(!recorded)return;
@@ -276,17 +278,17 @@ function step(dt){
 }
 // The near-side cut is about the orbit target; outside Orbit the camera stands in for it, which turns it off.
 const cutTarget=()=>mode==='orbit'?orbit.target:camera.position;
-// The fitted walls are the overview's cut edge. In Walk (with See inside on) the room keeps its real splats.
+// The actual Gaussian cutaway follows the orbit target; no fitted shape walls replace the scan.
 const orbitTarget=()=>mode==='orbit'?orbit.target:null;
 function render(){
   // Orbit can sit far out (Top view's narrow lens): keep the far plane past it and the near plane in
   // proportion so depth precision holds. Walk keeps the close near plane.
   const near=mode==='orbit'?Math.max(.025,orbit.radius/2000):.025,far=mode==='orbit'?Math.max(100,2*orbit.radius):100;
   if(camera.near!==near||camera.far!==far){camera.near=near;camera.far=far;if(mode==='orbit')camera.updateProjectionMatrix();else resize();}
-  const shown=simpleOn?simple:seeInside&&mode==='orbit'?overviewShell:null;if(overviewShell)overviewShell.visible=shown===overviewShell;
+  const shown=simpleOn?simple:null;
   if(shown)for(const m of shown.children)placeShape(m,shapeVisible(m.userData.shape,seeInside,camera.position,cutTarget()),shown.userData.floor);
   // Sun shadows read as level changes from straight above and make no sense under a ceiling.
-  light.shadow.intensity=mode==='orbit'&&orbit.phi>.2?1:0;
+  if(simpleOn)light.shadow.intensity=mode==='orbit'&&orbit.phi>.2?1:0;
   if(!simpleOn)cutaway?.update(seeInside,camera);
   const v=viewport();renderer.setScissorTest(false);renderer.setViewport(0,0,canvas.clientWidth,canvas.clientHeight);renderer.clear();
   renderer.setViewport(v.x,v.y,v.w,v.h);renderer.render(scene,camera);
@@ -322,7 +324,7 @@ window.__room={get ready(){return ready;},get data(){return data;},preset,home,t
   look(position,target){walkHome();camera.position.fromArray(position);camera.lookAt(new THREE.Vector3().fromArray(target));angles();orient();invalidate();},  // deterministic walk poses for captures
   state(){const f=new THREE.Vector3();camera.getWorldDirection(f);return {position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),
     forward:f.toArray(),up:camera.up.toArray(),right:new THREE.Vector3(1,0,0).applyQuaternion(camera.quaternion).toArray(),mode,yaw,pitch,
-    keys:[...keys],comparison,simpleShapes:simpleOn,overviewWalls:!!overviewShell,cutawayRegenerations:cutaway?.regenerations||0,recorded:recorded?.name,triangles:renderer.info.render.triangles,renderCount,fov:camera.fov,seeInside,projection:camera.projectionMatrix.toArray(),orbit:{target:orbit.target.toArray(),radius:orbit.radius,theta:orbit.theta,phi:orbit.phi}};},
+    keys:[...keys],comparison,simpleShapes:simpleOn,overviewWalls:false,shapeSubstitution:simpleOn?'all':'none',totalShapeMeshes:simple?.children.length||0,visibleShapeMeshes:simple?.visible?simple.children.filter(m=>m.visible).length:0,gaussianVisible:nativeGaussian&&!!model?.visible,shapeShadows:!!renderer.shadowMap.enabled,cutawayRegenerations:cutaway?.regenerations||0,recorded:recorded?.name,triangles:renderer.info.render.triangles,renderCount,fov:camera.fov,seeInside,projection:camera.projectionMatrix.toArray(),orbit:{target:orbit.target.toArray(),radius:orbit.radius,theta:orbit.theta,phi:orbit.phi}};},
   benchmark(value){forceRender=value;frames=[];return true;},timings(){return [...frames];},
   componentVisibility(values){model.children.forEach((o,i)=>{o.visible=values[i]!==false;});invalidate();return model.children.map(o=>({name:o.name,visible:o.visible}));},
   rendererInfo(){const gl=renderer.getContext(),info=gl.getExtension('WEBGL_debug_renderer_info');return {renderer:info?gl.getParameter(info.UNMASKED_RENDERER_WEBGL):'unavailable',drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};},
@@ -361,53 +363,53 @@ async function showGallery(){
 $('photos').onclick=$('loading-photos').onclick=$('recovery-photos').onclick=showGallery;
 $('gallery-view').onchange=showGallery;$('gallery-close').onclick=()=>{$('gallery').close();$('gallery-photo').removeAttribute('src');};
 
-// The shape file is fetched once per model: the simple view uses all of it, the Gaussian overview its walls.
+// Fetch only after an explicit Simple shapes ON request. OFF always shows the actual reconstruction.
 function fetchShapes(){
-  return shapeFile??=withDeadline(fetch(asset.simple.url),30000,'The simple shapes could not download.').then(async r=>{
+  if(shapeFile)return shapeFile;const descriptor=asset.simple;
+  const pending=withDeadline(fetch(descriptor.url),30000,'The simple shapes could not download.').then(async r=>{
     if(!r.ok)throw Error('The simple shapes could not download.');
-    const bytes=new Uint8Array(await r.arrayBuffer());if(bytes.length!==asset.simple.fileBytes)throw Error('The simple shapes download was incomplete.');
+    const bytes=new Uint8Array(await r.arrayBuffer());if(bytes.length!==descriptor.fileBytes)throw Error('The simple shapes download was incomplete.');
     return JSON.parse(new TextDecoder().decode(bytes));
-  }).catch(error=>{shapeFile=null;throw error;});
+  }).catch(error=>{if(shapeFile===pending)shapeFile=null;throw error;});
+  shapeFile=pending;return pending;
 }
 // Soft shadows from the key light, fitted to the room, and a brighter, warm bounce light so walls read
-// white and ceilings not navy. Splats ignore lights; disposeSimple() restores the mesh defaults.
+// white and ceilings not navy. This lighting is active only while the entire simple scene is ON.
 function lightShapes(){
+  if(!shapeLighting)shapeLighting={shadowEnabled:renderer.shadowMap.enabled,shadowType:renderer.shadowMap.type,groundColor:fill.groundColor.clone(),fillIntensity:fill.intensity,castShadow:light.castShadow,lightPosition:light.position.clone(),targetPosition:light.target.position.clone(),targetParent:light.target.parent,mapSize:light.shadow.mapSize.clone(),normalBias:light.shadow.normalBias,shadowIntensity:light.shadow.intensity,camera:Object.fromEntries(['left','right','top','bottom','near','far'].map(k=>[k,light.shadow.camera[k]]))};
   const [lo,hi]=data.bounds,size=Math.max(hi[0]-lo[0],hi[2]-lo[2])/2+1,centre=new THREE.Vector3().fromArray(lo).add(new THREE.Vector3().fromArray(hi)).multiplyScalar(.5);
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;fill.groundColor.set(0xb9ae9c);fill.intensity=3;
   light.castShadow=true;light.shadow.mapSize.set(2048,2048);light.shadow.normalBias=.02;
   light.target.position.copy(centre);scene.add(light.target);light.position.copy(centre).add(new THREE.Vector3(1.5,10,2.5));
   Object.assign(light.shadow.camera,{left:-size,right:size,top:size,bottom:-size,near:.5,far:30});light.shadow.camera.updateProjectionMatrix();
 }
-// The Gaussian overview draws the fitted walls (dark tops, door leaves) and furniture as simple shapes,
-// over the photoreal splat floor, instead of fuzzy, shard-edged wall splats and soft furniture. The
-// fitted floor sits just under the splat floor, unlit in the scan's floor colour, so their seam disappears.
-async function addOverviewShell(){
-  const owner=model;
-  try{
-    const shapes=(await fetchShapes()).shapes;if(model!==owner||overviewShell)return;
-    const shell=shapes.filter(s=>s.kind==='wall'||s.kind==='object').concat(shapes.filter(s=>s.kind==='floor').map(s=>({...s,center:[s.center[0],s.center[1]-.04,s.center[2]]})));
-    overviewShell=buildShapes(THREE,{version:1,shapes:shell});
-    for(const m of overviewShell.children)if(m.userData.shape.kind==='floor'){m.material.dispose();m.material=new THREE.MeshBasicMaterial({color:m.userData.shape.color});}lightShapes();scene.add(overviewShell);cutaway?.trimWalls(camera);updateViewDescription();invalidate();
-  }catch(error){console.error('Overview walls failed',error);}
+function restoreShapeLighting(){
+  if(!shapeLighting)return;const saved=shapeLighting;shapeLighting=null;
+  renderer.shadowMap.enabled=saved.shadowEnabled;renderer.shadowMap.type=saved.shadowType;fill.groundColor.copy(saved.groundColor);fill.intensity=saved.fillIntensity;
+  light.castShadow=saved.castShadow;light.position.copy(saved.lightPosition);light.target.removeFromParent();if(saved.targetParent)saved.targetParent.add(light.target);light.target.position.copy(saved.targetPosition);light.target.updateMatrixWorld(true);
+  light.shadow.mapSize.copy(saved.mapSize);light.shadow.normalBias=saved.normalBias;light.shadow.intensity=saved.shadowIntensity;Object.assign(light.shadow.camera,saved.camera);light.shadow.camera.updateProjectionMatrix();
+  if(!saved.shadowEnabled){light.shadow.map?.dispose();light.shadow.map=null;light.shadow.mapPass?.dispose();light.shadow.mapPass=null;}
 }
 async function setSimple(value){
-  if(!ready||!asset?.simple)return;const owner=model;
+  const request=++simpleRequest;if(!ready||!asset?.simple)return;const owner=model;
+  const current=()=>request===simpleRequest&&model===owner&&ready;
   if(value&&!simple){
     $('simple').disabled=true;
     try{
-      const shapes=await fetchShapes();lightShapes();
-      const group=buildShapes(THREE,shapes);
-      if(model!==owner){group.userData.dispose();return;}simple=group;scene.add(simple);
-    }catch(error){console.error('Simple shapes failed',error);$('quality-note').textContent='Simple shapes could not load. Try again.';return;}
-    finally{$('simple').disabled=!ready;}
+      const shapes=await fetchShapes();if(!current())return;
+      simple=buildShapes(THREE,shapes);simple.visible=false;scene.add(simple);
+    }catch(error){if(current()){console.error('Simple shapes failed',error);$('quality-note').textContent='Simple shapes could not load. Try again.';}return;}
+    finally{if(current())$('simple').disabled=false;}
   }
+  if(!current())return;
   simpleOn=value&&!!simple;if(simple)simple.visible=simpleOn;if(model)model.visible=!simpleOn;
-  $('simple').setAttribute('aria-pressed',String(simpleOn));
+  if(simpleOn)lightShapes();else restoreShapeLighting();
+  $('simple').disabled=false;$('simple').setAttribute('aria-pressed',String(simpleOn));
   updateSurface();invalidate();
 }
 function disposeSimple(){
-  shapeFile=null;if(overviewShell){scene.remove(overviewShell);overviewShell.userData.dispose();overviewShell=null;}
-  if(!simple)return;scene.remove(simple);simple.userData.dispose();simple=null;fill.groundColor.set(0x6c7890);fill.intensity=2;simpleOn=false;$('simple').setAttribute('aria-pressed','false');
+  simpleRequest++;shapeFile=null;if(simple){scene.remove(simple);simple.userData.dispose();simple=null;}
+  restoreShapeLighting();simpleOn=false;$('simple').setAttribute('aria-pressed','false');
 }
 $('simple').onclick=()=>{setSimple(!simpleOn);focus();};
 $('photographic-view').onclick=async()=>{await setSimple(false);walkHome();focus();};
@@ -537,7 +539,6 @@ async function loadAsset(quality){
       if(selection.lite&&(modelDiagnostics.geometryMiB>selection.geometryLimit||modelDiagnostics.textures.some(([w,h])=>w>selection.textureLimit||h>selection.textureLimit)))throw Error('The lightweight view exceeded its graphics budget. Please use Photos and report this message.');
     }
     ready=true;walkHome();if(params.get('mode')!=='walk'&&(nativeGaussian||selection.lite||params.get('mode')==='orbit'))setMode('orbit');resize();
-    if(nativeGaussian&&asset.simple)addOverviewShell();  // ~10 KB, usually in place before the first frame
     setPhase('drawing','Drawing the room…');$('load-progress').value=98;
     await withDeadline(renderer.compileAsync(scene,camera),30000,'The browser could not finish drawing the room. Retry the phone view or use Photos.');
     if(!loads.current(generation))return;

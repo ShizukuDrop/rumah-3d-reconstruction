@@ -13,14 +13,14 @@ export function footprintBytes(footprint){
  return bytes;
 }
 // orbitTarget() returns the orbit target, or null outside Orbit. In Orbit, wall splats on the camera's
-// side of it fade too, and once trimWalls() is called the fitted-wall trim applies; elsewhere both are off.
+// side of it fade too. This modifier only applies the reversible Gaussian shell cutaway.
 export function installCutaway({dyno,THREE,model,shell,orbitTarget=()=>null}){
  const fp=shell?.footprint,bytes=footprintBytes(fp),[w,h]=fp.size;
  // Rows are X, columns Z (index = x*h + z); texel centres sit on cell centres.
  const texture=new THREE.DataTexture(bytes,h,w,THREE.RGFormat,THREE.UnsignedByteType);
  texture.unpackAlignment=1;texture.magFilter=texture.minFilter=THREE.LinearFilter;texture.generateMipmaps=false;texture.needsUpdate=true;
  const enabled=dyno.dynoBool(false),view=dyno.dynoVec3(new THREE.Vector3()),centre=dyno.dynoVec3(new THREE.Vector3()),sdf=dyno.dynoSampler2D(texture);
- const margin=dyno.dynoFloat(fp.exteriorMargin),fitted=dyno.dynoBool(false);
+ const margin=dyno.dynoFloat(fp.exteriorMargin);
  const gl=n=>Number(n).toFixed(7),plane=([a,b,c])=>`(${gl(a)}*p.x+${gl(b)}*p.z+${gl(c)})`;
  const floor=plane(shell.fittedPlanes.floor.YequalsAXplusBZplusC),upper=plane(shell.fittedPlanes.upperCeiling.YequalsAXplusBZplusC);
  const lower=fp.lowerCeiling?plane(fp.lowerCeiling.YequalsAXplusBZplusC):upper;
@@ -28,7 +28,7 @@ export function installCutaway({dyno,THREE,model,shell,orbitTarget=()=>null}){
  const observers=(shell.interiorCameras||[]).map(c=>`{ vec3 observer=vec3(${c.map(gl).join(',')});float d=dot(p-observer,p-observer);if(d<nearestDistance){nearestDistance=d;nearest=observer;} }`).join('\n');
  const modifier=dyno.dynoBlock({gsplat:dyno.Gsplat},{gsplat:dyno.Gsplat},({gsplat})=>{
   const normal=dyno.gsplatNormal(gsplat);
-  const operation=new dyno.Dyno({inTypes:{gsplat:dyno.Gsplat,normal:'vec3',enabled:'bool',view:'vec3',centre:'vec3',margin:'float',fitted:'bool',sdf:'sampler2D'},outTypes:{gsplat:dyno.Gsplat},inputs:{gsplat,normal,enabled,view,centre,margin,fitted,sdf},statements:({inputs:i,outputs:o})=>[
+  const operation=new dyno.Dyno({inTypes:{gsplat:dyno.Gsplat,normal:'vec3',enabled:'bool',view:'vec3',centre:'vec3',margin:'float',sdf:'sampler2D'},outTypes:{gsplat:dyno.Gsplat},inputs:{gsplat,normal,enabled,view,centre,margin,sdf},statements:({inputs:i,outputs:o})=>[
    `${o.gsplat}=${i.gsplat};`,
    `if(${i.enabled}){ vec3 p=${i.gsplat}.center; vec3 n=${i.normal}; bool hidden=false;
       // Gaussian covariance normals have no sign. Orient to the nearest actual
@@ -68,14 +68,7 @@ export function installCutaway({dyno,THREE,model,shell,orbitTarget=()=>null}){
       // So does the wall layer on the camera's side of the orbit target, where jog and recess walls
       // facing away would stand as free-standing fins. Seen from straight above this term is ~0.
       float near=dot(p.xz-${i.centre}.xz,${i.view}.xz-${i.centre}.xz)/max(length(${i.view}-${i.centre}),1e-3);
-      // Against fitted walls the band is wider and only the floor survives it: a clean cut edge.
-      if(${i.fitted} ? d>-0.45 && p.y>${floor}+0.03 : d>-${gl(fp.wallBand)} && !shelf && p.y>${floor}+0.12) keep*=1.0-max(smoothstep(0.05,0.3,dot(outward,${i.view}.xz-p.xz)),smoothstep(0.4,0.8,near));
-      // With the fitted walls and furniture drawn as shapes, only the floor stays photoreal: everything
-      // standing on it is a shape, and wall splats would smear their faces. Needles near the edge would
-      // shred the floor's outline, and large soft blobs read as stains: the fitted floor shows there.
-      // (Brightness cannot tell a stain from floor: many floor splats carry a dark base colour.)
-      // Walls stay full height as shapes.
-      if(${i.fitted} && (p.y>${floor}+0.05 || d>-0.08 || (d>-0.5 && longest>0.03 && longest>6.0*middle) || longest>0.1)) hidden=true;
+      if(d>-${gl(fp.wallBand)} && !shelf && p.y>${floor}+0.12) keep*=1.0-max(smoothstep(0.05,0.3,dot(outward,${i.view}.xz-p.xz)),smoothstep(0.4,0.8,near));
       ${o.gsplat}.rgba.a*=hidden?0.0:keep;
     }`
   ]});
@@ -84,7 +77,7 @@ export function installCutaway({dyno,THREE,model,shell,orbitTarget=()=>null}){
  model.worldModifiers=[modifier];model.updateGenerator();
  // Regenerating every splat on every orbit frame is the overview's main cost on phones. While the
  // camera moves, refresh at most every 100 ms; settle() makes it exact once the camera rests.
- let pending=false,last=-Infinity,walls=false;
+ let pending=false,last=-Infinity;
  const api={regenerations:0,
   update(active,camera,now=performance.now()){
    if(enabled.value!==active){enabled.value=active;regenerate(camera);return;}
@@ -92,13 +85,10 @@ export function installCutaway({dyno,THREE,model,shell,orbitTarget=()=>null}){
    if(now-last>=100){last=now;regenerate(camera);}else pending=true;
   },
   settle(camera){if(!pending||!enabled.value)return false;regenerate(camera);return true;},
-  // With fitted walls drawn as the cut edge, splats stop 0.08 inside the footprint edge: the fitted
-  // floor shows there instead of a ragged fringe.
-  trimWalls(camera){walls=true;regenerate(camera);},
   dispose(){texture.dispose();},
   method:'wall-trimmed non-convex footprint SDF with local ceilings: exterior + camera-facing and near-side wall layer + ceiling cap + out-of-volume + shell needles; reversible opacity'};
  function regenerate(camera){
   const target=orbitTarget();view.value.copy(camera.position);centre.value.copy(target??camera.position);
-  fitted.value=walls&&!!target;margin.value=fitted.value?-.08:fp.exteriorMargin;pending=false;api.regenerations++;model.updateVersion();}
+  pending=false;api.regenerations++;model.updateVersion();}
  return api;
 }

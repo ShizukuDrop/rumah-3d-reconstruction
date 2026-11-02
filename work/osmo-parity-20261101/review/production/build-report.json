@@ -1,11 +1,11 @@
 {
-  "build": "20261103-osmo-viewer-v2",
+  "build": "20261103-osmo-viewer-v3",
   "provisional": false,
   "deploymentAuthorized": false,
   "sourceCandidate": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\final-sharp.sog",
   "candidateSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
-  "manifestName": "room-e9f093c738.json",
-  "bundleName": "room-viewer-VV6IDETS.js",
+  "manifestName": "room-b0d0fc83f3.json",
+  "bundleName": "room-viewer-JACM3SLV.js",
   "osmo": {
     "label": "Osmo",
     "representation": "gaussian",
@@ -77,7 +77,7 @@
         "format": "esm"
       },
       "loader-core.js": {
-        "bytes": 3889,
+        "bytes": 3824,
         "imports": [
           {
             "path": "delivery-policy.js",
@@ -98,7 +98,7 @@
         "format": "esm"
       },
       "gaussian-cutaway.js": {
-        "bytes": 8732,
+        "bytes": 7638,
         "imports": [],
         "format": "esm"
       },
@@ -218,7 +218,7 @@
         "format": "esm"
       },
       "build-entry.js": {
-        "bytes": 46204,
+        "bytes": 47105,
         "imports": [
           {
             "path": "../../../mobile-20261029/node_modules/three/build/three.module.js",
@@ -275,7 +275,7 @@
       }
     },
     "outputs": {
-      "public/room-viewer-VV6IDETS.js": {
+      "public/room-viewer-JACM3SLV.js": {
         "imports": [
           {
             "path": "public/chunks/chunk-PCQTWMT7.js",
@@ -314,7 +314,7 @@
             "bytesInOutput": 2395
           },
           "gaussian-cutaway.js": {
-            "bytesInOutput": 6666
+            "bytesInOutput": 5811
           },
           "sharpen.js": {
             "bytesInOutput": 1560
@@ -323,10 +323,10 @@
             "bytesInOutput": 2304
           },
           "build-entry.js": {
-            "bytesInOutput": 29387
+            "bytesInOutput": 30288
           }
         },
-        "bytes": 44725
+        "bytes": 44763
       },
       "public/chunks/spark.module-XXGQBJ7P.js": {
         "imports": [

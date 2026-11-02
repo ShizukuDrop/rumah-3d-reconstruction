@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "scope": "actual staged blobs",
+  "files": 927,
+  "totalBytes": 48593367,
+  "largestFiles": [
+    {
+      "path": "output/pdf/Osmo_Quality_Controls_and_Pipeline_Review_2026-10-31.pdf",
+      "bytes": 11302794
+    },
+    {
+      "path": "output/pdf/Osmo_Architect_Mandate_Execution_and_Acceptance_2026-11-01.pdf",
+      "bytes": 10833280
+    },
+    {
+      "path": "output/pdf/Rumah_Repository_Map_and_Cleanup_Audit_2026-11-01.pdf",
+      "bytes": 7604307
+    },
+    {
+      "path": "docs/repo-audit-2026-11-01/cleanup-plan.json",
+      "bytes": 1861174
+    },
+    {
+      "path": "docs/repo-audit-2026-11-01/cleanup-journal.jsonl",
+      "bytes": 1696441
+    },
+    {
+      "path": "work/osmo-parity-20261101/review/occupied-cameras.json",
+      "bytes": 815142
+    },
+    {
+      "path": "work/osmo-parity-20261101/review/calibrated-occupied-cameras.json",
+      "bytes": 814421
+    },
+    {
+      "path": "work/osmo-ux-report-20261031/evidence.json",
+      "bytes": 674155
+    },
+    {
+      "path": "docs/repo-audit-2026-11-01/deep-cleanup-plan.json",
+      "bytes": 421988
+    },
+    {
+      "path": "docs/repo-audit-2026-11-01/pdf-audit.json",
+      "bytes": 387223
+    },
+    {
+      "path": "work/osmo-clean-20261031/review/bath-nearby-cameras-registered-poses.json",
+      "bytes": 316207
+    },
+    {
+      "path": "work/osmo-clean-20261031/review/clean-cameras-registered-poses.json",
+      "bytes": 316207
+    }
+  ],
+  "limitPerFile": 25000000,
+  "fileProblems": [],
+  "secretFindings": [],
+  "secretValuesPrinted": false,
+  "note": "Pattern scanning is supplemented by review of hosting/access/deployment sources; it is not proof that arbitrary secrets cannot exist."
+}

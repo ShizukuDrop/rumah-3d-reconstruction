@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "releaseId": "20261103-osmo-viewer-v3",
+  "checks": [
+    {
+      "command": [
+        "node",
+        "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js",
+        "test"
+      ],
+      "passed": true,
+      "stdoutTail": " selection uses its own cameras and rejects excessive source counts and bytes (0.4365ms)\n\u2714 format-aware download validation never treats HTML or arbitrary bytes as a valid native file (12.8764ms)\n\u2714 download formats map to the installed Spark SDK decoder names (4.1328ms)\n\u2714 native ready waits for a sorted, nonempty draw instead of decoded data alone (45.1658ms)\n\u2714 a stuck first sort fails visibly and never draws after the deadline (37.9552ms)\n\u2714 an empty scene cannot report ready (29.2072ms)\n\u2714 cancelled native preparation cannot draw or report ready (24.8492ms)\n\u2714 shape files are validated before anything is drawn (1.1023ms)\n\u2714 the overview hides ceilings and cuts camera-facing and near-side walls to stubs (0.7572ms)\n\u2714 the shipped shape file matches the packed model and builds into three.js meshes (61.0443ms)\n\u2714 no two walls or furniture pieces intersect (coplanar tops would flicker) (1.5963ms)\n\u2139 tests 60\n\u2139 suites 0\n\u2139 pass 60\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 256.7743\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "C:/Users/bombe/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-B",
+        "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\production\\audit-deploy-native.py"
+      ],
+      "passed": true,
+      "stdoutTail": "  \"reject initial resource <style>body{background:url(photo.jpg)}</style>\",\n    \"reject initial resource <meta\",\n    \"reject duplicate choice\",\n    \"reject unsafe path ../private.json\",\n    \"reject unsafe path /etc/passwd\",\n    \"reject unsafe path models\\\\scene.sog\",\n    \"reject unsafe path models/model;touch\",\n    \"old provisional model blocked\",\n    \"ignored range rejected before model body is read\",\n    \"range failure reads zero model body bytes\",\n    \"archive has only explicit regular public files\",\n    \"iPhone Lite excluded from upload and Full excluded from inheritance\",\n    \"new snapshot removes Full and origin requires its URLs to return 404\",\n    \"all replacement hardlinks detached before extraction\",\n    \"atomic promotion and guarded rollback generated\",\n    \"rendered deployment and rollback scripts pass bash -n\",\n    \"origin verification contains no full model GET\",\n    \"package cannot silently overwrite a prior release package\"\n  ],\n  \"remoteCalls\": 0,\n  \"gpuWork\": false\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "C:/Users/bombe/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-B",
+        "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\production\\prepare-deploy.py",
+        "--audit-only"
+      ],
+      "passed": true,
+      "stdoutTail": "{\n  \"auditPassed\": true,\n  \"provisional\": false,\n  \"files\": 18,\n  \"applicationBytes\": 4376534,\n  \"nativeBytes\": 44904208,\n  \"iphoneHashesPreserved\": true,\n  \"remoteCalls\": 0,\n  \"packageCreated\": false\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "command": [
+        "C:/Users/bombe/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-B",
+        "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\production\\test_viewer_release.py"
+      ],
+      "passed": true,
+      "stdoutTail": "",
+      "stderrTail": ".................\n----------------------------------------------------------------------\nRan 17 tests in 0.310s\n\nOK\n"
+    }
+  ],
+  "trainingJobsLaunched": 0,
+  "productionRequests": 0
+}
