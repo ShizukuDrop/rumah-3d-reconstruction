@@ -4,3 +4,4 @@
 work/osmo-clean-20261031/geometry/source-v*/** -whitespace
 *.headers -whitespace
 work/hosting/public-*-headers.txt -whitespace
+tools/reconstruction/patches/*.patch -whitespace

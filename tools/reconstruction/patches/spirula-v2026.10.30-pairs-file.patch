@@ -1,0 +1,348 @@
+diff --git a/cmake/SsApps.cmake b/cmake/SsApps.cmake
+index a06b700..bf89c0c 100644
+--- a/cmake/SsApps.cmake
++++ b/cmake/SsApps.cmake
+@@ -364,6 +364,11 @@ if(SS_SEPARATE_TOOLS)
+         ss_tool_exe(spirula-sfm
+             "${SS_SRC}/app/cli/sfm_main.cpp;${SS_SRC}/app/cli/sfm_ba.cpp"
+             "SS_TOOL_SFM=1" "ss_sfm")
++        target_sources(spirula-sfm PRIVATE ${SS_SRC}/app/AppPaths.cpp
++                       ${SS_SRC}/app/CrashLog.cpp ${SS_SRC}/app/RunReport.cpp)
++        if(WIN32)
++            target_link_libraries(spirula-sfm PRIVATE dbghelp)
++        endif()
+     endif()
+     if(SS_BUILD_SAM)
+         set(_sam_src ${SS_SRC}/app/cli/sam_main.cpp ${SS_SRC}/app/CubeLut.cpp
+diff --git a/src/i18n/catalog/SfmFields.h b/src/i18n/catalog/SfmFields.h
+index 93c129e..2fc67a4 100644
+--- a/src/i18n/catalog/SfmFields.h
++++ b/src/i18n/catalog/SfmFields.h
+@@ -138,6 +138,8 @@ SS_MSG(data_type_help,
+     TR("Çekimin ne olduğu: tek tek fotoğraflar, video kareleri ya da sırasız "
+        "bir internet derlemesi"));
+ 
++SS_MSG_EN(pairs_file_help, "Match exactly a JSON pair array or candidateEdges graph (maximum 64 MiB); overrides automatic, GPS and rig-mate pair proposals");
++
+ SS_MSG(pairs_help,
+     EN("Which image pairs are matched; auto is GPU pair selection at 100 images "
+        "or more, sequential (plus loop closure) for video below that, and "
+diff --git a/src/sfm/Pipeline.cpp b/src/sfm/Pipeline.cpp
+index c5a33a1..a548732 100644
+--- a/src/sfm/Pipeline.cpp
++++ b/src/sfm/Pipeline.cpp
+@@ -1960,6 +1960,8 @@ int matchFeatureDir(const std::string& featdir, const SfmConfig& cfg, PairMode m
+         res && resume::readPairs(res->dir / "pairs.bin", res->signature, pairs);
+     if (reused_pairs) {
+         L::out(Tag::Match, M::match_reusing_pairs, {(long long)pairs.size()});
++    } else if (!cfg.pairs_file.empty()) {
++        pairs = resolvePairList(cfg.explicit_pairs, image_names);
+     } else if (mode == PairMode::Prefilter) {
+         stats.scored = n_images * (n_images - 1) / 2;
+         double t0 = now();
+@@ -2039,7 +2041,7 @@ int matchFeatureDir(const std::string& featdir, const SfmConfig& cfg, PairMode m
+     }
+ #endif
+     // Images the GPS puts near each other, whatever the shortlist thought.
+-    if (placed && cfg.sensor_pairs && !reused_pairs) {
++    if (placed && cfg.sensor_pairs && !reused_pairs && cfg.pairs_file.empty()) {
+         size_t positioned = 0;
+         const std::vector<std::pair<uint32_t, uint32_t>> nearby = gpsProximityPairs(
+             *placed, (uint32_t)n_images, cfg.sensor_pair_radius, 20, &positioned);
+@@ -2057,11 +2059,12 @@ int matchFeatureDir(const std::string& featdir, const SfmConfig& cfg, PairMode m
+     if (verbose)
+         L::err(Tag::Match, M::match_plan,
+                {(long long)n_images, (long long)pairs.size(),
+-                mode == PairMode::Exhaustive ? "exhaustive"
++                !cfg.pairs_file.empty() ? "explicit file"
++                : mode == PairMode::Exhaustive ? "exhaustive"
+                 : mode == PairMode::Sequential
+                     ? (cfg.loop_closure ? "sequential + loop closure" : "sequential")
+                     : (cfg.prefilter_sequential ? "prefilter + sequential" : "prefilter")});
+-    if (verbose && mode == PairMode::Prefilter)
++    if (verbose && mode == PairMode::Prefilter && cfg.pairs_file.empty())
+         L::err(Tag::Match, M::match_prefilter_params,
+                {popt.num_features, popt.num_neighbors});
+ 
+@@ -2279,7 +2282,7 @@ int matchFeatureDir(const std::string& featdir, const SfmConfig& cfg, PairMode m
+         // Its bound is counted in now, so the bar jumps forward when the
+         // real count is known rather than falling back.
+         size_t mates_bound = 0;
+-        if (cfg.rig_pairs && !cfg.rigs.empty()) {
++        if (cfg.rig_pairs && !cfg.rigs.empty() && cfg.pairs_file.empty()) {
+             try {
+                 for (const auto& q : rigMatePairs(buildRigTable(image_names, cfg.rigs), pairs,
+                                                   cfg.rig_pair_angle, /*weak_only=*/false))
+@@ -2324,7 +2327,7 @@ int matchFeatureDir(const std::string& featdir, const SfmConfig& cfg, PairMode m
+         // Rig-mates, as a second pass over what verified: only a link the
+         // images confirmed is extended to the other lenses (on a PortalCam
+         // walk, three in four mates of unverified shortlist pairs failed).
+-        if (cfg.rig_pairs && !cfg.rigs.empty()) {
++        if (cfg.rig_pairs && !cfg.rigs.empty() && cfg.pairs_file.empty()) {
+             std::vector<std::pair<uint32_t, uint32_t>> seeds, mates;
+             try {
+                 const RigTable rt = buildRigTable(image_names, cfg.rigs);
+diff --git a/src/sfm/SfmConfig.cpp b/src/sfm/SfmConfig.cpp
+index 515a31b..6a772e6 100644
+--- a/src/sfm/SfmConfig.cpp
++++ b/src/sfm/SfmConfig.cpp
+@@ -405,6 +405,11 @@ std::string applyPresets(SfmConfig& cfg, const std::set<std::string>& seen,
+ // ---------------------------------------------------------------------------
+ 
+ std::string SfmConfig::finalize(uint32_t cmd) {
++    explicit_pairs = {};
++    if (!pairs_file.empty() && (cmd & (CMD_AUTO | CMD_MATCH))) {
++        try { explicit_pairs = readPairList(pairs_file); }
++        catch (const std::exception& e) { return std::string("--pairs-file: ") + e.what(); }
++    }
+     if (!parseCamModelName(camera_model, camera.model))
+         return "unknown --camera-model '" + camera_model + "'";
+     if (!parseCameraMode(camera_mode, camera.mode))
+@@ -607,7 +612,7 @@ bool signatureRelevant(const char* name) {
+ // Left out while unset, so features extracted before the flag existed still
+ // match a run that does not use it.
+ bool signatureOmitsUnset(const char* name) {
+-    return std::strcmp(name, "image-exposure") == 0;
++    return std::strcmp(name, "image-exposure") == 0 || std::strcmp(name, "pairs-file") == 0;
+ }
+ 
+ }  // namespace
+@@ -627,6 +632,8 @@ std::string stageSignature(const SfmConfig& cfg, uint32_t cmd) {
+         out += std::string(name) + "=" + valueString(cfg.member) + "\n";
+     SFM_CONFIG_FIELDS(SFM_SIG_FIELD)
+ #undef SFM_SIG_FIELD
++    if ((cmd & CMD_MATCH) && !cfg.pairs_file.empty())
++        out += "pairs-file-sha256=" + cfg.explicit_pairs.sha256 + "\n";
+     // Per-group lenses reach the camera setup, and so verification, without
+     // being table rows: `--camera-model cam0=opencv-fisheye` and the manifest
+     // both land here.
+diff --git a/src/sfm/SfmConfig.h b/src/sfm/SfmConfig.h
+index 83ed106..032f780 100644
+--- a/src/sfm/SfmConfig.h
++++ b/src/sfm/SfmConfig.h
+@@ -37,6 +37,7 @@
+ #include "sfm/feature/Extractor.h"
+ #include "sfm/feature/LearnedMatcher.h"
+ #include "sfm/feature/PairSelection.h"
++#include "sfm/feature/PairList.h"
+ #include "sfm/feature/Sift.h"
+ #include "sfm/geometry/TwoView.h"
+ #include "sfm/map/Bottomup.h"
+@@ -86,6 +87,8 @@ struct SfmConfig {
+     // for video below that, exhaustive otherwise. `match` reads it as
+     // exhaustive (it has not counted the images).
+     std::string pairs = "auto";
++    std::string pairs_file;
++    NamedPairList explicit_pairs;
+     int overlap = 10;
+     // Sequential pairing is a chain: image i with the next `overlap`. A capture
+     // that walks around a subject and comes back has no link across the seam,
+@@ -339,6 +342,8 @@ struct SfmConfig {
+       "individual|video|internet", data_type)                                                      \
+     F(pairs, "pairs", CMD_AUTO | CMD_MATCH, Tier::Basic, "pipeline", 0, 0,                         \
+       "auto|exhaustive|sequential|prefilter", pairs)                                               \
++    F(pairs_file, "pairs-file", CMD_AUTO | CMD_MATCH, Tier::Basic, "pipeline", 0, 0, "",        \
++      pairs_file)                                                                                  \
+     F(overlap, "overlap", CMD_AUTO | CMD_MATCH | CMD_MAP, Tier::Advanced, "pipeline", 1, 1000000, \
+       "",                                                                                          \
+       overlap)                                                                                     \
+diff --git a/src/sfm/feature/PairList.h b/src/sfm/feature/PairList.h
+new file mode 100644
+index 0000000..c27d37e
+--- /dev/null
++++ b/src/sfm/feature/PairList.h
+@@ -0,0 +1,119 @@
++#pragma once
++
++#include <algorithm>
++#include <cctype>
++#include <cstdint>
++#include <fstream>
++#include <map>
++#include <set>
++#include <stdexcept>
++#include <string>
++#include <utility>
++#include <vector>
++
++#include "core/Sha256.h"
++#include "data/Json.h"
++
++namespace sfm {
++
++struct NamedPairList {
++    std::string sha256;
++    std::vector<std::pair<std::string, std::string>> pairs;
++};
++
++inline std::string pairImageName(std::string name) {
++    std::replace(name.begin(), name.end(), '\\', '/');
++    if (name.empty() || name.front() == '/' || name.find(':') != std::string::npos ||
++        name.find('\0') != std::string::npos)
++        throw std::runtime_error("pair image name must be relative: " + name);
++    std::string out;
++    for (size_t a = 0; a < name.size();) {
++        const size_t b = name.find('/', a);
++        const std::string part = name.substr(a, b == std::string::npos ? b : b - a);
++        if (part == "..") throw std::runtime_error("pair image name contains '..': " + name);
++        if (!part.empty() && part != ".") out += (out.empty() ? "" : "/") + part;
++        if (b == std::string::npos) break;
++        a = b + 1;
++    }
++    if (out.empty()) throw std::runtime_error("empty pair image name");
++    return out;
++}
++
++inline std::string pairImageStem(const std::string& name) {
++    const size_t dot = name.find_last_of('.');
++    if (dot == std::string::npos) return name;
++    std::string ext = name.substr(dot);
++    std::transform(ext.begin(), ext.end(), ext.begin(),
++                   [](unsigned char c) { return (char)std::tolower(c); });
++    for (const char* known : {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".bmp"})
++        if (ext == known) return name.substr(0, dot);
++    return name;
++}
++
++inline NamedPairList parsePairList(const std::string& text) {
++    NamedPairList out;
++    spirula::Sha256 digest;
++    digest.update(reinterpret_cast<const uint8_t*>(text.data()), text.size());
++    out.sha256 = digest.hex();
++    const JsonValue doc = json_parse(text);
++    const JsonValue* rows = doc.is_array() ? &doc : doc.find("candidateEdges");
++    if (!rows || !rows->is_array() || rows->arr.empty())
++        throw std::runtime_error("pair list needs a nonempty array or candidateEdges array");
++    std::set<std::pair<std::string, std::string>> unique;
++    for (const JsonValue& row : rows->arr) {
++        const JsonValue* a = row.is_array() && row.arr.size() == 2 ? &row.arr[0] : row.find("image1");
++        const JsonValue* b = row.is_array() && row.arr.size() == 2 ? &row.arr[1] : row.find("image2");
++        if (!a || !b || a->type != JsonValue::Type::String || b->type != JsonValue::Type::String)
++            throw std::runtime_error("pair entry needs two image names");
++        std::string first = pairImageName(a->str), second = pairImageName(b->str);
++        if (first == second) throw std::runtime_error("self pair: " + first);
++        if (second < first) std::swap(first, second);
++        unique.emplace(first, second);
++    }
++    out.pairs.assign(unique.begin(), unique.end());
++    return out;
++}
++
++inline NamedPairList readPairList(const std::string& path) {
++    std::ifstream in(path, std::ios::binary | std::ios::ate);
++    if (!in) throw std::runtime_error("cannot open pair list: " + path);
++    const auto size = in.tellg();
++    if (size < 0 || size > 64 * 1024 * 1024)
++        throw std::runtime_error("pair list exceeds 64 MiB: " + path);
++    std::string text((size_t)size, '\0');
++    in.seekg(0);
++    if (!in.read(text.data(), (std::streamsize)text.size()))
++        throw std::runtime_error("cannot read complete pair list: " + path);
++    return parsePairList(text);
++}
++
++inline std::vector<std::pair<uint32_t, uint32_t>> resolvePairList(
++    const NamedPairList& list, const std::vector<std::string>& images) {
++    std::map<std::string, std::set<uint32_t>> names;
++    for (size_t i = 0; i < images.size(); ++i) {
++        const std::string name = pairImageName(images[i]);
++        names[name].insert((uint32_t)i);
++        names[pairImageStem(name)].insert((uint32_t)i);
++    }
++    auto resolve = [&](const std::string& name) {
++        std::set<uint32_t> ids;
++        for (const std::string& key : {name, pairImageStem(name)}) {
++            const auto found = names.find(key);
++            if (found != names.end()) ids.insert(found->second.begin(), found->second.end());
++        }
++        if (ids.size() != 1)
++            throw std::runtime_error((ids.empty() ? "unknown" : "ambiguous") +
++                                     std::string(" pair image name: ") + name);
++        return *ids.begin();
++    };
++    std::set<std::pair<uint32_t, uint32_t>> unique;
++    for (const auto& pair : list.pairs) {
++        uint32_t a = resolve(pair.first), b = resolve(pair.second);
++        if (a == b) throw std::runtime_error("pair aliases resolve to one image");
++        if (b < a) std::swap(a, b);
++        unique.emplace(a, b);
++    }
++    return {unique.begin(), unique.end()};
++}
++
++}  // namespace sfm
+diff --git a/src/sfm/tests/sfm_pair_list_test.cpp b/src/sfm/tests/sfm_pair_list_test.cpp
+new file mode 100644
+index 0000000..b3786d5
+--- /dev/null
++++ b/src/sfm/tests/sfm_pair_list_test.cpp
+@@ -0,0 +1,47 @@
++#include <cstdio>
++#include <stdexcept>
++#include <string>
++#include <vector>
++
++#include "sfm/feature/PairList.h"
++#include "sfm/tests/TestMain.h"
++
++static void require(bool ok, const char* why) {
++    if (!ok) throw std::runtime_error(why);
++}
++
++template <typename Fn> static void rejects(Fn fn) {
++    try { fn(); } catch (const std::runtime_error&) { return; }
++    throw std::runtime_error("invalid pair list accepted");
++}
++
++static int run(int, char**) {
++    using namespace sfm;
++    const NamedPairList list = parsePairList(
++        R"({"candidateEdges":[{"image1":"./cam1/b.jpg","image2":"cam0\\a.jpg"},)"
++        R"({"image1":"cam0/a.jpg","image2":"cam1/b.jpg"}]})");
++    require(list.pairs.size() == 1, "normalize and deduplicate names");
++    const std::vector<std::string> images = {"unrequested", "cam1/b", "cam0/a"};
++    const auto pairs = resolvePairList(list, images);
++    require(pairs.size() == 1 && pairs[0].first == 1 && pairs[0].second == 2,
++            "preserve original image IDs including unrequested images");
++    const auto alias = parsePairList(R"([["cam0/a","cam1/b"],["cam1/b.jpg","cam0/a.jpg"]])");
++    require(resolvePairList(alias, images) == pairs, "deduplicate aliases after ID resolution");
++    require(list.sha256 != alias.sha256, "content hash detects changed input");
++    require(parsePairList(R"([["a","b"]])").sha256 ==
++            parsePairList(R"([["a","b"]])").sha256, "stable content hash");
++    rejects([] { parsePairList("[]"); });
++    rejects([] { parsePairList(R"([["a","a"]])"); });
++    rejects([] { parsePairList(R"([["../a","b"]])"); });
++    rejects([] { parsePairList(R"([["C:/a","b"]])"); });
++    rejects([] { parsePairList(R"([["/a","b"]])"); });
++    rejects([] { parsePairList(R"([["a",2]])"); });
++    rejects([] { parsePairList(R"([["a","b","c"]])"); });
++    rejects([&] { resolvePairList(list, {"cam0/a"}); });
++    rejects([&] { resolvePairList(list, {"cam0/a", "cam0/a.jpg", "cam1/b"}); });
++    rejects([] { resolvePairList(parsePairList(R"([["a","a.jpg"]])"), {"a"}); });
++    std::puts("pair list: all CPU-only tests passed");
++    return 0;
++}
++
++int main(int argc, char** argv) { return sfmTestMain(argc, argv, run); }
+diff --git a/src/sfm/tests/sfm_resume_test.cpp b/src/sfm/tests/sfm_resume_test.cpp
+index 00804e6..721557a 100644
+--- a/src/sfm/tests/sfm_resume_test.cpp
++++ b/src/sfm/tests/sfm_resume_test.cpp
+@@ -44,6 +44,17 @@ static void testSignatures(int& fails) {
+     const std::string ext0 = stageSignature(base, CMD_EXTRACT);
+     const std::string mat0 = stageSignature(base, CMD_MATCH);
+ 
++    {
++        SfmConfig c = base;
++        c.pairs_file = "graph.json";
++        c.explicit_pairs = parsePairList(R"([["cam0/a","cam0/b"]])");
++        const std::string first = stageSignature(c, CMD_MATCH);
++        check(first != mat0, "explicit graph moves matching", fails);
++        check(stageSignature(c, CMD_EXTRACT) == ext0, "explicit graph leaves extraction", fails);
++        c.explicit_pairs = parsePairList(R"([["cam0/a","cam0/c"]])");
++        check(stageSignature(c, CMD_MATCH) != first, "changed graph content invalidates matching", fails);
++        check(mat0.find("pairs-file=") == std::string::npos, "unset graph preserves old signature", fails);
++    }
+     // A flag the stage reads moves its signature.
+     {
+         SfmConfig c = base;

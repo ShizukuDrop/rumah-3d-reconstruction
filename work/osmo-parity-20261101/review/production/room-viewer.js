@@ -413,7 +413,7 @@ function disposeSimple(){
 }
 $('simple').onclick=()=>{setSimple(!simpleOn);focus();};
 $('photographic-view').onclick=async()=>{await setSimple(false);walkHome();focus();};
-function controlsEnabled(value){for(const button of document.querySelectorAll('[data-3d],[data-move]'))button.disabled=!value;$('simple').hidden=!asset?.simple;$('shade').hidden=nativeGaussian;if(nativeGaussian)$('shade').disabled=true;for(const id of ['see-inside','top']){$(id).hidden=false;$(id).disabled=!value;}}
+function controlsEnabled(value){for(const button of document.querySelectorAll('[data-3d],[data-move]'))button.disabled=!value;$('simple').hidden=!asset?.simple;$('shade').hidden=nativeGaussian;if(nativeGaussian)$('shade').disabled=true;$('top').hidden=false;$('see-inside').hidden=nativeGaussian&&!cutaway;$('see-inside').disabled=!value||$('see-inside').hidden;}
 function updateDiagnostics(){
   document.body.dataset.phase=phase;document.body.dataset.quality=currentQuality||'choosing';
   if(!document.body.classList.contains('debug'))return;  // the panel is hidden; skip per-frame JSON
@@ -522,7 +522,8 @@ async function loadAsset(quality){
       if(!loads.current(generation)){disposeModel(model);return;}scene.add(model);
       if(asset.worldFromTraining){model.matrix.fromArray(asset.worldFromTraining);model.matrixAutoUpdate=false;}
       if(!Array.isArray(data.framingPoints)||data.framingPoints.length<30)throw Error('Occupied scene framing is missing.');
-      framingPoints=Float32Array.from(data.framingPoints);cutaway=installCutaway({dyno,THREE,model,shell:data.occupiedShell,orbitTarget});
+      framingPoints=Float32Array.from(data.framingPoints);
+      if(data.occupiedShell)cutaway=installCutaway({dyno,THREE,model,shell:data.occupiedShell,orbitTarget});
       modelDiagnostics={splats:asset.splats,lodSplatBudget:policy.lodSplatCount,triangles:0,geometryMiB:0,textures:[]};
     }else{
       const [{GLTFLoader},{MeshoptDecoder}]=await withDeadline(Promise.all([import('three/addons/loaders/GLTFLoader.js'),import('meshoptimizer')]),60000,'The 3D viewer could not download. Choose a model to retry, or use Photos.');

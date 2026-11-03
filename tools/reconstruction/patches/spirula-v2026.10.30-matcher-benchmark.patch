@@ -1,0 +1,120 @@
+diff --git a/src/sfm/tests/sfm_matcher_benchmark.cpp b/src/sfm/tests/sfm_matcher_benchmark.cpp
+new file mode 100644
+index 0000000..b3065a5
+--- /dev/null
++++ b/src/sfm/tests/sfm_matcher_benchmark.cpp
+@@ -0,0 +1,114 @@
++#include <algorithm>
++#include <chrono>
++#include <filesystem>
++#include <fstream>
++#include <stdexcept>
++#include <string>
++#include <vector>
++
++#include "core/Sha256.h"
++#include "data/JsonWrite.h"
++#include "sfm/core/Features.h"
++#include "sfm/feature/LearnedMatcher.h"
++#include "sfm/feature/PairList.h"
++#include "sfm/tests/TestMain.h"
++
++namespace fs = std::filesystem;
++using Clock = std::chrono::steady_clock;
++
++static double seconds(Clock::time_point start) {
++    return std::chrono::duration<double>(Clock::now() - start).count();
++}
++
++static std::string matchHash(std::vector<sfm::FeatureMatch> matches) {
++    std::sort(matches.begin(), matches.end(), [](const auto& a, const auto& b) {
++        return std::pair(a.idx1, a.idx2) < std::pair(b.idx1, b.idx2);
++    });
++    spirula::Sha256 hash;
++    for (const auto& match : matches) {
++        uint8_t bytes[8];
++        for (int i = 0; i < 4; ++i) {
++            bytes[i] = (uint8_t)(match.idx1 >> (8 * i));
++            bytes[i + 4] = (uint8_t)(match.idx2 >> (8 * i));
++        }
++        hash.update(bytes, sizeof bytes);
++    }
++    return hash.hex();
++}
++
++static int run(int argc, char** argv) {
++    if (argc != 8)
++        throw std::runtime_error("usage: sfm_matcher_benchmark FEATURES PAIRS OUTPUT WARMUPS REPEATS DEVICE MODEL");
++    const fs::path folder = fs::absolute(argv[1]), output = fs::absolute(argv[3]);
++    const int warmups = std::stoi(argv[4]), repeats = std::stoi(argv[5]);
++    if (warmups < 1 || warmups > 10 || repeats < 1 || repeats > 100 || fs::exists(output))
++        throw std::runtime_error("invalid repeat count or existing output");
++    const auto process_start = Clock::now();
++    std::vector<fs::path> files;
++    for (const auto& entry : fs::recursive_directory_iterator(folder))
++        if (entry.is_regular_file() && entry.path().extension() == ".bin")
++            files.push_back(entry.path());
++    std::sort(files.begin(), files.end());
++    std::vector<sfm::FeatureSet> features;
++    std::vector<std::string> names;
++    JsonWriter json;
++    json.object().field("backend", "native Spirula ALIKED LightGlue, fixed nine layers")
++        .field("timingScope", "Synchronized wall time including packing, uploads, inference, filtering and downloaded CPU index output; no verification")
++        .field("warmupCycles", warmups).field("repeatCycles", repeats)
++        .field("deviceSelector", argv[6]).field("modelPath", argv[7])
++        .field("modelSha256", spirula::sha256_file(argv[7]))
++        .field("pairFileSha256", spirula::sha256_file(argv[2]))
++        .key("features").array();
++    const auto load_start = Clock::now();
++    for (const auto& path : files) {
++        const std::string name = fs::relative(path, folder).replace_extension().generic_string();
++        names.push_back(name);
++        const std::string hash = spirula::sha256_file(path.string());
++        features.push_back(sfm::readFeatures(path.string(), true, true));
++        json.object().field("name", name).field("sha256", hash)
++            .field("count", (long long)features.back().count())
++            .field("width", (long long)features.back().width)
++            .field("height", (long long)features.back().height).end();
++    }
++    const double load_seconds = seconds(load_start);
++    const auto pairs = sfm::resolvePairList(sfm::readPairList(argv[2]), names);
++    if (pairs.size() > 1000) throw std::runtime_error("bounded benchmark permits at most 1000 pairs");
++    sfm::MatchOptions match_options;
++    sfm::LightGlueOptions lightglue;
++    lightglue.min_score = 0.1;
++    lightglue.device_selector = argv[6];
++    lightglue.model = argv[7];
++    const auto constructor_start = Clock::now();
++    auto matcher = sfm::createFeatureMatcher("lightglue", match_options, lightglue, {});
++    const double constructor_seconds = seconds(constructor_start);
++    json.end().field("featureLoadAndHashSeconds", load_seconds)
++        .field("deviceAndModelConstructorSeconds", constructor_seconds)
++        .field("minimumScore", lightglue.min_score).key("samples").array();
++    for (int cycle = -warmups; cycle < repeats; ++cycle) {
++        for (size_t index = 0; index < pairs.size(); ++index) {
++            const auto pair = pairs[index];
++            const auto start = Clock::now();
++            const auto matches = matcher->match(features[pair.first], features[pair.second]);
++            const double elapsed = seconds(start);
++            json.object().field("cycle", cycle).field("warmup", cycle < 0)
++                .field("pairIndex", (long long)index).field("image1", names[pair.first])
++                .field("image2", names[pair.second]).field("wallSeconds", elapsed)
++                .field("matchCount", (long long)matches.size())
++                .field("canonicalMatchesSha256", matchHash(matches));
++            if (cycle == 0) {
++                json.key("matches").array();
++                for (const auto& match : matches)
++                    json.array().value((long long)match.idx1).value((long long)match.idx2).end();
++                json.end();
++            }
++            json.end();
++        }
++    }
++    json.end().field("processWorkSeconds", seconds(process_start)).end();
++    std::ofstream stream(output, std::ios::binary);
++    stream << json.str();
++    if (!stream.flush()) throw std::runtime_error("cannot write benchmark output");
++    return 0;
++}
++
++int main(int argc, char** argv) { return sfmTestMain(argc, argv, run); }

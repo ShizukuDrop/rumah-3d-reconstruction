@@ -16,7 +16,7 @@ export function selectModel(manifest,key){
   if(key==='osmo-stick'&&(asset.cameraSet!==key||asset.representation!=='gaussian'))throw new Error('Osmo Stick needs its own Gaussian model and camera set.');
   const lite=true;
   const osmo=isOsmoChoice(key);
-  const fileLimit=key==='osmo-stick'?29_999_999:osmo?OSMO_LIMITS.fileBytes:24*1024*1024;
+  const fileLimit=key==='osmo-stick'&&asset.previewCheckpoint!==true?29_999_999:osmo?OSMO_LIMITS.fileBytes:24*1024*1024;
   const textureLimit=osmo?OSMO_LIMITS.textureSize:2048;
   const geometryLimit=osmo?OSMO_LIMITS.maximumGeometryBytes/1024/1024:64;
   if(!Number.isSafeInteger(asset.fileBytes)||asset.fileBytes<12||asset.fileBytes>fileLimit)

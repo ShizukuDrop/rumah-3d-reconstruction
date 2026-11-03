@@ -31,6 +31,8 @@ test('Osmo Stick requires its own camera set and a Gaussian payload strictly bel
   assert.throws(()=>selectModel(manifest,key),/unavailable/);
   assert.equal(selectModel(available,key).cameraData,cameraData);
   assert.throws(()=>selectModel({...available,models:{[key]:{...stick,fileBytes:30_000_000}}},key),/larger/);
+  assert.equal(selectModel({...available,models:{[key]:{...stick,previewCheckpoint:true,fileBytes:30_232_945}}},key).asset.fileBytes,30_232_945);
+  assert.throws(()=>selectModel({...available,models:{[key]:{...stick,previewCheckpoint:true,fileBytes:50_000_001}}},key),/larger/);
   assert.throws(()=>selectModel({...available,models:{[key]:{...stick,cameraSet:'osmo'}}},key),/own Gaussian model and camera set/);
 });
 test('each model keeps its own budget; Osmo permits 50 decimal MB and a 4K atlas',()=>{

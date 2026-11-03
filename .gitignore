@@ -95,6 +95,7 @@ work/cleanup-20261031/protected-*.json
 **/.graphify_*
 **/graphify-out/.graphify_python
 **/graphify-out/.graphify_root
+/graphify-out/cache/
 
 # Local credentials and operations traces never enter the source repository.
 work/hosting/*credential*
