@@ -1,0 +1,336 @@
+{
+  "rows": [
+    {
+      "profile": "desktop",
+      "emulatedTouch": false,
+      "physicalPhone": false,
+      "prechoice": [
+        {
+          "linked": "bare",
+          "requests": [
+            "http://127.0.0.1:53276/"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "phone",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=phone"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "native",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=native"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "iphone-full",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=iphone-full"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "osmo",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=osmo"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        }
+      ],
+      "errors": [],
+      "readySeconds": 4.157,
+      "draw": {
+        "activeSplats": 2960980,
+        "lod": false,
+        "blur": 0.05,
+        "extSplats": true,
+        "dpr": 2,
+        "size": [
+          3840,
+          1862
+        ],
+        "maxSh": 0
+      },
+      "renderer": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "drawCalls": 2,
+        "triangles": 5921962
+      },
+      "modelRequests": [
+        "http://127.0.0.1:53276/models/osmo-native-db0e94c2fa.sog"
+      ],
+      "fullModelRequests": []
+    },
+    {
+      "profile": "narrow-touch",
+      "emulatedTouch": true,
+      "physicalPhone": false,
+      "prechoice": [
+        {
+          "linked": "bare",
+          "requests": [
+            "http://127.0.0.1:53276/"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "phone",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=phone"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "native",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=native"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "iphone-full",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=iphone-full"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "osmo",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=osmo"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        }
+      ],
+      "errors": [],
+      "readySeconds": 0.56,
+      "draw": {
+        "activeSplats": 0,
+        "extSplats": false,
+        "dpr": 1.5,
+        "size": [
+          618,
+          1014
+        ]
+      },
+      "renderer": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "drawCalls": 2,
+        "triangles": 1603164
+      },
+      "selection": {
+        "quality": "phone",
+        "option": "phone",
+        "selected": "phone",
+        "state": {
+          "position": [
+            11.927246185798507,
+            16.85346256523797,
+            12.946432261177739
+          ],
+          "quaternion": [
+            -0.3312668236530477,
+            0.3208688476326138,
+            0.12092183002532768,
+            0.8790241095607474
+          ],
+          "forward": [
+            -0.4839881250664748,
+            -0.6599831458849822,
+            -0.5746109483314781
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.7648421872844885,
+            0,
+            -0.644217687237691
+          ],
+          "mode": "orbit",
+          "yaw": 0.7,
+          "pitch": -0.7207963267948967,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 0,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": false,
+          "shapeShadows": false,
+          "cutawayRegenerations": 0,
+          "triangles": 1603164,
+          "renderCount": 4,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            4.274369436245169,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.4559810901468319,
+              1.210844011179553,
+              -0.6727335277945856
+            ],
+            "radius": 23.701542458456224,
+            "theta": 0.7,
+            "phi": 0.85
+          }
+        },
+        "label": "iPhone Lite · 1.60M triangles · 21.1 MB"
+      },
+      "modelRequests": [
+        "http://127.0.0.1:53276/models/iphone-phone-2b811d1241.glb"
+      ],
+      "fullModelRequests": []
+    },
+    {
+      "profile": "wide-touch",
+      "emulatedTouch": true,
+      "physicalPhone": false,
+      "prechoice": [
+        {
+          "linked": "bare",
+          "requests": [
+            "http://127.0.0.1:53276/"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "phone",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=phone"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "native",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=native"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "iphone-full",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=iphone-full"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        },
+        {
+          "linked": "osmo",
+          "requests": [
+            "http://127.0.0.1:53276/?quality=osmo"
+          ],
+          "modelRequests": 0,
+          "modelBytes": 0,
+          "viewerStarted": false,
+          "viewerScripts": false,
+          "phase": null
+        }
+      ],
+      "errors": [],
+      "readySeconds": 14.568,
+      "draw": {
+        "activeSplats": 1499998,
+        "lod": true,
+        "blur": 0.05,
+        "extSplats": true,
+        "dpr": 1.5,
+        "size": [
+          1350,
+          966
+        ],
+        "maxSh": 0
+      },
+      "renderer": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "drawCalls": 2,
+        "triangles": 2999998
+      },
+      "modelRequests": [
+        "http://127.0.0.1:53276/models/osmo-native-db0e94c2fa.sog"
+      ],
+      "fullModelRequests": []
+    }
+  ],
+  "scope": "Desktop Chrome GPU with touch/DPR emulation. No physical Fold 7, iPhone 17 or Safari claim."
+}

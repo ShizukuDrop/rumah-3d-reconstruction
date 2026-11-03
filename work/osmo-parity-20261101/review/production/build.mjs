@@ -29,7 +29,7 @@ if(sha!==candidate.sha256||bytes.length!==candidate.bytes||!validateModelHeader(
 const packing=candidate.packingReport&&await read(path.resolve(here,candidate.packingReport));
 if(packing&&(packing.sha256!==sha||packing.splats!==candidate.splats||packing.shDegree!==candidate.shDegree))throw Error('Candidate splats or SH degree differ from its packing report.');
 const sourceName=`models/osmo-native-${sha.slice(0,10)}.${format}`;
-const asset={label:'Osmo',representation:'gaussian',format,cameraSet:'osmo',url:sourceName,fileBytes:bytes.length,downloadBytes:bytes.length,splats:candidate.splats,shDegree:candidate.shDegree,note:'Osmo · native Gaussian view · approximate scale',provisional};
+const asset={label:'Omso Held',representation:'gaussian',format,cameraSet:'osmo',url:sourceName,fileBytes:bytes.length,downloadBytes:bytes.length,splats:candidate.splats,shDegree:candidate.shDegree,note:'Omso Held · native Gaussian view · approximate scale',provisional};
 nativePolicy(asset,true);
 manifest.build=releaseId;manifest.models.osmo=asset;
 const originals={phone:JSON.parse(JSON.stringify(manifest.models.phone)),iphone:JSON.parse(JSON.stringify(manifest.cameraSets.iphone))};

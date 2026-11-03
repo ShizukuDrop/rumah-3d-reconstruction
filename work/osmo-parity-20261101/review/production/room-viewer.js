@@ -475,7 +475,7 @@ function applyCameraData(quality){
   $('static-photo').hidden=!data.photos.length;if(data.photos.length)$('static-photo').href=data.photos[0].source;
   $('load-preview').hidden=!asset.preview;if(asset.preview)$('load-preview').src=asset.preview;
   $('download-model').href=asset.url;
-  $('download-model').textContent=quality==='osmo'?'Download Osmo':'Download iPhone Lite';
+  $('download-model').textContent=quality==='osmo'?'Download Omso Held':'Download iPhone Lite';
 }
 async function loadAsset(quality){
   const request=loads.begin(),generation=request.id;downloadAbort?.abort();stopTimers();release();ready=false;controlsEnabled(false);
@@ -486,7 +486,7 @@ async function loadAsset(quality){
   $('source-frame').removeAttribute('src');$('compare').setAttribute('aria-pressed','false');
   $('load-preview').hidden=true;
   $('quality').value=quality;$('loading').hidden=false;$('recovery').hidden=true;$('load-progress').hidden=false;$('load-progress').value=0;
-  $('retry').hidden=true;$('cancel-load').hidden=false;$('cancel-load').textContent='Choose another model';$('load-title').textContent='Opening '+({phone:'iPhone Lite',osmo:'Osmo'}[quality]||'the model');
+  $('retry').hidden=true;$('cancel-load').hidden=false;$('cancel-load').textContent='Choose another model';$('load-title').textContent='Opening '+({phone:'iPhone Lite',osmo:'Omso Held'}[quality]||'the model');
   setPhase('details','Opening room details…');
   try{
     await loadMetadata();if(!loads.current(generation))return;applyCameraData(quality);

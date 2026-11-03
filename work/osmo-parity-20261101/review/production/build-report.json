@@ -1,13 +1,13 @@
 {
-  "build": "20261103-osmo-viewer-v3",
+  "build": "20261103-osmo-viewer-v4",
   "provisional": false,
   "deploymentAuthorized": false,
   "sourceCandidate": "C:\\Users\\bombe\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-system\\work\\osmo-parity-20261101\\review\\final-sharp.sog",
   "candidateSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
-  "manifestName": "room-b0d0fc83f3.json",
-  "bundleName": "room-viewer-JACM3SLV.js",
+  "manifestName": "room-e0636174d3.json",
+  "bundleName": "room-viewer-VYZKB473.js",
   "osmo": {
-    "label": "Osmo",
+    "label": "Omso Held",
     "representation": "gaussian",
     "format": "sog",
     "cameraSet": "osmo",
@@ -16,7 +16,7 @@
     "downloadBytes": 44904208,
     "splats": 2960980,
     "shDegree": 2,
-    "note": "Osmo · native Gaussian view · approximate scale",
+    "note": "Omso Held · native Gaussian view · approximate scale",
     "provisional": false,
     "simple": {
       "url": "models/osmo-shapes-76f1f581d5.json",
@@ -218,7 +218,7 @@
         "format": "esm"
       },
       "build-entry.js": {
-        "bytes": 47105,
+        "bytes": 47680,
         "imports": [
           {
             "path": "../../../mobile-20261029/node_modules/three/build/three.module.js",
@@ -275,7 +275,7 @@
       }
     },
     "outputs": {
-      "public/room-viewer-JACM3SLV.js": {
+      "public/room-viewer-VYZKB473.js": {
         "imports": [
           {
             "path": "public/chunks/chunk-PCQTWMT7.js",
@@ -323,10 +323,10 @@
             "bytesInOutput": 2304
           },
           "build-entry.js": {
-            "bytesInOutput": 30288
+            "bytesInOutput": 30298
           }
         },
-        "bytes": 44763
+        "bytes": 44773
       },
       "public/chunks/spark.module-XXGQBJ7P.js": {
         "imports": [

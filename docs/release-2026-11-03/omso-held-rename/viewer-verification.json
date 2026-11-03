@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "releaseId": "20261103-osmo-viewer-v4",
+  "manifestSha256": "e0636174d37acd37b6fb82d59f2cb702fbf24b0dc90421dc9d2d219799b01c6f",
+  "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+  "checks": {
+    "viewerQuotaAndErrorsPassed": true,
+    "viewerControlsPassed": true,
+    "zeroModelBytesBeforeOpen": true,
+    "iphoneHashesPreserved": true,
+    "totalModelDownloadWithin50MB": true,
+    "reversibleShellPassed": true
+  },
+  "controlChecks": 54,
+  "browserProfiles": 3,
+  "modelAndCameraPayloadsUnchanged": true,
+  "physicalPhonesTested": false,
+  "receipts": [
+    {
+      "path": "../controls-verification-20261103-v4.json",
+      "bytes": 183514,
+      "sha256": "7807f232cc71f1a6b766bba4d27f132c03b84e359f6eb755f6149f3d1e7e9f65"
+    },
+    {
+      "path": "../choice-and-phone-policy-verification-20261103-v4.json",
+      "bytes": 8522,
+      "sha256": "ccc435115c9d28ca176b8ebf4e6ddb1af914fc119f8e7a5898b4f0456109223f"
+    }
+  ]
+}

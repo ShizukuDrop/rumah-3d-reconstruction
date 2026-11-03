@@ -1,0 +1,7312 @@
+{
+  "checks": [
+    {
+      "name": "Zero model bytes before explicit open",
+      "pass": true,
+      "evidence": [
+        "http://127.0.0.1:53276/?quality=osmo&ablation=1"
+      ]
+    },
+    {
+      "name": "GPU hardware",
+      "pass": true,
+      "evidence": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "drawCalls": 2,
+        "triangles": 5921962
+      }
+    },
+    {
+      "name": "Default fitted dollhouse",
+      "pass": true,
+      "evidence": {
+        "position": [
+          6.1686006806943166,
+          6.549038145280166,
+          1.8609871112772751
+        ],
+        "quaternion": [
+          -0.2866384652216506,
+          0.5450919183339288,
+          0.20542197468924853,
+          0.7606017375323197
+        ],
+        "forward": [
+          -0.7114320413037694,
+          -0.6599831458849823,
+          -0.24142638164482827
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          0.32135322576361447,
+          -5.551115123125783e-17,
+          -0.9469593994946771
+        ],
+        "mode": "orbit",
+        "yaw": 1.2436381633974483,
+        "pitch": -0.7207963267948968,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": false,
+        "shapeSubstitution": "none",
+        "totalShapeMeshes": 0,
+        "visibleShapeMeshes": 0,
+        "gaussianVisible": true,
+        "shapeShadows": false,
+        "cutawayRegenerations": 1,
+        "triangles": 5921962,
+        "renderCount": 3,
+        "fov": 42,
+        "seeInside": true,
+        "projection": [
+          1.2631968329322547,
+          0,
+          0,
+          0,
+          0,
+          2.6050890646938014,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Default overview is photographic with no inferred primitives",
+      "pass": true,
+      "evidence": {
+        "state": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 0,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 1,
+          "triangles": 5921962,
+          "renderCount": 3,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "note": "Photographic reconstruction · approximate scale · defects remainView photographic scan"
+      }
+    },
+    {
+      "name": "Overview controls enabled",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "name": "Top view",
+      "pass": true,
+      "evidence": {
+        "position": [
+          -0.11557561820452003,
+          36.08257207185326,
+          -0.17830022387581085
+        ],
+        "quaternion": [
+          -0.3731862814544943,
+          0.6007937953085081,
+          0.6001933017099578,
+          0.37355965445356265
+        ],
+        "forward": [
+          -0.0008968323085124519,
+          -0.9999995000000417,
+          0.0004423702940690166
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.4423703677974038,
+          -5.551115123125783e-17,
+          -0.8968324579846505
+        ],
+        "mode": "orbit",
+        "yaw": 2.0290363267949574,
+        "pitch": -1.5697963267949044,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": false,
+        "shapeSubstitution": "none",
+        "totalShapeMeshes": 0,
+        "visibleShapeMeshes": 0,
+        "gaussianVisible": true,
+        "shapeShadows": false,
+        "cutawayRegenerations": 2,
+        "triangles": 5921962,
+        "renderCount": 5,
+        "fov": 12,
+        "seeInside": true,
+        "projection": [
+          4.613475680667304,
+          0,
+          0,
+          0,
+          0,
+          9.514364454222584,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            -0.14687317781806114,
+            1.1846946563190668,
+            -0.16286243186222127
+          ],
+          "radius": 34.897894864480165,
+          "theta": 2.0290363267948965,
+          "phi": 0.001
+        }
+      }
+    },
+    {
+      "name": "Shell restores",
+      "pass": true,
+      "evidence": {
+        "position": [
+          -0.11557561820452003,
+          36.08257207185326,
+          -0.17830022387581085
+        ],
+        "quaternion": [
+          -0.3731862814544943,
+          0.6007937953085081,
+          0.6001933017099578,
+          0.37355965445356265
+        ],
+        "forward": [
+          -0.0008968323085124519,
+          -0.9999995000000417,
+          0.0004423702940690166
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.4423703677974038,
+          -5.551115123125783e-17,
+          -0.8968324579846505
+        ],
+        "mode": "orbit",
+        "yaw": 2.0290363267949574,
+        "pitch": -1.5697963267949044,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": false,
+        "shapeSubstitution": "none",
+        "totalShapeMeshes": 0,
+        "visibleShapeMeshes": 0,
+        "gaussianVisible": true,
+        "shapeShadows": false,
+        "cutawayRegenerations": 3,
+        "triangles": 5921962,
+        "renderCount": 7,
+        "fov": 12,
+        "seeInside": false,
+        "projection": [
+          4.613475680667304,
+          0,
+          0,
+          0,
+          0,
+          9.514364454222584,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            -0.14687317781806114,
+            1.1846946563190668,
+            -0.16286243186222127
+          ],
+          "radius": 34.897894864480165,
+          "theta": 2.0290363267948965,
+          "phi": 0.001
+        }
+      }
+    },
+    {
+      "name": "Orbit reset stays overview",
+      "pass": true,
+      "evidence": {
+        "position": [
+          6.1686006806943166,
+          6.549038145280166,
+          1.8609871112772751
+        ],
+        "quaternion": [
+          -0.2866384652216506,
+          0.5450919183339288,
+          0.20542197468924853,
+          0.7606017375323197
+        ],
+        "forward": [
+          -0.7114320413037694,
+          -0.6599831458849823,
+          -0.24142638164482827
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          0.32135322576361447,
+          -5.551115123125783e-17,
+          -0.9469593994946771
+        ],
+        "mode": "orbit",
+        "yaw": 1.2436381633974483,
+        "pitch": -0.7207963267948968,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": false,
+        "shapeSubstitution": "none",
+        "totalShapeMeshes": 0,
+        "visibleShapeMeshes": 0,
+        "gaussianVisible": true,
+        "shapeShadows": false,
+        "cutawayRegenerations": 4,
+        "triangles": 5921962,
+        "renderCount": 9,
+        "fov": 42,
+        "seeInside": true,
+        "projection": [
+          1.2631968329322547,
+          0,
+          0,
+          0,
+          0,
+          2.6050890646938014,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Walk starts inside with shell restored",
+      "pass": true,
+      "evidence": {
+        "position": [
+          0.954722,
+          1.5427764395823702,
+          -2.119319
+        ],
+        "quaternion": [
+          -0.013825633977697933,
+          0.983088618262364,
+          0.08376436229288901,
+          0.16226260227722283
+        ],
+        "forward": [
+          -0.3167208441098675,
+          -0.16918234906699597,
+          0.933308759023779
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.9469593994946771,
+          -3.469446951953614e-18,
+          -0.3213532257636145
+        ],
+        "mode": "walk",
+        "yaw": 2.814434490192345,
+        "pitch": -0.16999999999999998,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": false,
+        "shapeSubstitution": "none",
+        "totalShapeMeshes": 0,
+        "visibleShapeMeshes": 0,
+        "gaussianVisible": true,
+        "shapeShadows": false,
+        "cutawayRegenerations": 5,
+        "triangles": 5921962,
+        "renderCount": 11,
+        "fov": 40.81781656444387,
+        "seeInside": false,
+        "projection": [
+          1.3032253728412058,
+          0,
+          0,
+          0,
+          0,
+          2.687639866654259,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Walk reset stays walk",
+      "pass": true,
+      "evidence": {
+        "position": [
+          0.954722,
+          1.5427764395823702,
+          -2.119319
+        ],
+        "quaternion": [
+          -0.013825633977697935,
+          0.983088618262364,
+          0.08376436229288903,
+          0.16226260227722283
+        ],
+        "forward": [
+          -0.3167208441098675,
+          -0.169182349066996,
+          0.933308759023779
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.9469593994946771,
+          -3.469446951953614e-18,
+          -0.3213532257636145
+        ],
+        "mode": "walk",
+        "yaw": 2.814434490192345,
+        "pitch": -0.17,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": false,
+        "shapeSubstitution": "none",
+        "totalShapeMeshes": 0,
+        "visibleShapeMeshes": 0,
+        "gaussianVisible": true,
+        "shapeShadows": false,
+        "cutawayRegenerations": 5,
+        "triangles": 5921963,
+        "renderCount": 12,
+        "fov": 40.81781656444387,
+        "seeInside": false,
+        "projection": [
+          1.3032253728412058,
+          0,
+          0,
+          0,
+          0,
+          2.687639866654259,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Preset exit preserves pixel focal length",
+      "pass": true,
+      "evidence": {
+        "before": 1,
+        "after": 1,
+        "beforePose": [
+          -0.04734322054037422,
+          1.5427764395823702,
+          0.16500877423918853
+        ],
+        "afterPose": [
+          -0.04734322054037422,
+          1.5427764395823702,
+          0.16500877423918853
+        ]
+      }
+    },
+    {
+      "name": "Walking input releases without cleanup",
+      "pass": true,
+      "evidence": {
+        "released": {
+          "position": [
+            0.1296541850727658,
+            1.5427764395823702,
+            0.4091965384898593
+          ],
+          "quaternion": [
+            0,
+            -0.9512285361086977,
+            0,
+            0.3084870695710014
+          ],
+          "forward": [
+            0.5868834071929714,
+            0,
+            0.8096714558149922
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.8096714558149922,
+            0,
+            0.5868834071929714
+          ],
+          "mode": "walk",
+          "yaw": -2.51438841389687,
+          "pitch": 0,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 0,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 5,
+          "triangles": 5921962,
+          "renderCount": 133,
+          "fov": 90,
+          "seeInside": false,
+          "projection": [
+            0.48489583333333325,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "stopped": {
+          "position": [
+            0.1296541850727658,
+            1.5427764395823702,
+            0.4091965384898593
+          ],
+          "quaternion": [
+            0,
+            -0.9512285361086977,
+            0,
+            0.3084870695710014
+          ],
+          "forward": [
+            0.5868834071929714,
+            0,
+            0.8096714558149922
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.8096714558149922,
+            0,
+            0.5868834071929714
+          ],
+          "mode": "walk",
+          "yaw": -2.51438841389687,
+          "pitch": 0,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 0,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 5,
+          "triangles": 5921962,
+          "renderCount": 133,
+          "fov": 90,
+          "seeInside": false,
+          "projection": [
+            0.48489583333333325,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        }
+      }
+    },
+    {
+      "name": "Orbit Top and Walk do not automatically fetch a shape asset",
+      "pass": true,
+      "evidence": []
+    },
+    {
+      "name": "Simple shapes are explicitly labeled as inferred",
+      "pass": true,
+      "evidence": {
+        "state": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 70,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 6,
+          "triangles": 1304,
+          "renderCount": 144,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "Photographic alternative exits shapes and opens Walk",
+      "pass": true,
+      "evidence": {
+        "position": [
+          0.954722,
+          1.5427764395823702,
+          -2.119319
+        ],
+        "quaternion": [
+          -0.013825633977697935,
+          0.983088618262364,
+          0.08376436229288903,
+          0.16226260227722283
+        ],
+        "forward": [
+          -0.3167208441098675,
+          -0.169182349066996,
+          0.933308759023779
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "right": [
+          -0.9469593994946771,
+          -3.469446951953614e-18,
+          -0.3213532257636145
+        ],
+        "mode": "walk",
+        "yaw": 2.814434490192345,
+        "pitch": -0.17,
+        "keys": [],
+        "comparison": false,
+        "simpleShapes": false,
+        "overviewWalls": false,
+        "shapeSubstitution": "none",
+        "totalShapeMeshes": 85,
+        "visibleShapeMeshes": 0,
+        "gaussianVisible": true,
+        "shapeShadows": false,
+        "cutawayRegenerations": 7,
+        "triangles": 3,
+        "renderCount": 145,
+        "fov": 40.81781656444387,
+        "seeInside": false,
+        "projection": [
+          1.3032253728412058,
+          0,
+          0,
+          0,
+          0,
+          2.687639866654259,
+          0,
+          0,
+          0,
+          0,
+          -1.000500125031258,
+          -1,
+          0,
+          0,
+          -0.05001250312578145,
+          0
+        ],
+        "orbit": {
+          "target": [
+            0.05475150992322203,
+            0.8773264779265386,
+            -0.2137640912641539
+          ],
+          "radius": 8.593721980200474,
+          "theta": 1.2436381633974483,
+          "phi": 0.85
+        }
+      }
+    },
+    {
+      "name": "Phone layout keeps the photographic label visible without an inferred overlay",
+      "pass": true,
+      "evidence": {
+        "notice": {
+          "x": 12,
+          "y": 768.203125,
+          "width": 366,
+          "height": 68.796875
+        },
+        "stage": {
+          "x": 0,
+          "y": 188,
+          "width": 390,
+          "height": 551.8125
+        }
+      }
+    },
+    {
+      "name": "desktop orbit See inside true: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 10,
+          "triangles": 5921962,
+          "renderCount": 190,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "on": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 70,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 10,
+          "triangles": 1304,
+          "renderCount": 199,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop orbit shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 70,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 10,
+          "triangles": 1304,
+          "renderCount": 199,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "switched": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 11,
+          "triangles": 1484,
+          "renderCount": 207,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "restored": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 70,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 12,
+          "triangles": 1304,
+          "renderCount": 217,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop orbit OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 10,
+          "triangles": 5921962,
+          "renderCount": 190,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "after": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 12,
+          "triangles": 5921962,
+          "renderCount": 226,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        }
+      }
+    },
+    {
+      "name": "desktop orbit See inside false: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 13,
+          "triangles": 5921962,
+          "renderCount": 246,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "on": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 13,
+          "triangles": 1484,
+          "renderCount": 257,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop orbit shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 13,
+          "triangles": 1484,
+          "renderCount": 257,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "switched": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 70,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 14,
+          "triangles": 1304,
+          "renderCount": 266,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "restored": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 15,
+          "triangles": 1484,
+          "renderCount": 275,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop orbit OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 13,
+          "triangles": 5921962,
+          "renderCount": 246,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        },
+        "after": {
+          "position": [
+            6.1686006806943166,
+            6.549038145280166,
+            1.8609871112772751
+          ],
+          "quaternion": [
+            -0.2866384652216506,
+            0.5450919183339288,
+            0.20542197468924853,
+            0.7606017375323197
+          ],
+          "forward": [
+            -0.7114320413037694,
+            -0.6599831458849823,
+            -0.24142638164482827
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.32135322576361447,
+            -5.551115123125783e-17,
+            -0.9469593994946771
+          ],
+          "mode": "orbit",
+          "yaw": 1.2436381633974483,
+          "pitch": -0.7207963267948968,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 15,
+          "triangles": 5921962,
+          "renderCount": 284,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            1.2631968329322547,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.05475150992322203,
+              0.8773264779265386,
+              -0.2137640912641539
+            ],
+            "radius": 8.593721980200474,
+            "theta": 1.2436381633974483,
+            "phi": 0.85
+          }
+        }
+      }
+    },
+    {
+      "name": "desktop top See inside true: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 17,
+          "triangles": 5921962,
+          "renderCount": 322,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "on": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 17,
+          "triangles": 1328,
+          "renderCount": 331,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop top shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 17,
+          "triangles": 1328,
+          "renderCount": 331,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "switched": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 18,
+          "triangles": 1484,
+          "renderCount": 340,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "restored": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 19,
+          "triangles": 1328,
+          "renderCount": 349,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop top OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 17,
+          "triangles": 5921962,
+          "renderCount": 322,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "after": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 19,
+          "triangles": 5921962,
+          "renderCount": 358,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        }
+      }
+    },
+    {
+      "name": "desktop top See inside false: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 20,
+          "triangles": 5921962,
+          "renderCount": 376,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "on": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 20,
+          "triangles": 1484,
+          "renderCount": 385,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop top shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 20,
+          "triangles": 1484,
+          "renderCount": 385,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "switched": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 21,
+          "triangles": 1328,
+          "renderCount": 394,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "restored": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 22,
+          "triangles": 1484,
+          "renderCount": 401,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop top OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 20,
+          "triangles": 5921962,
+          "renderCount": 376,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "after": {
+          "position": [
+            -0.11557561820452003,
+            36.08257207185326,
+            -0.17830022387581085
+          ],
+          "quaternion": [
+            -0.3731862814544943,
+            0.6007937953085081,
+            0.6001933017099578,
+            0.37355965445356265
+          ],
+          "forward": [
+            -0.0008968323085124519,
+            -0.9999995000000417,
+            0.0004423702940690166
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.4423703677974038,
+            -5.551115123125783e-17,
+            -0.8968324579846505
+          ],
+          "mode": "orbit",
+          "yaw": 2.0290363267949574,
+          "pitch": -1.5697963267949044,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 22,
+          "triangles": 5921962,
+          "renderCount": 410,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            4.613475680667304,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        }
+      }
+    },
+    {
+      "name": "desktop walk See inside true: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 23,
+          "triangles": 5921962,
+          "renderCount": 448,
+          "fov": 40.81781656444387,
+          "seeInside": true,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "on": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 23,
+          "triangles": 1068,
+          "renderCount": 456,
+          "fov": 40.81781656444387,
+          "seeInside": true,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop walk shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 23,
+          "triangles": 1068,
+          "renderCount": 456,
+          "fov": 40.81781656444387,
+          "seeInside": true,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "switched": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 24,
+          "triangles": 1212,
+          "renderCount": 464,
+          "fov": 40.81781656444387,
+          "seeInside": false,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "restored": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 25,
+          "triangles": 1068,
+          "renderCount": 473,
+          "fov": 40.81781656444387,
+          "seeInside": true,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop walk OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 23,
+          "triangles": 5921962,
+          "renderCount": 448,
+          "fov": 40.81781656444387,
+          "seeInside": true,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "after": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 25,
+          "triangles": 5921962,
+          "renderCount": 482,
+          "fov": 40.81781656444387,
+          "seeInside": true,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        }
+      }
+    },
+    {
+      "name": "desktop walk See inside false: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 26,
+          "triangles": 5921962,
+          "renderCount": 500,
+          "fov": 40.81781656444387,
+          "seeInside": false,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "on": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 26,
+          "triangles": 1212,
+          "renderCount": 509,
+          "fov": 40.81781656444387,
+          "seeInside": false,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop walk shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 26,
+          "triangles": 1212,
+          "renderCount": 509,
+          "fov": 40.81781656444387,
+          "seeInside": false,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "switched": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 27,
+          "triangles": 1068,
+          "renderCount": 517,
+          "fov": 40.81781656444387,
+          "seeInside": true,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "restored": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 28,
+          "triangles": 1212,
+          "renderCount": 526,
+          "fov": 40.81781656444387,
+          "seeInside": false,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "desktop walk OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 26,
+          "triangles": 5921962,
+          "renderCount": 500,
+          "fov": 40.81781656444387,
+          "seeInside": false,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        },
+        "after": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 28,
+          "triangles": 5921962,
+          "renderCount": 535,
+          "fov": 40.81781656444387,
+          "seeInside": false,
+          "projection": [
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            2.687639866654259,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14687317781806114,
+              1.1846946563190668,
+              -0.16286243186222127
+            ],
+            "radius": 34.897894864480165,
+            "theta": 2.0290363267948965,
+            "phi": 0.001
+          }
+        }
+      }
+    },
+    {
+      "name": "phone orbit See inside true: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 29,
+          "triangles": 5921962,
+          "renderCount": 574,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "on": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 71,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 29,
+          "triangles": 1316,
+          "renderCount": 582,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone orbit shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 71,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 29,
+          "triangles": 1316,
+          "renderCount": 582,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "switched": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 30,
+          "triangles": 1484,
+          "renderCount": 590,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "restored": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 71,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 31,
+          "triangles": 1316,
+          "renderCount": 598,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone orbit OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 29,
+          "triangles": 5921962,
+          "renderCount": 574,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "after": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 31,
+          "triangles": 5921962,
+          "renderCount": 607,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        }
+      }
+    },
+    {
+      "name": "phone orbit See inside false: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 32,
+          "triangles": 5921962,
+          "renderCount": 625,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "on": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 32,
+          "triangles": 1484,
+          "renderCount": 634,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone orbit shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 32,
+          "triangles": 1484,
+          "renderCount": 634,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "switched": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 71,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 33,
+          "triangles": 1316,
+          "renderCount": 643,
+          "fov": 42,
+          "seeInside": true,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "restored": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 34,
+          "triangles": 1484,
+          "renderCount": 652,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone orbit OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 32,
+          "triangles": 5921962,
+          "renderCount": 625,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        },
+        "after": {
+          "position": [
+            3.367113678807766,
+            9.600294445743502,
+            -9.187451996694323
+          ],
+          "quaternion": [
+            -0.05742873119963457,
+            0.9232648382152786,
+            0.3479392738146326,
+            0.15238845456746916
+          ],
+          "forward": [
+            -0.24142638164482838,
+            -0.6599831458849824,
+            0.711432041303769
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.946959399494677,
+            2.7755575615628914e-17,
+            -0.3213532257636147
+          ],
+          "mode": "orbit",
+          "yaw": 2.814434490192345,
+          "pitch": -0.7207963267948969,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 34,
+          "triangles": 5921962,
+          "renderCount": 661,
+          "fov": 42,
+          "seeInside": false,
+          "projection": [
+            3.6872029838743035,
+            0,
+            0,
+            0,
+            0,
+            2.6050890646938014,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              0.3366372819544914,
+              1.3159332574630085,
+              -0.2572845707169963
+            ],
+            "radius": 12.55238295088863,
+            "theta": 2.814434490192345,
+            "phi": 0.85
+          }
+        }
+      }
+    },
+    {
+      "name": "phone top See inside true: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 36,
+          "triangles": 5921962,
+          "renderCount": 699,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "on": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 36,
+          "triangles": 1328,
+          "renderCount": 707,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone top shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 36,
+          "triangles": 1328,
+          "renderCount": 707,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "switched": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 37,
+          "triangles": 1484,
+          "renderCount": 716,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "restored": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 38,
+          "triangles": 1328,
+          "renderCount": 725,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone top OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 36,
+          "triangles": 5921962,
+          "renderCount": 699,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "after": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 38,
+          "triangles": 5921962,
+          "renderCount": 734,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        }
+      }
+    },
+    {
+      "name": "phone top See inside false: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 39,
+          "triangles": 5921962,
+          "renderCount": 752,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "on": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 39,
+          "triangles": 1484,
+          "renderCount": 760,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone top shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 39,
+          "triangles": 1484,
+          "renderCount": 760,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "switched": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 40,
+          "triangles": 1328,
+          "renderCount": 769,
+          "fov": 12,
+          "seeInside": true,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "restored": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 41,
+          "triangles": 1484,
+          "renderCount": 778,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone top OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 39,
+          "triangles": 5921962,
+          "renderCount": 752,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "after": {
+          "position": [
+            -0.1249440476734051,
+            50.29746577877498,
+            -0.11908503019645308
+          ],
+          "quaternion": [
+            -0.6882833039241191,
+            0.16067880191563103,
+            0.1605182033995902,
+            0.6889719315992663
+          ],
+          "forward": [
+            -0.00044237029406898887,
+            -0.9999995000000418,
+            -0.0008968323085123409
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            0.8968324579846504,
+            -5.551115123125783e-17,
+            -0.4423703677974038
+          ],
+          "mode": "orbit",
+          "yaw": 0.458240000000085,
+          "pitch": -1.5697963267950155,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 41,
+          "triangles": 5921962,
+          "renderCount": 787,
+          "fov": 12,
+          "seeInside": false,
+          "projection": [
+            13.466485073668887,
+            0,
+            0,
+            0,
+            0,
+            9.514364454222584,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        }
+      }
+    },
+    {
+      "name": "phone walk See inside true: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 42,
+          "triangles": 5921962,
+          "renderCount": 825,
+          "fov": 75,
+          "seeInside": true,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "on": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 42,
+          "triangles": 1136,
+          "renderCount": 832,
+          "fov": 75,
+          "seeInside": true,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone walk shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 42,
+          "triangles": 1136,
+          "renderCount": 832,
+          "fov": 75,
+          "seeInside": true,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "switched": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 43,
+          "triangles": 1304,
+          "renderCount": 840,
+          "fov": 75,
+          "seeInside": false,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "restored": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 44,
+          "triangles": 1136,
+          "renderCount": 848,
+          "fov": 75,
+          "seeInside": true,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone walk OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 42,
+          "triangles": 5921962,
+          "renderCount": 825,
+          "fov": 75,
+          "seeInside": true,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "after": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 44,
+          "triangles": 5921962,
+          "renderCount": 857,
+          "fov": 75,
+          "seeInside": true,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        }
+      }
+    },
+    {
+      "name": "phone walk See inside false: ON substitutes all primitives without moving the camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 45,
+          "triangles": 5921962,
+          "renderCount": 875,
+          "fov": 75,
+          "seeInside": false,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "on": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 45,
+          "triangles": 1304,
+          "renderCount": 882,
+          "fov": 75,
+          "seeInside": false,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone walk shapes keep Gaussian hidden through shell roundtrip",
+      "pass": true,
+      "evidence": {
+        "on": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 45,
+          "triangles": 1304,
+          "renderCount": 882,
+          "fov": 75,
+          "seeInside": false,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "switched": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 72,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 46,
+          "triangles": 1136,
+          "renderCount": 890,
+          "fov": 75,
+          "seeInside": true,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "restored": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": true,
+          "overviewWalls": false,
+          "shapeSubstitution": "all",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 85,
+          "gaussianVisible": false,
+          "shapeShadows": true,
+          "cutawayRegenerations": 47,
+          "triangles": 1304,
+          "renderCount": 898,
+          "fov": 75,
+          "seeInside": false,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "phone walk OFF returns to pure Gaussian at the identical camera",
+      "pass": true,
+      "evidence": {
+        "before": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 45,
+          "triangles": 5921962,
+          "renderCount": 875,
+          "fov": 75,
+          "seeInside": false,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        },
+        "after": {
+          "position": [
+            0.954722,
+            1.5427764395823702,
+            -2.119319
+          ],
+          "quaternion": [
+            -0.013825633977697933,
+            0.983088618262364,
+            0.08376436229288901,
+            0.16226260227722283
+          ],
+          "forward": [
+            -0.3167208441098675,
+            -0.16918234906699597,
+            0.933308759023779
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            -0.9469593994946771,
+            -3.469446951953614e-18,
+            -0.3213532257636145
+          ],
+          "mode": "walk",
+          "yaw": 2.814434490192345,
+          "pitch": -0.16999999999999998,
+          "keys": [],
+          "comparison": false,
+          "simpleShapes": false,
+          "overviewWalls": false,
+          "shapeSubstitution": "none",
+          "totalShapeMeshes": 85,
+          "visibleShapeMeshes": 0,
+          "gaussianVisible": true,
+          "shapeShadows": false,
+          "cutawayRegenerations": 47,
+          "triangles": 5921962,
+          "renderCount": 907,
+          "fov": 75,
+          "seeInside": false,
+          "projection": [
+            1.8445651430983219,
+            0,
+            0,
+            0,
+            0,
+            1.3032253728412058,
+            0,
+            0,
+            0,
+            0,
+            -1.000500125031258,
+            -1,
+            0,
+            0,
+            -0.05001250312578145,
+            0
+          ],
+          "orbit": {
+            "target": [
+              -0.14667031484588944,
+              1.1841853423580273,
+              -0.16313142889206822
+            ],
+            "radius": 49.1133049930674,
+            "theta": 0.45824,
+            "phi": 0.001
+          }
+        }
+      }
+    },
+    {
+      "name": "Shape asset is requested once and only after explicit ON",
+      "pass": true,
+      "evidence": {
+        "shapeRequests": [
+          "http://127.0.0.1:53276/models/osmo-shapes-76f1f581d5.json"
+        ],
+        "expectedShapes": 85
+      }
+    },
+    {
+      "name": "No browser/render errors",
+      "pass": true,
+      "evidence": []
+    }
+  ],
+  "errors": [],
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "platform": "win32",
+  "physicalPhonesTested": false,
+  "viewport": [
+    1920,
+    1080
+  ]
+}

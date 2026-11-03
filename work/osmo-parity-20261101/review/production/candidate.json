@@ -11,7 +11,7 @@
   "simpleShapes": "../simple-shapes.json",
   "newTraining": true,
   "provisional": false,
-  "releaseId": "20261103-osmo-viewer-v3",
+  "releaseId": "20261103-osmo-viewer-v4",
   "acceptancePassed": false,
   "deploymentAuthorized": false,
   "releaseKind": "viewer-update"
