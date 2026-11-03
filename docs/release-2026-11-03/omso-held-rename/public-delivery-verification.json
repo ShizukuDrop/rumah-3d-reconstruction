@@ -1,0 +1,174 @@
+{
+  "passed": true,
+  "site": "https://rumah.shizuku.rest/",
+  "releaseId": "20261103-osmo-viewer-v4",
+  "previousRelease": "20261103-osmo-viewer-v3",
+  "choices": [
+    "iPhone Lite",
+    "Omso Held"
+  ],
+  "modelFullDownloads": 0,
+  "firstPromotionRolledBackOnPublicReadTimeout": true,
+  "publicVerificationTransport": "Chrome browser decoding with bounded bodies",
+  "checks": [
+    {
+      "path": "chunks/GLTFLoader-LB5NR3GW.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 44550,
+      "sha256": "783f2777492fd326b562c4d221abbbfa48a288db6a37f9388b7461c6f7faa1df",
+      "encoding": "zstd"
+    },
+    {
+      "path": "chunks/chunk-PCQTWMT7.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 701804,
+      "sha256": "3b312b4db7a45d20dfecb033e9aff23533dcd841fea3043355b7c563d37b57d6",
+      "encoding": "zstd"
+    },
+    {
+      "path": "chunks/chunk-VC46IEJQ.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 106,
+      "sha256": "ff9e0dca4365b7b1581e7275f3c6dbcf1474ffb874d81a3375ecf7a835dbaa6f",
+      "encoding": "zstd"
+    },
+    {
+      "path": "chunks/index.module-7RF7OSAR.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 108121,
+      "sha256": "a26c2a039e552bfd78d491c83b7dd6dc60897714012dd8aacb0c207b5cf6e4d3",
+      "encoding": "zstd"
+    },
+    {
+      "path": "chunks/spark.module-XXGQBJ7P.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 2800032,
+      "sha256": "5218c6d3afe09372c37748869e76fa997aeeec660d948285d01ba7acbc8f3264",
+      "encoding": "zstd"
+    },
+    {
+      "path": "index.html",
+      "method": "GET",
+      "status": 200,
+      "bytes": 16756,
+      "sha256": "b32effa68938b5122d995e4a437435e262deb77429de54983b9992871b007c62",
+      "encoding": "zstd"
+    },
+    {
+      "path": "models/osmo-shapes-76f1f581d5.json",
+      "method": "GET",
+      "status": 200,
+      "bytes": 12179,
+      "sha256": "76f1f581d5565255feac32e28a21d5aeca5125bae46619541e4358a57785db6b",
+      "encoding": "zstd"
+    },
+    {
+      "path": "robots.txt",
+      "method": "GET",
+      "status": 200,
+      "bytes": 2702,
+      "sha256": "da0cadf9e179e3feb4c15154e869c44d0e541d81dc9b8202f32b1b4ac113aa4c",
+      "encoding": "zstd"
+    },
+    {
+      "path": "room-e0636174d3.json",
+      "method": "GET",
+      "status": 200,
+      "bytes": 664989,
+      "sha256": "e0636174d37acd37b6fb82d59f2cb702fbf24b0dc90421dc9d2d219799b01c6f",
+      "encoding": "zstd"
+    },
+    {
+      "path": "room-viewer-VYZKB473.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 44773,
+      "sha256": "737f8e3df3f96145f373400eaf45fd3de7df7a22910a6a0406c3305c0bb13c3f",
+      "encoding": "zstd"
+    },
+    {
+      "path": "sources/osmo-1b610b42ef.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "contentLength": "172441"
+    },
+    {
+      "path": "sources/osmo-57fe103d92.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "contentLength": "180673"
+    },
+    {
+      "path": "sources/osmo-8bc2039b2e.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "contentLength": "132639"
+    },
+    {
+      "path": "sources/osmo-a7944e89b7.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "contentLength": "221524"
+    },
+    {
+      "path": "sources/osmo-d7e19f0bb5.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "contentLength": "196798"
+    },
+    {
+      "path": "sources/osmo-e0a59daf0b.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "contentLength": "200100"
+    },
+    {
+      "path": "sources/osmo-f740edfb13.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "contentLength": "209705"
+    },
+    {
+      "path": "models/osmo-native-db0e94c2fa.sog",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "contentLength": "44904208"
+    },
+    {
+      "path": "models/iphone-phone-2b811d1241.glb",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": 0,
+      "encoding": "gzip",
+      "contentLength": "17853120",
+      "rangeBytes": 12
+    },
+    {
+      "path": "models/iphone-full-room-16f8963b.glb",
+      "method": "HEAD",
+      "status": 404,
+      "bytes": 0,
+      "encoding": "zstd"
+    },
+    {
+      "path": "models/iphone-full-room-16f8963b.glb.gz",
+      "method": "HEAD",
+      "status": 404,
+      "bytes": 0,
+      "encoding": "zstd"
+    }
+  ]
+}
