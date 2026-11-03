@@ -1,14 +1,22 @@
+export const MODEL_LABELS=Object.freeze({phone:'iPhone Lite',osmo:'Omso Held','osmo-stick':'Osmo Stick'});
+export const isOsmoChoice=key=>key==='osmo'||key==='osmo-stick';
+
 export function canonicalChoice(value){
   const aliases={'iphone-lite':'phone','iphone-fast':'phone','iphone-full':'phone',native:'phone','osmo-lite':'osmo'};
-  value=aliases[value]||value;return ['phone','osmo'].includes(value)?value:null;
+  const key=aliases[value]||value;
+  return Object.prototype.hasOwnProperty.call(MODEL_LABELS,key)?key:null;
 }
 
 // Selecting a radio or arriving through a deep link is not download consent.
 // Only open() may launch the viewer, once, after the explicit Open model press.
-export function createChoiceGate({preselected=null,onLaunch=()=>{}}={}){
-  let selected=canonicalChoice(preselected),launched=false;
+export function createChoiceGate({preselected=null,available=['phone','osmo'],onLaunch=()=>{}}={}){
+  const selectable=value=>{
+    const key=canonicalChoice(value);
+    return available.includes(key)?key:null;
+  };
+  let selected=selectable(preselected),launched=false;
   return {
-    select(value){if(launched)return false;selected=canonicalChoice(value);return Boolean(selected);},
+    select(value){if(launched)return false;selected=selectable(value);return Boolean(selected);},
     open(){if(launched||!selected)return null;launched=true;onLaunch(selected);return selected;},
     state(){return {selected,launched};}
   };

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {nativePolicy,nativeSparkFileType,waitForNativeDraw} from './native-delivery.js';
 import {chooseQuality,isPhoneDevice,selectModel,readModel,pinchRatio,withDeadline} from './loader-core.js';
-import {canonicalChoice,createLoadLifecycle} from './choice-core.js';
+import {MODEL_LABELS,canonicalChoice,createLoadLifecycle,isOsmoChoice} from './choice-core.js';
 import {installCutaway,footprintBytes} from './gaussian-cutaway.js';
 import {createSharpener} from './sharpen.js';
 import {buildShapes,shapeVisible,placeShape} from './simple-shapes.js';
@@ -21,7 +21,7 @@ const touchUI=isPhoneDevice({...deviceSignals,width:Infinity});
 document.body.classList.toggle('phone',touchUI);document.body.classList.toggle('debug',params.get('debug')==='1');
 let renderer,rendererError,spark,cutaway,freeCalibration=null;
 let nativeGaussian=false;
-try{renderer=new THREE.WebGLRenderer({canvas,antialias:selectedOnOpen==='osmo'?false:!phoneInput,alpha:true,powerPreference:'high-performance'});
+try{renderer=new THREE.WebGLRenderer({canvas,antialias:!isOsmoChoice(selectedOnOpen)&&!phoneInput,alpha:true,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio,trial('dpr',phoneInput?1.5:2)));
 renderer.setClearColor(0x141b23,1);renderer.outputColorSpace=THREE.SRGBColorSpace;}
 catch(error){rendererError=error;}
@@ -354,7 +354,7 @@ $('more').onclick=()=>{const open=$('extra').classList.toggle('open');$('more').
 function chooseAnotherModel(key){loads.cancel();downloadAbort?.abort();stopTimers();release();ready=false;disposeModel(model);model=null;const url=new URL(location.pathname,location.origin);url.searchParams.set('quality',key);url.searchParams.set('v','20261031-native-provisional');location.assign(url.href);}
 $('quality').onchange=()=>chooseAnotherModel($('quality').value);
 $('change-model').onclick=()=>chooseAnotherModel(currentQuality||selectedOnOpen);
-$('retry').onclick=$('recover-phone').onclick=()=>chooseAnotherModel(currentQuality==='osmo'?'osmo':'phone');
+$('retry').onclick=$('recover-phone').onclick=()=>chooseAnotherModel(isOsmoChoice(currentQuality)?currentQuality:'phone');
 $('cancel-load').onclick=()=>chooseAnotherModel(currentQuality||selectedOnOpen);
 async function showGallery(){
   try{await loadMetadata();if(!data)applyCameraData(currentQuality||chooseQuality(deviceSignals));const c=data.photos[Number($('gallery-view').value)||0];if(!c)return;$('gallery-photo').src=c.source;$('gallery-caption').textContent=c.label+(c.name?' · '+c.name:'');if(!$('gallery').open)$('gallery').showModal();release();}
@@ -475,7 +475,7 @@ function applyCameraData(quality){
   $('static-photo').hidden=!data.photos.length;if(data.photos.length)$('static-photo').href=data.photos[0].source;
   $('load-preview').hidden=!asset.preview;if(asset.preview)$('load-preview').src=asset.preview;
   $('download-model').href=asset.url;
-  $('download-model').textContent=quality==='osmo'?'Download Omso Held':'Download iPhone Lite';
+  $('download-model').textContent='Download '+MODEL_LABELS[quality];
 }
 async function loadAsset(quality){
   const request=loads.begin(),generation=request.id;downloadAbort?.abort();stopTimers();release();ready=false;controlsEnabled(false);
@@ -486,7 +486,7 @@ async function loadAsset(quality){
   $('source-frame').removeAttribute('src');$('compare').setAttribute('aria-pressed','false');
   $('load-preview').hidden=true;
   $('quality').value=quality;$('loading').hidden=false;$('recovery').hidden=true;$('load-progress').hidden=false;$('load-progress').value=0;
-  $('retry').hidden=true;$('cancel-load').hidden=false;$('cancel-load').textContent='Choose another model';$('load-title').textContent='Opening '+({phone:'iPhone Lite',osmo:'Omso Held'}[quality]||'the model');
+  $('retry').hidden=true;$('cancel-load').hidden=false;$('cancel-load').textContent='Choose another model';$('load-title').textContent='Opening '+MODEL_LABELS[quality];
   setPhase('details','Opening room details…');
   try{
     await loadMetadata();if(!loads.current(generation))return;applyCameraData(quality);

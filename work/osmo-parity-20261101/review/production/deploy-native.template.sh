@@ -64,9 +64,13 @@ test "$(curl -fsS --max-time 8 -H 'Accept-Encoding: identity' http://127.0.0.1/_
 head_asset() {
     curl -fsSI --max-time 8 -H "Accept-Encoding: $2" "http://127.0.0.1/$1"
 }
-headers=$(head_asset __MODEL__ identity)
-test "$(printf '%s' "$headers" | awk 'tolower($1)=="content-length:"{gsub("\r", "", $2); print $2}')" = __MODEL_BYTES__
-if printf '%s' "$headers" | grep -Eiq '^content-type:.*text/html|^www-authenticate:'; then exit 1; fi
+while read -r asset model_length; do
+    headers=$(head_asset "$asset" identity)
+    test "$(printf '%s' "$headers" | awk 'tolower($1)=="content-length:"{gsub("\r", "", $2); print $2}')" = "$model_length"
+    if printf '%s' "$headers" | grep -Eiq '^content-type:.*text/html|^www-authenticate:'; then exit 1; fi
+done <<'NATIVE_MODELS'
+__NATIVE_HEADS__
+NATIVE_MODELS
 for retired in models/iphone-full-room-16f8963b.glb models/iphone-full-room-16f8963b.glb.gz; do
     test "$(curl -sS -o /dev/null -w '%{http_code}' --max-time 8 -I "http://127.0.0.1/$retired")" = 404
 done
@@ -89,4 +93,4 @@ GZIP_MODELS
 VERIFY
 pct exec 710 -- systemctl is-active nginx cloudflared
 date -Is > "$TASK/deployed.done"
-printf 'Osmo and iPhone Lite release promoted. Full removed from current release; rollback retained.\n'
+printf 'Reviewed Osmo and iPhone Lite release promoted. Rollback retained.\n'

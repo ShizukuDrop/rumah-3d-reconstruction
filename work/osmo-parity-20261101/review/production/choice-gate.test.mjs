@@ -2,17 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
-import {canonicalChoice,createChoiceGate,createLoadLifecycle} from './choice-core.js';
+import {MODEL_LABELS,createChoiceGate,createLoadLifecycle} from './choice-core.js';
 import {readModel} from './loader-core.js';
 const source=await readFile(new URL('chooser.js',import.meta.url),'utf8');
 const html=await readFile(new URL('room-shell.html',import.meta.url),'utf8');
-function landing(search=''){
+function landing(search='',available=['phone','osmo']){
   const nodes=new Map(),scripts=[],requests=[],navigations=[],timers=new Map();
   function node(id){if(!nodes.has(id))nodes.set(id,{hidden:false,disabled:false,textContent:'',events:{},addEventListener(name,fn){this.events[name]=fn;}});return nodes.get(id);}
-  const radios=['phone','osmo'].map(value=>Object.assign(node(value),{value,checked:false}));
+  const radios=available.map(value=>Object.assign(node(value),{value,checked:false}));
   const body={dataset:{},appendChild(script){scripts.push(script);}};
   let timerId=0;
-  const sandbox={canonicalChoice,createChoiceGate,URLSearchParams,URL,
+  const sandbox={MODEL_LABELS,createChoiceGate,URLSearchParams,URL,
     document:{body,getElementById:node,querySelectorAll:()=>radios,createElement:tag=>({tagName:tag})},
     location:{search,pathname:'/',origin:'https://rumah.shizuku.rest',assign:url=>navigations.push(url)},
     fetch:url=>requests.push(url),window:{addEventListener(){}},
@@ -28,6 +28,17 @@ test('bare landing and choosing any card never inject the viewer or fetch a mode
   for(const key of ['phone','osmo'])page.select(key);
   assert.deepEqual(page.requests,[]);assert.deepEqual(page.scripts,[]);
   assert.equal(page.body.dataset.selectedModel,undefined);
+});
+test('an Osmo Stick deep link needs a built card and still requires Open',()=>{
+  const unavailable=landing('?quality=osmo-stick');
+  assert.equal(unavailable.node('open-model').disabled,true);
+  unavailable.open();assert.equal(unavailable.scripts.length,0);
+  const available=landing('?quality=osmo-stick',['phone','osmo','osmo-stick']);
+  assert.equal(available.radios.find(r=>r.checked).value,'osmo-stick');
+  assert.deepEqual(available.requests,[]);assert.equal(available.scripts.length,0);
+  available.open();assert.equal(available.scripts.length,1);
+  assert.equal(available.body.dataset.selectedModel,'osmo-stick');
+  assert.equal(available.node('load-title').textContent,'Opening Osmo Stick');
 });
 test('deep links only preselect, while Open launches exactly the chosen model once',()=>{
   for(const [query,model] of [['phone','phone'],['native','phone'],['iphone-full','phone'],['iphone-lite','phone'],['osmo-lite','osmo']]){

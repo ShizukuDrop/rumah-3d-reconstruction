@@ -57,7 +57,14 @@ def model_head(base,row,fmt):
 
 def verify(info,base,here=HERE):
     base=base.rstrip('/')+'/';checks=[];body_bytes=0
-    rows=info['files'];models=[r for r in rows if r['path']==info['model']['url']]+[r for r in info['inherited_files'] if r['path'].endswith('.glb')]
+    rows=info['files']
+    native = {info['model']['url']: info['model']['format']}
+    if info.get('stick'):
+        native[info['stick']['url']] = info['stick']['format']
+    native_rows = [r for r in rows if r['path'] in native]
+    if len(native_rows) != len(native):
+        raise ValueError('Deployment manifest is missing an advertised Gaussian model')
+    models = native_rows + [r for r in info['inherited_files'] if r['path'].endswith('.glb')]
     for row in rows:
         name=row['path']
         if name.endswith(('.spz','.sog')):continue
@@ -78,7 +85,8 @@ def verify(info,base,here=HERE):
             if 'immutable' in cache or not any(token in cache for token in ['no-cache','no-store','max-age=0']):raise ValueError('Landing page must revalidate instead of retaining stale choices')
         if name.endswith('.js') and not re.search(r'(application|text)/javascript',headers.get('content-type','')):raise ValueError('Incorrect JavaScript MIME type')
         checks.append({'path':name,'method':'GET','status':status,'bytes':len(body),'sha256':digest,'authored_html_matches_after_known_edge_tags':authored,'authored_robots_preserved_after_exact_known_managed_prefix':managed_robots,'cache_control':headers.get('cache-control')})
-    for row in models:checks.append(model_head(base,row,info['model']['format'] if row['path']==info['model']['url'] else 'glb'))
+    for row in models:
+        checks.append(model_head(base, row, native.get(row['path'], 'glb')))
     for name in info.get('removed_public_files',[]):
         status,headers,_=request(base,name,'HEAD',allow_not_found=True)
         if status!=404:raise ValueError('Retired Full model is still publicly accessible: '+name)

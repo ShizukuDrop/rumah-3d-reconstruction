@@ -11,6 +11,10 @@ ALLOWED=re.compile(r'(?:index\.html|robots\.txt|room-[0-9a-f]{10}\.json|room-vie
 # This exception names a previously reviewed artifact, not an arbitrary new model.
 # It authorizes presentation changes without relabelling failed reconstruction QA.
 VIEWER_BASELINE={'release':'20261101-osmo-parity-review','sha256':'db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1','bytes':44904208,'splats':2960980,'shDegree':2,'format':'sog','sourceSha256':'a8b127e7d8b4a9b1b9679958ff9fe1a36117258a69ecf8325dc831ebf4761eeb'}
+STICK_KEY='osmo-stick'
+STICK_LIMIT=30_000_000
+STICK_RELEASE='20261103-osmo-viewer-v5'
+STICK_RELEASE_CHECKS=['stickUnder30MB','stickAllChoicesVerified','stickIndependentTrainingVerified','stickCoverageAccepted','stickAppearanceAccepted']
 
 def sha(path):
     with Path(path).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
@@ -42,10 +46,11 @@ class LandingAudit(HTMLParser):
     def handle_data(self,data):
         if self.style and re.search(r'url\s*\(|@import\b',data,re.I):self.resources.append('css')
 
-def audit_landing(entry,bundle):
+def audit_landing(entry,bundle,with_stick=False):
     audit=LandingAudit();audit.feed(entry)
     if audit.resources:raise ValueError('Automatic landing resources: '+','.join(audit.resources))
-    if sorted(audit.choices)!=['osmo','phone'] or not audit.hidden or not audit.open:raise ValueError('Missing explicit Lite/Osmo choice gate')
+    choices=['osmo',STICK_KEY,'phone'] if with_stick else ['osmo','phone']
+    if sorted(audit.choices)!=choices or not audit.hidden or not audit.open:raise ValueError('Missing explicit Lite/Osmo choice gate')
     if bundle not in entry:raise ValueError('Landing does not point at the reviewed viewer bundle')
     if len(entry.encode())>80000:raise ValueError('Chooser HTML exceeds its 80 kB budget')
 
@@ -53,15 +58,42 @@ def collect(here=HERE):
     public=(here/'public').resolve();build=json.loads((here/'build-report.json').read_text(encoding='utf-8'));candidate=json.loads((here/'candidate.json').read_text(encoding='utf-8'))
     if build.get('choiceRequired') is not True or build.get('automaticModelRetry') is not False or build.get('prechoiceExternalRequests')!=0:raise ValueError('Choice/quota guarantees absent')
     manifest=json.loads((public/build['manifestName']).read_text(encoding='utf-8'));asset=manifest['models']['osmo']
-    if set(manifest['models'])!={'phone','osmo'}:raise ValueError('Expected exactly Lite and Osmo model choices')
-    if asset!=build['osmo'] or asset['representation']!='gaussian' or asset['format'] not in {'sog','spz'}:raise ValueError('Native asset identity differs')
-    if not 12<=asset['fileBytes']<=50000000 or asset['downloadBytes']!=asset['fileBytes'] or not 1<=asset['splats']<=3100000 or asset['shDegree'] not in range(4):raise ValueError('Native download/count/SH budget failed')
+    stick_config = None
+    stick_candidate = None
+    native = [('osmo', asset, candidate)]
+    if any(build.get(key) is not None for key in ['stick', 'sourceStickCandidate', 'stickCandidateSha256']):
+        config_name = build.get('sourceStickCandidate')
+        if not isinstance(config_name, str) or not config_name:
+            raise ValueError('Stick model requires a verified source config')
+        stick_config = (here / config_name).resolve()
+        if not stick_config.is_file() or sha(stick_config) != build.get('stickCandidateSha256'):
+            raise ValueError('Stick config changed after build')
+        stick_candidate = json.loads(stick_config.read_text(encoding='utf-8'))
+        stick = manifest['models'].get(STICK_KEY)
+        if not stick or stick != build.get('stick') or stick.get('cameraSet') != STICK_KEY:
+            raise ValueError('Stick manifest and camera identity differ')
+        if stick_candidate.get('newTraining') is not True or stick_candidate.get('provisional') is not False or stick.get('provisional') is not False:
+            raise ValueError('Stick requires a completed independent training candidate')
+        if stick_candidate.get('releaseId') != build['build']:
+            raise ValueError('Stick config identifies a different release')
+        if stick_candidate.get('sha256') == candidate['sha256'] or stick.get('url') == asset['url']:
+            raise ValueError('Stick must have its own model bytes')
+        native.append((STICK_KEY, stick, stick_candidate))
+    if set(manifest['models']) != {'phone', *(key for key, _, _ in native)}:
+        raise ValueError('Unexpected model choices for this build')
+    if asset!=build['osmo']:raise ValueError('Native asset identity differs')
     if build['lodPolicy']!={'lodSplatCount':1500000,'baseSplats':asset['splats'],'lod':True,'nonLod':False,'extSplats':True}:raise ValueError('Unexpected phone rendering policy')
-    entry=(public/'index.html').read_text(encoding='utf-8');audit_landing(entry,build['bundleName'])
+    entry=(public/'index.html').read_text(encoding='utf-8');audit_landing(entry,build['bundleName'],stick_config is not None)
     if build['manifestName'] not in (public/build['bundleName']).read_text(encoding='utf-8'):raise ValueError('Bundle points at another manifest')
     if 'deploymentAuthorized' not in build:raise ValueError('Unreviewed build report')
-    names={'index.html','robots.txt',build['manifestName'],build['bundleName'],asset['url']}
-    if asset.get('simple'):names.add(asset['simple']['url'])  # optional simple-shape file behind the viewer toggle
+    names={'index.html','robots.txt',build['manifestName'],build['bundleName']}
+    for key, model, _ in native:
+        names.add(model['url'])
+        if model.get('simple'):
+            names.add(model['simple']['url'])
+        camera_set = manifest['cameraSets'][key]
+        for preset in [*camera_set['presets'], *camera_set['photos']]:
+            names.add(preset['source'])
     # Derive chunk closure from esbuild's outputs, never from an unconstrained folder walk.
     for filename in build['metafile']['outputs']:
         path=Path(filename)
@@ -69,17 +101,42 @@ def collect(here=HERE):
         path=path.resolve()
         if not path.is_relative_to(public):raise ValueError('Build output escaped public directory')
         names.add(path.relative_to(public).as_posix())
-    for preset in [*manifest['cameraSets']['osmo']['presets'],*manifest['cameraSets']['osmo']['photos']]:names.add(preset['source'])
     for name in names:
         if not ALLOWED.fullmatch(safe_relative(name)):raise ValueError('Not an approved public asset: '+name)
     rows=[local_row(public,name) for name in sorted(names)];by_name={r['path']:r for r in rows}
-    if by_name[asset['url']]['sha256']!=candidate['sha256'] or by_name[asset['url']]['bytes']!=asset['fileBytes']:raise ValueError('Native candidate changed after build')
-    if candidate['sha256'][:10] not in asset['url']:raise ValueError('Native model filename is not content-addressed')
-    if asset.get('simple') and (by_name[asset['simple']['url']]['bytes']!=asset['simple']['fileBytes'] or by_name[asset['simple']['url']]['sha256'][:10] not in asset['simple']['url']):raise ValueError('Simple shapes changed after build')
+    for key, model, source in native:
+        limit = STICK_LIMIT if key == STICK_KEY else 50_000_000
+        if model.get('representation') != 'gaussian' or model.get('format') not in {'sog', 'spz'}:
+            raise ValueError(f'{key} is not a supported Gaussian model')
+        within_budget = model['fileBytes'] < limit if key == STICK_KEY else model['fileBytes'] <= limit
+        if model['fileBytes'] < 12 or not within_budget or model['downloadBytes'] != model['fileBytes']:
+            raise ValueError(f'{key} download exceeds its {limit:,}-byte budget')
+        if not 1 <= model['splats'] <= 3_100_000 or model['shDegree'] not in range(4):
+            raise ValueError(f'{key} splat count or SH degree exceeds its rendering budget')
+        row = by_name[model['url']]
+        if row['sha256'] != source['sha256'] or row['bytes'] != model['fileBytes']:
+            raise ValueError(f'{key} candidate changed after build')
+        if model['url'] != f"models/osmo-native-{source['sha256'][:10]}.{model['format']}":
+            raise ValueError(f'{key} model filename is not content-addressed')
+        if key == STICK_KEY:
+            for field, value in [('bytes', row['bytes']), ('format', model['format']), ('splats', model['splats']), ('shDegree', model['shDegree'])]:
+                if source.get(field) != value:
+                    raise ValueError(f'Stick config differs from its built model: {field}')
+        simple = model.get('simple')
+        if simple:
+            simple_row = by_name[simple['url']]
+            if simple_row['bytes'] != simple['fileBytes'] or simple_row['sha256'][:10] not in simple['url']:
+                raise ValueError(f'{key} simple shapes changed after build')
+        with (public / model['url']).open('rb') as handle:
+            header = handle.read(12)
+        if model['format'] == 'sog' and header[:4] != b'PK\x03\x04':
+            raise ValueError(f'{key} is not a SOG ZIP')
+        if model['format'] == 'spz' and not (header[:2] == b'\x1f\x8b' or header[:4] == b'NGSP'):
+            raise ValueError(f'{key} is not an SPZ file')
     if by_name[build['manifestName']]['sha256'][:10] not in build['manifestName']:raise ValueError('Manifest filename is not content-addressed')
-    with (public/asset['url']).open('rb') as f:header=f.read(12)
-    if asset['format']=='sog' and header[:4]!=b'PK\x03\x04':raise ValueError('Not a SOG ZIP')
-    if asset['format']=='spz' and not (header[:2]==b'\x1f\x8b' or header[:4]==b'NGSP'):raise ValueError('Not an SPZ file')
+    for row in rows:
+        if row['path'].startswith('sources/') and row['path'] != f"sources/osmo-{row['sha256'][:10]}.jpg":
+            raise ValueError('Gaussian source photo filename is not content-addressed: ' + row['path'])
     old_dir=here.parent.parent.parent/'mobile-20261029/iphone-baseline';old=json.loads((old_dir/'manifest.json').read_text(encoding='utf-8'))
     inherited=set()
     for key,(url,length,digest) in IPHONES.items():
@@ -99,12 +156,17 @@ def collect(here=HERE):
     # Dependencies may be fetched only after Open. Keep their exact total measurable.
     application_bytes=sum(r['bytes'] for r in rows if r['path'].endswith(('.js','.json')))
     if application_bytes>6000000:raise ValueError('Lazy application JS/manifest exceeds 6 MB')
-    return {'build':build,'candidate':candidate,'manifest':manifest,'files':rows,'inherited_files':inherited_rows,'application_bytes':application_bytes,'public':str(public)}
+    audit={'build':build,'candidate':candidate,'manifest':manifest,'files':rows,'inherited_files':inherited_rows,'application_bytes':application_bytes,'public':str(public)}
+    if stick_config is not None:
+        audit.update(stick_config=stick_config, stick_candidate=stick_candidate)
+    return audit
 
-def viewer_update_gate(audit,approved,here=HERE):
+def viewer_update_gate(audit,approved,here=HERE,with_stick=False):
     """Approve only presentation of the exact A018 baseline; never approve its reconstruction quality."""
     build=audit['build'];candidate=audit['candidate'];asset=build['osmo'];baseline=VIEWER_BASELINE
-    if set(audit['manifest']['models'])!={'phone','osmo'}:raise ValueError('Viewer update must contain exactly Lite and Osmo')
+    expected={'phone','osmo',STICK_KEY} if with_stick else {'phone','osmo'}
+    if set(audit['manifest']['models'])!=expected:
+        raise ValueError('Stick addition must contain all three choices' if with_stick else 'Viewer update must contain exactly Lite and Osmo')
     if any('iphone-full-' in row['path'].casefold() for row in [*audit['files'],*audit['inherited_files']]):raise ValueError('Retired iPhone Full cannot be packaged or inherited')
     if build.get('provisional') is not False or candidate.get('provisional') is not False:raise ValueError('Viewer update cannot use a provisional model')
     if not re.fullmatch(r'20\d{6}-osmo-viewer-v[1-9]\d*',build.get('build','')) or build['build']==baseline['release']:raise ValueError('Viewer update needs a distinct dated viewer release name')
@@ -119,7 +181,8 @@ def viewer_update_gate(audit,approved,here=HERE):
     if model_row.get('sha256')!=baseline['sha256'] or model_row.get('bytes')!=baseline['bytes']:raise ValueError('Viewer update model bytes differ from A018')
     if approved.get('reconstructionAccepted') is not False:raise ValueError('Viewer approval must explicitly leave reconstruction unaccepted')
     authorization=approved.get('userAuthorization',{})
-    if not isinstance(authorization,dict) or authorization.get('action')!='deploy-viewer-update' or authorization.get('source')!='user-message' or not isinstance(authorization.get('instruction'),str) or not authorization['instruction'].strip() or not re.fullmatch(r'20\d\d-\d\d-\d\dT[^\s]+',authorization.get('recordedAt','')):raise ValueError('Record the explicit user authorization for this viewer update')
+    action='deploy-stick-addition' if with_stick else 'deploy-viewer-update'
+    if not isinstance(authorization,dict) or authorization.get('action')!=action or authorization.get('source')!='user-message' or not isinstance(authorization.get('instruction'),str) or not authorization['instruction'].strip() or not re.fullmatch(r'20\d\d-\d\d-\d\dT[^\s]+',authorization.get('recordedAt','')):raise ValueError('Record the explicit user authorization for this viewer update')
     required=['viewerQuotaAndErrorsPassed','viewerControlsPassed','zeroModelBytesBeforeOpen','iphoneHashesPreserved','totalModelDownloadWithin50MB','reversibleShellPassed']
     if not all(approved.get('qualityChecks',{}).get(key) is True for key in required):raise ValueError('Viewer update checks incomplete')
     if approved.get('qualityChecks',{}).get('fourDetailSharpnessLeapAccepted') is True:raise ValueError('A viewer update cannot claim the failed photographic sharpness gate passed')
@@ -165,6 +228,122 @@ def viewer_update_gate(audit,approved,here=HERE):
         if failed is not False:raise ValueError('Viewer approval cannot rewrite the failed baseline sharpness gate')
     return approved
 
+def stick_addition_gate(audit, approved, here=HERE):
+    """Add a separately approved Stick model while retaining all Held checks."""
+    viewer_update_gate(audit, approved, here, with_stick=True)
+    build = audit['build']
+    if build['build'] != STICK_RELEASE:
+        raise ValueError('Stick addition approval is scoped to ' + STICK_RELEASE)
+    config_path = audit.get('stick_config')
+    candidate = audit.get('stick_candidate')
+    if config_path is None or not candidate:
+        raise ValueError('Stick addition requires an audited independent model config')
+    stick = audit['manifest']['models'][STICK_KEY]
+    digest = candidate['sha256']
+    if stick != build.get('stick') or stick['cameraSet'] != STICK_KEY or digest == VIEWER_BASELINE['sha256']:
+        raise ValueError('Stick addition must deliver a separate model and camera set')
+    if stick['fileBytes'] >= STICK_LIMIT or approved.get('stickModelSha256') != digest:
+        raise ValueError('Stick approval must identify the exact model within 30 MB')
+    checks = approved.get('qualityChecks', {})
+    if not all(checks.get(key) is True for key in STICK_RELEASE_CHECKS):
+        raise ValueError('Stick coverage, appearance, budget and three-choice checks are incomplete')
+    evidence = {(here / row['path']).resolve(): row['sha256'] for row in approved['evidence']}
+
+    def reviewed_path(path, field):
+        path = path.resolve()
+        recorded = approved.get(field)
+        if not recorded or evidence.get(path) != recorded:
+            raise ValueError('Stick approval is missing exact evidence: ' + field)
+        return path
+
+    def reviewed_json(path, field):
+        return json.loads(reviewed_path(path, field).read_text(encoding='utf-8'))
+
+    config_dir = config_path.parent
+    if reviewed_json(config_path, 'stickConfigSha256') != candidate or approved['stickConfigSha256'] != build.get('stickCandidateSha256'):
+        raise ValueError('Reviewed Stick config differs from the build')
+    camera_path = reviewed_path(config_dir / candidate['cameras'], 'stickCameraExportSha256')
+    cameras = json.loads(camera_path.read_text(encoding='utf-8'))
+    packing = reviewed_json(config_dir / candidate['packingReport'], 'stickPackingReportSha256')
+    training = reviewed_json(config_dir / candidate['trainingEvidence'], 'stickTrainingEvidenceSha256')
+    qa = reviewed_json(config_dir / candidate['qaReport'], 'stickQaReportSha256')
+    normalization = reviewed_json(camera_path.parent / cameras['normalizationEvidence'], 'stickNormalizationSha256')
+    if normalization.get('applied') is not True or normalization.get('old_reconstruction_opened') is not False or normalization.get('learned_depth_opened') is not False:
+        raise ValueError('Stick requires applied normalization from an independent capture')
+    if normalization.get('transform', {}).get('coordinate_frame') != '+Y up' or cameras.get('coordinateFrame') != '+Y up':
+        raise ValueError('Stick normalization and export must use the same +Y-up frame')
+    if packing.get('sourceCountPreserved') is not True or packing.get('sourceShDegreePreserved') is not True:
+        raise ValueError('Stick packing did not preserve native splats and SH degree')
+    for key in ['sha256', 'bytes', 'format', 'splats', 'shDegree']:
+        if packing.get(key) != candidate[key]:
+            raise ValueError('Stick packing report differs from its candidate: ' + key)
+    training_ply = reviewed_path(config_dir / packing['source'], 'stickTrainingPlySha256')
+    if packing.get('sourceSha256') != approved['stickTrainingPlySha256'] or packing['sourceSha256'] == VIEWER_BASELINE['sourceSha256']:
+        raise ValueError('Stick packing source is not the reviewed independent checkpoint')
+    if cameras.get('occupiedShell', {}).get('footprint', {}).get('source', {}).get('sha256') != packing['sourceSha256']:
+        raise ValueError('Stick footprint does not come from the reviewed trained PLY')
+    camera_set = audit['manifest']['cameraSets'][STICK_KEY]
+    for field in ['bounds', 'framingPoints', 'occupiedShell', 'startCamera', 'homeTarget']:
+        if field not in cameras or camera_set.get(field) != cameras[field]:
+            raise ValueError('Stick manifest camera data differs from the reviewed export: ' + field)
+    presets = cameras.get('presets', [])
+    if len(presets) < 7 or len(camera_set['presets']) != len(presets):
+        raise ValueError('Stick needs at least seven fresh calibrated source views')
+    for source, rendered in zip(presets, camera_set['presets']):
+        for field in ['position', 'quaternion', 'intrinsics', 'sourceTimeSeconds', 'imageWidth', 'imageHeight']:
+            if field not in source or source[field] != rendered.get(field):
+                raise ValueError('Stick manifest preset differs from its source camera: ' + field)
+
+    provenance = training.get('provenance', {})
+    command = training.get('command', [])
+    if training.get('status') != 'finished' or training.get('exit_code') != 0 or provenance.get('coldStart') is not True or provenance.get('learnedDepth') is not False:
+        raise ValueError('Stick requires a successful cold-start RGB-only training receipt')
+    if not isinstance(command, list) or not all(isinstance(arg, str) for arg in command) or command[1:3] != ['train', '3dgs']:
+        raise ValueError('Stick training receipt has no audited 3DGS invocation')
+    forbidden = {'--resume', '--init-ply', '--resume-from', '--load-checkpoint'}
+    if any(arg.split('=', 1)[0] in forbidden for arg in command):
+        raise ValueError('Stick training must start without an existing checkpoint')
+
+    def option(name):
+        if command.count(name) != 1 or command.index(name) + 1 >= len(command):
+            raise ValueError('Stick training receipt is missing an explicit ' + name)
+        return command[command.index(name) + 1]
+
+    for name, value in [('--load-depths', '0'), ('--load-normals', '0'), ('--scene-center', 'none'),
+                        ('--orientation-method', 'none'), ('--center-method', 'none'),
+                        ('--auto-scale-poses', '0'), ('--train-frame', 'points'), ('--eval-mode', 'filename')]:
+        if option(name) != value:
+            raise ValueError('Stick training must preserve the fresh normalized frame and holdout split: ' + name)
+    training_dir = (config_dir / option('--output-dir-prefix') / option('--output-dir-name')).resolve()
+    if not training_ply.is_relative_to(training_dir):
+        raise ValueError('Stick packed PLY is outside the completed training output')
+    dataset = (config_dir / option('--data')).resolve()
+    pinhole = reviewed_json(dataset / 'explicit-pinhole-audit.json', 'stickPinholeAuditSha256')
+    if Path(pinhole['outputDataset']).resolve() != dataset or not pinhole.get('worldCoordinateFrame', '').startswith('+Y up; identical to audited fresh SfM'):
+        raise ValueError('Stick pinhole dataset does not preserve the fresh camera frame')
+    normalized_model = Path(normalization['output_model']).resolve()
+    if (Path(pinhole['sourceDataset']).resolve() / 'sparse/0').resolve() != normalized_model:
+        raise ValueError('Stick training and camera export use different normalized source captures')
+    seed = (config_dir / option('--seed-pointcloud')).resolve()
+    if seed != dataset / 'seed-sparse-train.ply':
+        raise ValueError('Stick training used a seed outside the independent preparation')
+    for name in ['seed-sparse-train.ply', 'sparse/0/cameras.txt', 'sparse/0/images.txt', 'sparse/0/points3D.txt']:
+        path = dataset / name
+        if not path.is_file() or sha(path) != pinhole.get('sha256', {}).get(name):
+            raise ValueError('Stick training preparation changed: ' + name)
+
+    if qa.get('passed') is not True or qa.get('releaseId') != build['build'] or qa.get('modelSha256') != digest:
+        raise ValueError('Stick has no accepted QA for this exact release/model')
+    if qa.get('cameraExportSha256') != approved['stickCameraExportSha256'] or qa.get('trainingPlySha256') != packing['sourceSha256']:
+        raise ValueError('Stick QA used different source cameras or trained checkpoint')
+    if not all(qa.get('checks', {}).get(key) is True for key in ['coverageAccepted', 'heldoutAppearanceAccepted', 'packedAppearanceAccepted']):
+        raise ValueError('Stick visual coverage or appearance remains unaccepted')
+    verification_path = (here / approved['viewerVerification']['path']).resolve()
+    verification = json.loads(verification_path.read_text(encoding='utf-8'))
+    if verification.get('stickModelSha256') != digest or verification.get('checks', {}).get('stickAllChoicesVerified') is not True:
+        raise ValueError('Current browser verification must cover all three choices and the exact Stick model')
+    return approved
+
 def quality_gate(audit,approval,here=HERE):
     build=audit['build'];candidate=audit['candidate'];asset=build['osmo']
     # Existing failed approval files remain refused. The separate, explicit viewer
@@ -172,6 +351,9 @@ def quality_gate(audit,approval,here=HERE):
     if approval.is_file():
         approved=json.loads(approval.read_text(encoding='utf-8'))
         if approved.get('releaseKind')=='viewer-update':return viewer_update_gate(audit,approved,here)
+        if approved.get('releaseKind')=='stick-addition':return stick_addition_gate(audit,approved,here)
+    if audit.get('stick_config') is not None:
+        raise ValueError('Stick can only be packaged with a separate stick-addition approval')
     if build.get('provisional') is not False or build.get('newTrainingNotUsed') is not False or candidate.get('newTraining') is not True:raise ValueError('Old/provisional baseline cannot be deployed as new reconstruction')
     if not re.fullmatch(r'20\d{6}-[a-z0-9-]+',build['build']):raise ValueError('Unsafe release name')
     approved=json.loads(approval.read_text(encoding='utf-8'))
@@ -214,8 +396,14 @@ def package(audit,approval,previous,here=HERE):
             with path.open('rb') as f:tar.addfile(info,f)
     digest=sha(archive);rows=audit['files']+audit['inherited_files']
     info={'release':release,'previous':previous,'staging':staging,'container':710,'archive_sha256':digest,'archive_bytes':archive.stat().st_size,'remote_archive':staging+'/native-site-'+digest+'.tar.partial','files':audit['files'],'inherited_files':audit['inherited_files'],'removed_public_files':REMOVED_PUBLIC_FILES,'build':audit['build']['build'],'manifest':audit['build']['manifestName'],'bundle':audit['build']['bundleName'],'model':audit['build']['osmo'],'model_sha256':audit['candidate']['sha256'],'index_sha256':next(r['sha256'] for r in rows if r['path']=='index.html'),'approval_sha256':sha(approval),'application_bytes':audit['application_bytes'],'model_transfer_in_verification':'HEAD only; bounded 12-byte range if length absent','automatic_rollback':True}
+    native_models = [info['model']]
+    if 'stick_candidate' in audit:
+        info['stick'] = audit['build']['stick']
+        info['stick_model_sha256'] = audit['stick_candidate']['sha256']
+        native_models.append(info['stick'])
     template=(here/'deploy-native.template.sh').read_text(encoding='utf-8')
-    values={'RELEASE':release,'PREVIOUS':previous,'TASK':staging,'REMOTE_ARCHIVE':info['remote_archive'],'ARCHIVE_SHA':digest,'INDEX_SHA':info['index_sha256'],'MANIFEST':info['manifest'],'MANIFEST_SHA':next(r['sha256'] for r in rows if r['path']==info['manifest']),'MODEL':info['model']['url'],'MODEL_BYTES':str(info['model']['fileBytes']),'HASHES':'\n'.join(r['sha256']+'  '+r['path'] for r in rows),'DETACH':'\n'.join('pct exec 710 -- rm -f -- "$RELEASE/'+r['path']+'"' for r in audit['files']),'PHONE_INODES':' '.join(r['path'] for r in audit['inherited_files'] if r['path'].endswith(('.glb','.glb.gz'))),'JS_HEADS':' '.join(r['path'] for r in rows if r['path'].endswith('.js'))}
+    values={'RELEASE':release,'PREVIOUS':previous,'TASK':staging,'REMOTE_ARCHIVE':info['remote_archive'],'ARCHIVE_SHA':digest,'INDEX_SHA':info['index_sha256'],'MANIFEST':info['manifest'],'MANIFEST_SHA':next(r['sha256'] for r in rows if r['path']==info['manifest']),'HASHES':'\n'.join(r['sha256']+'  '+r['path'] for r in rows),'DETACH':'\n'.join('pct exec 710 -- rm -f -- "$RELEASE/'+r['path']+'"' for r in audit['files']),'PHONE_INODES':' '.join(r['path'] for r in audit['inherited_files'] if r['path'].endswith(('.glb','.glb.gz'))),'JS_HEADS':' '.join(r['path'] for r in rows if r['path'].endswith('.js'))}
+    values['NATIVE_HEADS'] = '\n'.join(f"{asset['url']} {asset['fileBytes']}" for asset in native_models)
     inherited_by_name={r['path']:r for r in audit['inherited_files']}
     values['GZIP_HEADS']='\n'.join(url+' '+str(length)+' '+str(inherited_by_name[url+'.gz']['bytes']) for url,length,_ in IPHONES.values())
     for name,value in values.items():template=template.replace('__'+name+'__',value)

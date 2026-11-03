@@ -1,6 +1,6 @@
 import {OSMO_LIMITS} from './delivery-policy.js';
 import {nativePolicy,validateModelHeader} from './native-delivery.js';
-import {canonicalChoice} from './choice-core.js';
+import {canonicalChoice,isOsmoChoice} from './choice-core.js';
 // Asset choice and device capacity are independent: desktops also default to iPhone Lite.
 export function chooseQuality({requested}={}) {
   return canonicalChoice(requested)||'phone';
@@ -13,10 +13,12 @@ export function selectModel(manifest,key){
   key=canonicalChoice(key);
   const asset=manifest.models?.[key],cameraData=manifest.cameraSets?.[asset?.cameraSet];
   if(!asset||!cameraData)throw new Error('That room view is unavailable.');
+  if(key==='osmo-stick'&&(asset.cameraSet!==key||asset.representation!=='gaussian'))throw new Error('Osmo Stick needs its own Gaussian model and camera set.');
   const lite=true;
-  const fileLimit=key==='osmo'?OSMO_LIMITS.fileBytes:24*1024*1024;
-  const textureLimit=key==='osmo'?OSMO_LIMITS.textureSize:2048;
-  const geometryLimit=key==='osmo'?OSMO_LIMITS.maximumGeometryBytes/1024/1024:64;
+  const osmo=isOsmoChoice(key);
+  const fileLimit=key==='osmo-stick'?29_999_999:osmo?OSMO_LIMITS.fileBytes:24*1024*1024;
+  const textureLimit=osmo?OSMO_LIMITS.textureSize:2048;
+  const geometryLimit=osmo?OSMO_LIMITS.maximumGeometryBytes/1024/1024:64;
   if(!Number.isSafeInteger(asset.fileBytes)||asset.fileBytes<12||asset.fileBytes>fileLimit)
     throw new Error('The selected 3D view is larger than expected. Please refresh and retry.');
   if(asset.representation==='gaussian')nativePolicy(asset);

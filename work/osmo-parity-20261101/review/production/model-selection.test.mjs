@@ -24,6 +24,15 @@ test('Osmo selection receives its own bounds and cameras, never retained iPhone 
   assert.equal(selectModel(manifest,'phone').prepareTimeout,30000);
   assert.equal(selectModel(manifest,'iphone-full').downloadTimeout,180000);
 });
+test('Osmo Stick requires its own camera set and a Gaussian payload strictly below 30 MB',()=>{
+  const key='osmo-stick',cameraData={bounds:[[-1,0,-1],[1,2,1]],presets:[]};
+  const stick={cameraSet:key,representation:'gaussian',format:'sog',fileBytes:29_999_999,splats:1000,shDegree:0};
+  const available={cameraSets:{...manifest.cameraSets,[key]:cameraData},models:{...manifest.models,[key]:stick}};
+  assert.throws(()=>selectModel(manifest,key),/unavailable/);
+  assert.equal(selectModel(available,key).cameraData,cameraData);
+  assert.throws(()=>selectModel({...available,models:{[key]:{...stick,fileBytes:30_000_000}}},key),/larger/);
+  assert.throws(()=>selectModel({...available,models:{[key]:{...stick,cameraSet:'osmo'}}},key),/own Gaussian model and camera set/);
+});
 test('each model keeps its own budget; Osmo permits 50 decimal MB and a 4K atlas',()=>{
   for(const [key,bytes,texture] of [['phone',24*1024*1024,2048],['osmo',50000000,4096]]){
     const withAsset=changes=>({...manifest,models:{...manifest.models,[key]:{...manifest.models[key],...changes}}});
