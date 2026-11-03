@@ -1,0 +1,7 @@
+{
+  "release": "20261103-osmo-viewer-v3",
+  "publicDeliveryChecks": 21,
+  "publicChromeChecksWithLocalModelBytes": 54,
+  "modelSha256": "db0e94c2fab729fa218a34064971a948448a856e02a06c56e6b2b5daf09f29f1",
+  "directPublicChromeLoad": "Browser test timed out at 90 seconds with 7.5 of 44.9 MB received. Deployed page, scripts and shapes were tested using the exact local model bytes."
+}

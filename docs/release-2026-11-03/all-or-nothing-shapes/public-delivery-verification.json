@@ -1,0 +1,192 @@
+{
+  "verified_unix": 1793696103.3830714,
+  "site": "https://rumah.shizuku.rest/",
+  "build": "20261103-osmo-viewer-v3",
+  "anonymous_https": true,
+  "model_full_downloads": 0,
+  "nonmodel_body_bytes": 4397418,
+  "asset_checks": [
+    {
+      "path": "chunks/GLTFLoader-LB5NR3GW.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 44550,
+      "sha256": "783f2777492fd326b562c4d221abbbfa48a288db6a37f9388b7461c6f7faa1df",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "max-age=14400"
+    },
+    {
+      "path": "chunks/chunk-PCQTWMT7.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 701804,
+      "sha256": "3b312b4db7a45d20dfecb033e9aff23533dcd841fea3043355b7c563d37b57d6",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "max-age=14400"
+    },
+    {
+      "path": "chunks/chunk-VC46IEJQ.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 106,
+      "sha256": "ff9e0dca4365b7b1581e7275f3c6dbcf1474ffb874d81a3375ecf7a835dbaa6f",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "max-age=14400"
+    },
+    {
+      "path": "chunks/index.module-7RF7OSAR.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 108121,
+      "sha256": "a26c2a039e552bfd78d491c83b7dd6dc60897714012dd8aacb0c207b5cf6e4d3",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "max-age=14400"
+    },
+    {
+      "path": "chunks/spark.module-XXGQBJ7P.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 2800032,
+      "sha256": "5218c6d3afe09372c37748869e76fa997aeeec660d948285d01ba7acbc8f3264",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "max-age=14400"
+    },
+    {
+      "path": "index.html",
+      "method": "GET",
+      "status": 200,
+      "bytes": 18182,
+      "sha256": "a74bccf97f74fd260beb9cf13a94172abdb157c94d39da753574c07a52e4968e",
+      "authored_html_matches_after_known_edge_tags": true,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "no-cache"
+    },
+    {
+      "path": "models/osmo-shapes-76f1f581d5.json",
+      "method": "GET",
+      "status": 200,
+      "bytes": 12179,
+      "sha256": "76f1f581d5565255feac32e28a21d5aeca5125bae46619541e4358a57785db6b",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "no-cache"
+    },
+    {
+      "path": "robots.txt",
+      "method": "GET",
+      "status": 200,
+      "bytes": 2702,
+      "sha256": "da0cadf9e179e3feb4c15154e869c44d0e541d81dc9b8202f32b1b4ac113aa4c",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": true,
+      "cache_control": "max-age=14400"
+    },
+    {
+      "path": "room-b0d0fc83f3.json",
+      "method": "GET",
+      "status": 200,
+      "bytes": 664979,
+      "sha256": "b0d0fc83f3d666e10ef5f85fc5a0f3ef592f53c39737d1ec02013b7314902bc7",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "no-cache"
+    },
+    {
+      "path": "room-viewer-JACM3SLV.js",
+      "method": "GET",
+      "status": 200,
+      "bytes": 44763,
+      "sha256": "1f250c8db045a070e5323032e5f8c67bc7d532433b05884a7faa28119205247d",
+      "authored_html_matches_after_known_edge_tags": false,
+      "authored_robots_preserved_after_exact_known_managed_prefix": false,
+      "cache_control": "max-age=14400"
+    },
+    {
+      "path": "sources/osmo-1b610b42ef.jpg",
+      "method": "HEAD",
+      "status": 200
+    },
+    {
+      "path": "sources/osmo-57fe103d92.jpg",
+      "method": "HEAD",
+      "status": 200
+    },
+    {
+      "path": "sources/osmo-8bc2039b2e.jpg",
+      "method": "HEAD",
+      "status": 200
+    },
+    {
+      "path": "sources/osmo-a7944e89b7.jpg",
+      "method": "HEAD",
+      "status": 200
+    },
+    {
+      "path": "sources/osmo-d7e19f0bb5.jpg",
+      "method": "HEAD",
+      "status": 200
+    },
+    {
+      "path": "sources/osmo-e0a59daf0b.jpg",
+      "method": "HEAD",
+      "status": 200
+    },
+    {
+      "path": "sources/osmo-f740edfb13.jpg",
+      "method": "HEAD",
+      "status": 200
+    },
+    {
+      "path": "models/osmo-native-db0e94c2fa.sog",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "44904208",
+      "content_type": "application/octet-stream",
+      "cache_control": "no-cache",
+      "gzip_head": {
+        "status": 200,
+        "content_encoding": null,
+        "content_length": "44904208",
+        "vary": null
+      }
+    },
+    {
+      "path": "models/iphone-phone-2b811d1241.glb",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": null,
+      "content_type": "model/gltf-binary",
+      "cache_control": "public, max-age=31536000, immutable",
+      "range": {
+        "status": 206,
+        "bytes": 12,
+        "content_range": "bytes 0-11/21144604"
+      },
+      "gzip_head": {
+        "status": 200,
+        "content_encoding": "gzip",
+        "content_length": "17853120",
+        "vary": "Accept-Encoding"
+      }
+    },
+    {
+      "path": "models/iphone-full-room-16f8963b.glb",
+      "method": "HEAD",
+      "status": 404,
+      "retired_model_unavailable": true
+    },
+    {
+      "path": "models/iphone-full-room-16f8963b.glb.gz",
+      "method": "HEAD",
+      "status": 404,
+      "retired_model_unavailable": true
+    }
+  ],
+  "physical_fold7_iphone17": "Not verified by these HTTP checks",
+  "browser_followup": "Confirm fresh chooser and explicit Open with network capture; HTTP checks do not prove browser behavior."
+}
